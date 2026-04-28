@@ -63,7 +63,6 @@ type APIClient struct {
 
 	DatabaseBackupsAdminAPI DatabaseBackupsAdminAPI
 
-	DeprecatedAPI DeprecatedAPI
 
 	DownloadAPI DownloadAPI
 
@@ -147,7 +146,6 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.AuthenticationAPI = (*AuthenticationAPIService)(&c.common)
 	c.AuthenticationAdminAPI = (*AuthenticationAdminAPIService)(&c.common)
 	c.DatabaseBackupsAdminAPI = (*DatabaseBackupsAdminAPIService)(&c.common)
-	c.DeprecatedAPI = (*DeprecatedAPIService)(&c.common)
 	c.DownloadAPI = (*DownloadAPIService)(&c.common)
 	c.DuplicatesAPI = (*DuplicatesAPIService)(&c.common)
 	c.FacesAPI = (*FacesAPIService)(&c.common)
