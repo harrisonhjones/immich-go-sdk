@@ -1,0 +1,88 @@
+name: Generate SDK
+
+on:
+  schedule:
+    - cron: '0 6 * * *'  # daily at 06:00 UTC
+  workflow_dispatch:      # allow manual runs
+
+permissions:
+  contents: write
+
+jobs:
+  check-and-generate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Fetch latest Immich release tag
+        id: immich
+        run: |
+          TAG=$(curl -fsSL https://api.github.com/repos/immich-app/immich/releases/latest \
+            -H "Accept: application/vnd.github+json" \
+            | jq -r '.tag_name')
+          echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
+
+      - name: Fetch spec and compute hash
+        id: spec
+        run: |
+          curl -fsSL \
+            "https://raw.githubusercontent.com/immich-app/immich/main/open-api/immich-openapi-specs.json" \
+            -o /tmp/immich-openapi-specs.json
+          HASH=$(sha256sum /tmp/immich-openapi-specs.json | awk '{print $1}')
+          echo "hash=${HASH}" >> "$GITHUB_OUTPUT"
+
+      - name: Read stored version and hash
+        id: stored
+        run: |
+          STORED_TAG=$(cat .immich-version 2>/dev/null || echo "")
+          STORED_HASH=$(cat .spec-hash 2>/dev/null || echo "")
+          echo "tag=${STORED_TAG}" >> "$GITHUB_OUTPUT"
+          echo "hash=${STORED_HASH}" >> "$GITHUB_OUTPUT"
+
+      - name: Check for changes
+        id: changed
+        run: |
+          if [ "${{ steps.immich.outputs.tag }}" != "${{ steps.stored.outputs.tag }}" ] || \
+             [ "${{ steps.spec.outputs.hash }}" != "${{ steps.stored.outputs.hash }}" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Generate SDK
+        if: steps.changed.outputs.changed == 'true'
+        run: |
+          # Remove previously generated SDK code (keep repo scaffolding)
+          rm -rf sdk/
+
+          docker run --rm \
+            -v /tmp/immich-openapi-specs.json:/spec.json:ro \
+            -v "${{ github.workspace }}/sdk":/out \
+            openapitools/openapi-generator-cli:latest generate \
+              -i /spec.json \
+              -g go \
+              -o /out \
+              --additional-properties=packageName=immich \
+              --additional-properties=packageVersion=${{ steps.immich.outputs.tag }} \
+              --additional-properties=generateInterfaces=true \
+              --additional-properties=hideGenerationTimestamp=true \
+              --additional-properties=enumClassPrefix=true \
+              --additional-properties=withGoMod=true
+
+      - name: Update version and hash files
+        if: steps.changed.outputs.changed == 'true'
+        run: |
+          echo "${{ steps.immich.outputs.tag }}" > .immich-version
+          echo "${{ steps.spec.outputs.hash }}" > .spec-hash
+
+      - name: Commit and push
+        if: steps.changed.outputs.changed == 'true'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "chore: regenerate SDK for Immich ${{ steps.immich.outputs.tag }}"
+          git tag "${{ steps.immich.outputs.tag }}" || true  # skip if tag already exists
+          git push origin HEAD --tags
