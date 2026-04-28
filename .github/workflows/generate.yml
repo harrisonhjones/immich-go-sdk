@@ -57,6 +57,13 @@ jobs:
           # Remove previously generated SDK code (keep repo scaffolding)
           rm -rf sdk/
 
+          # The Immich spec tags deprecated operations with both their primary tag
+          # AND a "deprecated" tag, causing openapi-generator to emit duplicate type
+          # declarations in api_deprecated.go and the individual api_*.go files.
+          # We pre-seed the ignore file so the generator skips api_deprecated.go.
+          mkdir -p sdk
+          echo "api_deprecated.go" > sdk/.openapi-generator-ignore
+
           docker run --rm \
             -v /tmp/immich-openapi-specs.json:/spec.json:ro \
             -v "${{ github.workspace }}/sdk":/out \
