@@ -57,13 +57,6 @@ jobs:
           # Remove previously generated SDK code (keep repo scaffolding)
           rm -rf sdk/
 
-          # The Immich spec tags deprecated operations with both their primary tag
-          # AND a "deprecated" tag, causing openapi-generator to emit duplicate type
-          # declarations in api_deprecated.go and the individual api_*.go files.
-          # We pre-seed the ignore file so the generator skips api_deprecated.go.
-          mkdir -p sdk
-          echo "api_deprecated.go" > sdk/.openapi-generator-ignore
-
           docker run --rm \
             -v /tmp/immich-openapi-specs.json:/spec.json:ro \
             -v "${{ github.workspace }}/sdk":/out \
@@ -77,6 +70,37 @@ jobs:
               --additional-properties=hideGenerationTimestamp=true \
               --additional-properties=enumClassPrefix=true \
               --additional-properties=withGoMod=true
+
+      - name: Patch generated SDK
+        if: steps.changed.outputs.changed == 'true'
+        run: |
+          # The Immich spec tags deprecated operations with both their primary tag
+          # AND a "deprecated" tag. The generator emits the request types in BOTH
+          # api_deprecated.go and the individual api_*.go files, causing duplicate
+          # declarations. It also wires DeprecatedAPIService into client.go.
+          #
+          # Fix: delete api_deprecated.go and remove the two DeprecatedAPI references
+          # from client.go. The deprecated operations remain accessible through their
+          # primary API services (PartnersAPIService, JobsAPIService, etc.).
+
+          rm -f sdk/api_deprecated.go
+
+          # Remove the DeprecatedAPI field from the APIClient struct
+          sed -i '/^\s*DeprecatedAPI DeprecatedAPI$/d' sdk/client.go
+
+          # Remove the DeprecatedAPIService assignment in NewAPIClient
+          sed -i '/^\s*c\.DeprecatedAPI = (\*DeprecatedAPIService)(&c\.common)$/d' sdk/client.go
+
+      - name: Set up Go
+        if: steps.changed.outputs.changed == 'true'
+        uses: actions/setup-go@v5
+        with:
+          go-version: 'stable'
+
+      - name: Build SDK
+        if: steps.changed.outputs.changed == 'true'
+        run: go build ./...
+        working-directory: sdk
 
       - name: Update version and hash files
         if: steps.changed.outputs.changed == 'true'
