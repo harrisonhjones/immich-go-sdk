@@ -2,8 +2,8 @@ name: Generate SDK
 
 on:
   schedule:
-    - cron: '0 6 * * *'  # daily at 06:00 UTC
-  workflow_dispatch:      # allow manual runs
+    - cron: "0 6 * * *" # daily at 06:00 UTC
+  workflow_dispatch: # allow manual runs
 
 permissions:
   contents: write
@@ -89,6 +89,16 @@ jobs:
 
           rm -f sdk/api_deprecated.go
 
+          # go.mod and go.sum are defined at the root of the project instead
+          rm -f sdk/go.mod
+          rm -f sdk/go.sum
+
+          # Remove unused git_push.sh utility
+          rm -f sdk/git_push.sh
+
+          # Update the import URL with the vanity one
+          find sdk/ -type f -exec sed -i 's/github.com\/GIT_USER_ID\/GIT_REPO_ID/harrisonhjones.com\/immich-go-sdk\/sdk/' {} +
+
           # Remove the DeprecatedAPI field from the APIClient struct
           sed -i '/^\s*DeprecatedAPI DeprecatedAPI$/d' sdk/client.go
 
@@ -99,12 +109,15 @@ jobs:
         if: steps.changed.outputs.changed == 'true'
         uses: actions/setup-go@v5
         with:
-          go-version: 'stable'
+          go-version: "stable"
 
-      - name: Build SDK
+      - name: go mod tidy
+        if: steps.changed.outputs.changed == 'true'
+        run: go mod tidy
+
+      - name: go build
         if: steps.changed.outputs.changed == 'true'
         run: go build ./...
-        working-directory: sdk
 
       - name: Update version and hash files
         if: steps.changed.outputs.changed == 'true'
