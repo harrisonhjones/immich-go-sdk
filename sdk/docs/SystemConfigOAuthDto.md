@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 **ButtonText** | **string** | Button text | 
 **ClientId** | **string** | Client ID | 
 **ClientSecret** | **string** | Client secret | 
-**DefaultStorageQuota** | **NullableFloat32** | Default storage quota | 
+**DefaultStorageQuota** | **NullableInt32** | Default storage quota | 
 **Enabled** | **bool** | Enabled | 
 **EndSessionEndpoint** | **string** | End session endpoint | 
 **IssuerUrl** | **string** | Issuer URL | 
@@ -30,7 +30,7 @@ Name | Type | Description | Notes
 
 ### NewSystemConfigOAuthDto
 
-`func NewSystemConfigOAuthDto(allowInsecureRequests bool, autoLaunch bool, autoRegister bool, buttonText string, clientId string, clientSecret string, defaultStorageQuota NullableFloat32, enabled bool, endSessionEndpoint string, issuerUrl string, mobileOverrideEnabled bool, mobileRedirectUri string, profileSigningAlgorithm string, prompt string, roleClaim string, scope string, signingAlgorithm string, storageLabelClaim string, storageQuotaClaim string, timeout int32, tokenEndpointAuthMethod OAuthTokenEndpointAuthMethod, ) *SystemConfigOAuthDto`
+`func NewSystemConfigOAuthDto(allowInsecureRequests bool, autoLaunch bool, autoRegister bool, buttonText string, clientId string, clientSecret string, defaultStorageQuota NullableInt32, enabled bool, endSessionEndpoint string, issuerUrl string, mobileOverrideEnabled bool, mobileRedirectUri string, profileSigningAlgorithm string, prompt string, roleClaim string, scope string, signingAlgorithm string, storageLabelClaim string, storageQuotaClaim string, timeout int32, tokenEndpointAuthMethod OAuthTokenEndpointAuthMethod, ) *SystemConfigOAuthDto`
 
 NewSystemConfigOAuthDto instantiates a new SystemConfigOAuthDto object
 This constructor will assign default values to properties that have it defined,
@@ -167,20 +167,20 @@ SetClientSecret sets ClientSecret field to given value.
 
 ### GetDefaultStorageQuota
 
-`func (o *SystemConfigOAuthDto) GetDefaultStorageQuota() float32`
+`func (o *SystemConfigOAuthDto) GetDefaultStorageQuota() int32`
 
 GetDefaultStorageQuota returns the DefaultStorageQuota field if non-nil, zero value otherwise.
 
 ### GetDefaultStorageQuotaOk
 
-`func (o *SystemConfigOAuthDto) GetDefaultStorageQuotaOk() (*float32, bool)`
+`func (o *SystemConfigOAuthDto) GetDefaultStorageQuotaOk() (*int32, bool)`
 
 GetDefaultStorageQuotaOk returns a tuple with the DefaultStorageQuota field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDefaultStorageQuota
 
-`func (o *SystemConfigOAuthDto) SetDefaultStorageQuota(v float32)`
+`func (o *SystemConfigOAuthDto) SetDefaultStorageQuota(v int32)`
 
 SetDefaultStorageQuota sets DefaultStorageQuota field to given value.
 

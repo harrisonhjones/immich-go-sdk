@@ -20,8 +20,8 @@ Name | Type | Description | Notes
 **Model** | Pointer to **NullableString** | Filter by camera model | [optional] 
 **Ocr** | Pointer to **string** | Filter by OCR text content | [optional] 
 **PersonIds** | Pointer to **[]string** | Filter by person IDs | [optional] 
-**Rating** | Pointer to **NullableFloat32** | Filter by rating [1-5], or null for unrated | [optional] 
-**Size** | Pointer to **float32** | Number of results to return | [optional] 
+**Rating** | Pointer to **NullableInt32** | Filter by rating [1-5], or null for unrated | [optional] 
+**Size** | Pointer to **int32** | Number of results to return | [optional] 
 **State** | Pointer to **NullableString** | Filter by state/province name | [optional] 
 **TagIds** | Pointer to **[]string** | Filter by tag IDs | [optional] 
 **TakenAfter** | Pointer to **time.Time** | Filter by taken date (after) | [optional] 
@@ -518,20 +518,20 @@ HasPersonIds returns a boolean if a field has been set.
 
 ### GetRating
 
-`func (o *RandomSearchDto) GetRating() float32`
+`func (o *RandomSearchDto) GetRating() int32`
 
 GetRating returns the Rating field if non-nil, zero value otherwise.
 
 ### GetRatingOk
 
-`func (o *RandomSearchDto) GetRatingOk() (*float32, bool)`
+`func (o *RandomSearchDto) GetRatingOk() (*int32, bool)`
 
 GetRatingOk returns a tuple with the Rating field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetRating
 
-`func (o *RandomSearchDto) SetRating(v float32)`
+`func (o *RandomSearchDto) SetRating(v int32)`
 
 SetRating sets Rating field to given value.
 
@@ -553,20 +553,20 @@ HasRating returns a boolean if a field has been set.
 UnsetRating ensures that no value is present for Rating, not even an explicit nil
 ### GetSize
 
-`func (o *RandomSearchDto) GetSize() float32`
+`func (o *RandomSearchDto) GetSize() int32`
 
 GetSize returns the Size field if non-nil, zero value otherwise.
 
 ### GetSizeOk
 
-`func (o *RandomSearchDto) GetSizeOk() (*float32, bool)`
+`func (o *RandomSearchDto) GetSizeOk() (*int32, bool)`
 
 GetSizeOk returns a tuple with the Size field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetSize
 
-`func (o *RandomSearchDto) SetSize(v float32)`
+`func (o *RandomSearchDto) SetSize(v int32)`
 
 SetSize sets Size field to given value.
 

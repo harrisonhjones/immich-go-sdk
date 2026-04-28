@@ -22,13 +22,13 @@ var _ MappedNullable = &CropParameters{}
 // CropParameters struct for CropParameters
 type CropParameters struct {
 	// Height of the crop
-	Height float32 `json:"height"`
+	Height int32 `json:"height"`
 	// Width of the crop
-	Width float32 `json:"width"`
+	Width int32 `json:"width"`
 	// Top-Left X coordinate of crop
-	X float32 `json:"x"`
+	X int32 `json:"x"`
 	// Top-Left Y coordinate of crop
-	Y float32 `json:"y"`
+	Y int32 `json:"y"`
 }
 
 type _CropParameters CropParameters
@@ -37,7 +37,7 @@ type _CropParameters CropParameters
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewCropParameters(height float32, width float32, x float32, y float32) *CropParameters {
+func NewCropParameters(height int32, width int32, x int32, y int32) *CropParameters {
 	this := CropParameters{}
 	this.Height = height
 	this.Width = width
@@ -55,9 +55,9 @@ func NewCropParametersWithDefaults() *CropParameters {
 }
 
 // GetHeight returns the Height field value
-func (o *CropParameters) GetHeight() float32 {
+func (o *CropParameters) GetHeight() int32 {
 	if o == nil {
-		var ret float32
+		var ret int32
 		return ret
 	}
 
@@ -66,7 +66,7 @@ func (o *CropParameters) GetHeight() float32 {
 
 // GetHeightOk returns a tuple with the Height field value
 // and a boolean to check if the value has been set.
-func (o *CropParameters) GetHeightOk() (*float32, bool) {
+func (o *CropParameters) GetHeightOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -74,14 +74,14 @@ func (o *CropParameters) GetHeightOk() (*float32, bool) {
 }
 
 // SetHeight sets field value
-func (o *CropParameters) SetHeight(v float32) {
+func (o *CropParameters) SetHeight(v int32) {
 	o.Height = v
 }
 
 // GetWidth returns the Width field value
-func (o *CropParameters) GetWidth() float32 {
+func (o *CropParameters) GetWidth() int32 {
 	if o == nil {
-		var ret float32
+		var ret int32
 		return ret
 	}
 
@@ -90,7 +90,7 @@ func (o *CropParameters) GetWidth() float32 {
 
 // GetWidthOk returns a tuple with the Width field value
 // and a boolean to check if the value has been set.
-func (o *CropParameters) GetWidthOk() (*float32, bool) {
+func (o *CropParameters) GetWidthOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -98,14 +98,14 @@ func (o *CropParameters) GetWidthOk() (*float32, bool) {
 }
 
 // SetWidth sets field value
-func (o *CropParameters) SetWidth(v float32) {
+func (o *CropParameters) SetWidth(v int32) {
 	o.Width = v
 }
 
 // GetX returns the X field value
-func (o *CropParameters) GetX() float32 {
+func (o *CropParameters) GetX() int32 {
 	if o == nil {
-		var ret float32
+		var ret int32
 		return ret
 	}
 
@@ -114,7 +114,7 @@ func (o *CropParameters) GetX() float32 {
 
 // GetXOk returns a tuple with the X field value
 // and a boolean to check if the value has been set.
-func (o *CropParameters) GetXOk() (*float32, bool) {
+func (o *CropParameters) GetXOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -122,14 +122,14 @@ func (o *CropParameters) GetXOk() (*float32, bool) {
 }
 
 // SetX sets field value
-func (o *CropParameters) SetX(v float32) {
+func (o *CropParameters) SetX(v int32) {
 	o.X = v
 }
 
 // GetY returns the Y field value
-func (o *CropParameters) GetY() float32 {
+func (o *CropParameters) GetY() int32 {
 	if o == nil {
-		var ret float32
+		var ret int32
 		return ret
 	}
 
@@ -138,7 +138,7 @@ func (o *CropParameters) GetY() float32 {
 
 // GetYOk returns a tuple with the Y field value
 // and a boolean to check if the value has been set.
-func (o *CropParameters) GetYOk() (*float32, bool) {
+func (o *CropParameters) GetYOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -146,7 +146,7 @@ func (o *CropParameters) GetYOk() (*float32, bool) {
 }
 
 // SetY sets field value
-func (o *CropParameters) SetY(v float32) {
+func (o *CropParameters) SetY(v int32) {
 	o.Y = v
 }
 

@@ -5098,8 +5098,9 @@ paths:
         required: false
         schema:
           default: 1
+          maximum: 9007199254740991
           minimum: 1
-          type: number
+          type: integer
         style: form
       - description: Number of items per page
         explode: true
@@ -5110,7 +5111,7 @@ paths:
           default: 500
           maximum: 1000
           minimum: 1
-          type: number
+          type: integer
         style: form
       - description: Include hidden people
         explode: true
@@ -6005,7 +6006,7 @@ paths:
           maximum: 5
           minimum: -1
           nullable: true
-          type: number
+          type: integer
         style: form
         x-immich-history:
         - version: v1
@@ -6025,7 +6026,7 @@ paths:
         schema:
           maximum: 1000
           minimum: 1
-          type: number
+          type: integer
         style: form
       - description: Filter by state/province name
         explode: true
@@ -9999,7 +10000,7 @@ components:
         - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
         - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
         timeZone: timeZone
-        dateTimeRelative: 0.8008281904610115
+        dateTimeRelative: -2147483648
         isFavorite: true
         longitude: -127.23073270189397
       properties:
@@ -10008,7 +10009,9 @@ components:
           type: string
         dateTimeRelative:
           description: Relative time offset in seconds
-          type: number
+          maximum: 9007199254740991
+          minimum: -9007199254740991
+          type: integer
         description:
           description: Asset description
           type: string
@@ -10193,10 +10196,10 @@ components:
       example:
         action: crop
         parameters:
-          width: 1.6027456183070403
-          x: 0.14658129805029452
-          "y": 0.5962133916683182
-          height: 1.0800828190461012
+          width: 2147483647
+          x: 2147483647
+          "y": 2147483647
+          height: 2147483647
       properties:
         action:
           $ref: "#/components/schemas/AssetEditAction"
@@ -10211,10 +10214,10 @@ components:
         action: crop
         id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
         parameters:
-          width: 1.6027456183070403
-          x: 0.14658129805029452
-          "y": 0.5962133916683182
-          height: 1.0800828190461012
+          width: 2147483647
+          x: 2147483647
+          "y": 2147483647
+          height: 2147483647
       properties:
         action:
           $ref: "#/components/schemas/AssetEditAction"
@@ -10235,16 +10238,16 @@ components:
         edits:
         - action: crop
           parameters:
-            width: 1.6027456183070403
-            x: 0.14658129805029452
-            "y": 0.5962133916683182
-            height: 1.0800828190461012
+            width: 2147483647
+            x: 2147483647
+            "y": 2147483647
+            height: 2147483647
         - action: crop
           parameters:
-            width: 1.6027456183070403
-            x: 0.14658129805029452
-            "y": 0.5962133916683182
-            height: 1.0800828190461012
+            width: 2147483647
+            x: 2147483647
+            "y": 2147483647
+            height: 2147483647
       properties:
         edits:
           description: "List of edit actions to apply (crop, rotate, or mirror)"
@@ -10262,17 +10265,17 @@ components:
         - action: crop
           id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
           parameters:
-            width: 1.6027456183070403
-            x: 0.14658129805029452
-            "y": 0.5962133916683182
-            height: 1.0800828190461012
+            width: 2147483647
+            x: 2147483647
+            "y": 2147483647
+            height: 2147483647
         - action: crop
           id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
           parameters:
-            width: 1.6027456183070403
-            x: 0.14658129805029452
-            "y": 0.5962133916683182
-            height: 1.0800828190461012
+            width: 2147483647
+            x: 2147483647
+            "y": 2147483647
+            height: 2147483647
       properties:
         assetId:
           description: Asset ID these edits belong to
@@ -10950,7 +10953,7 @@ components:
         resized: true
         checksum: checksum
         id: id
-        height: 0.20271230230023218
+        height: 2147483647
         updatedAt: 2000-01-23T04:56:07.000+00:00
         originalFileName: originalFileName
         owner:
@@ -11052,26 +11055,26 @@ components:
           country: country
           orientation: orientation
           exposureTime: exposureTime
-          iso: 2.3021358869347655
+          iso: -2147483648
           modifyDate: 2000-01-23T04:56:07.000+00:00
           city: city
           fileSizeInByte: 2147483647
           latitude: 7.061401241503109
           projectionType: projectionType
-          rating: 3.616076749251911
+          rating: -2147483648
           description: description
           timeZone: timeZone
-          exifImageHeight: 0.08008281904610115
+          exifImageHeight: 2147483647
           dateTimeOriginal: 2000-01-23T04:56:07.000+00:00
           fNumber: 1.4658129805029452
           lensModel: lensModel
           model: model
           state: state
           make: make
-          exifImageWidth: 0.6027456183070403
+          exifImageWidth: 2147483647
           focalLength: 5.637376656633329
           longitude: 9.301444243932576
-        width: 0.7457744773683765
+        width: 2147483647
         isOffline: true
         originalPath: originalPath
         fileCreatedAt: 2000-01-23T04:56:07.000+00:00
@@ -11114,9 +11117,10 @@ components:
           type: boolean
         height:
           description: Asset height
+          maximum: 9007199254740991
           minimum: 0
           nullable: true
-          type: number
+          type: integer
         id:
           description: Asset ID
           type: string
@@ -11220,9 +11224,10 @@ components:
           $ref: "#/components/schemas/AssetVisibility"
         width:
           description: Asset width
+          maximum: 9007199254740991
           minimum: 0
           nullable: true
-          type: number
+          type: integer
       required:
       - checksum
       - createdAt
@@ -11601,27 +11606,31 @@ components:
       type: object
     CropParameters:
       example:
-        width: 1.6027456183070403
-        x: 0.14658129805029452
-        "y": 0.5962133916683182
-        height: 1.0800828190461012
+        width: 2147483647
+        x: 2147483647
+        "y": 2147483647
+        height: 2147483647
       properties:
         height:
           description: Height of the crop
+          maximum: 9007199254740991
           minimum: 1
-          type: number
+          type: integer
         width:
           description: Width of the crop
+          maximum: 9007199254740991
           minimum: 1
-          type: number
+          type: integer
         x:
           description: Top-Left X coordinate of crop
+          maximum: 9007199254740991
           minimum: 0
-          type: number
+          type: integer
         "y":
           description: Top-Left Y coordinate of crop
+          maximum: 9007199254740991
           minimum: 0
-          type: number
+          type: integer
       required:
       - height
       - width
@@ -11631,7 +11640,7 @@ components:
     DatabaseBackupConfig:
       example:
         cronExpression: cronExpression
-        keepLastAmount: 1.0800828190461012
+        keepLastAmount: 2147483647
         enabled: true
       properties:
         cronExpression:
@@ -11643,8 +11652,9 @@ components:
           type: boolean
         keepLastAmount:
           description: Keep last amount
+          maximum: 9007199254740991
           minimum: 1
-          type: number
+          type: integer
       required:
       - cronExpression
       - enabled
@@ -11668,14 +11678,16 @@ components:
       example:
         filename: filename
         timezone: timezone
-        filesize: 0.8008281904610115
+        filesize: -2147483648
       properties:
         filename:
           description: Backup filename
           type: string
         filesize:
           description: Backup file size
-          type: number
+          maximum: 9007199254740991
+          minimum: -9007199254740991
+          type: integer
         timezone:
           description: Backup timezone
           type: string
@@ -11689,10 +11701,10 @@ components:
         backups:
         - filename: filename
           timezone: timezone
-          filesize: 0.8008281904610115
+          filesize: -2147483648
         - filename: filename
           timezone: timezone
-          filesize: 0.8008281904610115
+          filesize: -2147483648
       properties:
         backups:
           description: List of backups
@@ -11936,7 +11948,7 @@ components:
           resized: true
           checksum: checksum
           id: id
-          height: 0.20271230230023218
+          height: 2147483647
           updatedAt: 2000-01-23T04:56:07.000+00:00
           originalFileName: originalFileName
           owner:
@@ -12038,26 +12050,26 @@ components:
             country: country
             orientation: orientation
             exposureTime: exposureTime
-            iso: 2.3021358869347655
+            iso: -2147483648
             modifyDate: 2000-01-23T04:56:07.000+00:00
             city: city
             fileSizeInByte: 2147483647
             latitude: 7.061401241503109
             projectionType: projectionType
-            rating: 3.616076749251911
+            rating: -2147483648
             description: description
             timeZone: timeZone
-            exifImageHeight: 0.08008281904610115
+            exifImageHeight: 2147483647
             dateTimeOriginal: 2000-01-23T04:56:07.000+00:00
             fNumber: 1.4658129805029452
             lensModel: lensModel
             model: model
             state: state
             make: make
-            exifImageWidth: 0.6027456183070403
+            exifImageWidth: 2147483647
             focalLength: 5.637376656633329
             longitude: 9.301444243932576
-          width: 0.7457744773683765
+          width: 2147483647
           isOffline: true
           originalPath: originalPath
           fileCreatedAt: 2000-01-23T04:56:07.000+00:00
@@ -12077,7 +12089,7 @@ components:
           resized: true
           checksum: checksum
           id: id
-          height: 0.20271230230023218
+          height: 2147483647
           updatedAt: 2000-01-23T04:56:07.000+00:00
           originalFileName: originalFileName
           owner:
@@ -12179,26 +12191,26 @@ components:
             country: country
             orientation: orientation
             exposureTime: exposureTime
-            iso: 2.3021358869347655
+            iso: -2147483648
             modifyDate: 2000-01-23T04:56:07.000+00:00
             city: city
             fileSizeInByte: 2147483647
             latitude: 7.061401241503109
             projectionType: projectionType
-            rating: 3.616076749251911
+            rating: -2147483648
             description: description
             timeZone: timeZone
-            exifImageHeight: 0.08008281904610115
+            exifImageHeight: 2147483647
             dateTimeOriginal: 2000-01-23T04:56:07.000+00:00
             fNumber: 1.4658129805029452
             lensModel: lensModel
             model: model
             state: state
             make: make
-            exifImageWidth: 0.6027456183070403
+            exifImageWidth: 2147483647
             focalLength: 5.637376656633329
             longitude: 9.301444243932576
-          width: 0.7457744773683765
+          width: 2147483647
           isOffline: true
           originalPath: originalPath
           fileCreatedAt: 2000-01-23T04:56:07.000+00:00
@@ -12270,23 +12282,23 @@ components:
         country: country
         orientation: orientation
         exposureTime: exposureTime
-        iso: 2.3021358869347655
+        iso: -2147483648
         modifyDate: 2000-01-23T04:56:07.000+00:00
         city: city
         fileSizeInByte: 2147483647
         latitude: 7.061401241503109
         projectionType: projectionType
-        rating: 3.616076749251911
+        rating: -2147483648
         description: description
         timeZone: timeZone
-        exifImageHeight: 0.08008281904610115
+        exifImageHeight: 2147483647
         dateTimeOriginal: 2000-01-23T04:56:07.000+00:00
         fNumber: 1.4658129805029452
         lensModel: lensModel
         model: model
         state: state
         make: make
-        exifImageWidth: 0.6027456183070403
+        exifImageWidth: 2147483647
         focalLength: 5.637376656633329
         longitude: 9.301444243932576
       properties:
@@ -12309,14 +12321,16 @@ components:
           type: string
         exifImageHeight:
           description: Image height in pixels
+          maximum: 9007199254740991
           minimum: 0
           nullable: true
-          type: number
+          type: integer
         exifImageWidth:
           description: Image width in pixels
+          maximum: 9007199254740991
           minimum: 0
           nullable: true
-          type: number
+          type: integer
         exposureTime:
           description: Exposure time
           nullable: true
@@ -12337,8 +12351,10 @@ components:
           type: number
         iso:
           description: ISO sensitivity
+          maximum: 9007199254740991
+          minimum: -9007199254740991
           nullable: true
-          type: number
+          type: integer
         latitude:
           description: GPS latitude
           nullable: true
@@ -12374,8 +12390,10 @@ components:
           type: string
         rating:
           description: Rating
+          maximum: 9007199254740991
+          minimum: -9007199254740991
           nullable: true
-          type: number
+          type: integer
         state:
           description: State/province name
           nullable: true
@@ -12773,17 +12791,21 @@ components:
       type: object
     MachineLearningAvailabilityChecksDto:
       example:
-        interval: 4.145608029883936
+        interval: -2147483648
         enabled: true
-        timeout: 7.386281948385884
+        timeout: 2147483647
       properties:
         enabled:
           description: Enabled
           type: boolean
         interval:
-          type: number
+          maximum: 9007199254740991
+          minimum: -9007199254740991
+          type: integer
         timeout:
-          type: number
+          maximum: 9007199254740991
+          minimum: -9007199254740991
+          type: integer
       required:
       - enabled
       - interval
@@ -12812,11 +12834,11 @@ components:
         storage:
         - readable: true
           folder: encoded-video
-          files: 0.8008281904610115
+          files: -2147483648
           writable: true
         - readable: true
           folder: encoded-video
-          files: 0.8008281904610115
+          files: -2147483648
           writable: true
       properties:
         storage:
@@ -12830,12 +12852,14 @@ components:
       example:
         readable: true
         folder: encoded-video
-        files: 0.8008281904610115
+        files: -2147483648
         writable: true
       properties:
         files:
           description: Number of files in the folder
-          type: number
+          maximum: 9007199254740991
+          minimum: -9007199254740991
+          type: integer
         folder:
           $ref: "#/components/schemas/StorageFolder"
         readable:
@@ -12863,7 +12887,7 @@ components:
         task: task
         action: start
         active: true
-        progress: 0.8008281904610115
+        progress: -2147483648
         error: error
       properties:
         action:
@@ -12873,7 +12897,9 @@ components:
         error:
           type: string
         progress:
-          type: number
+          maximum: 9007199254740991
+          minimum: -9007199254740991
+          type: integer
         task:
           type: string
       required:
@@ -13090,7 +13116,7 @@ components:
           resized: true
           checksum: checksum
           id: id
-          height: 0.20271230230023218
+          height: 2147483647
           updatedAt: 2000-01-23T04:56:07.000+00:00
           originalFileName: originalFileName
           owner:
@@ -13192,26 +13218,26 @@ components:
             country: country
             orientation: orientation
             exposureTime: exposureTime
-            iso: 2.3021358869347655
+            iso: -2147483648
             modifyDate: 2000-01-23T04:56:07.000+00:00
             city: city
             fileSizeInByte: 2147483647
             latitude: 7.061401241503109
             projectionType: projectionType
-            rating: 3.616076749251911
+            rating: -2147483648
             description: description
             timeZone: timeZone
-            exifImageHeight: 0.08008281904610115
+            exifImageHeight: 2147483647
             dateTimeOriginal: 2000-01-23T04:56:07.000+00:00
             fNumber: 1.4658129805029452
             lensModel: lensModel
             model: model
             state: state
             make: make
-            exifImageWidth: 0.6027456183070403
+            exifImageWidth: 2147483647
             focalLength: 5.637376656633329
             longitude: 9.301444243932576
-          width: 0.7457744773683765
+          width: 2147483647
           isOffline: true
           originalPath: originalPath
           fileCreatedAt: 2000-01-23T04:56:07.000+00:00
@@ -13231,7 +13257,7 @@ components:
           resized: true
           checksum: checksum
           id: id
-          height: 0.20271230230023218
+          height: 2147483647
           updatedAt: 2000-01-23T04:56:07.000+00:00
           originalFileName: originalFileName
           owner:
@@ -13333,26 +13359,26 @@ components:
             country: country
             orientation: orientation
             exposureTime: exposureTime
-            iso: 2.3021358869347655
+            iso: -2147483648
             modifyDate: 2000-01-23T04:56:07.000+00:00
             city: city
             fileSizeInByte: 2147483647
             latitude: 7.061401241503109
             projectionType: projectionType
-            rating: 3.616076749251911
+            rating: -2147483648
             description: description
             timeZone: timeZone
-            exifImageHeight: 0.08008281904610115
+            exifImageHeight: 2147483647
             dateTimeOriginal: 2000-01-23T04:56:07.000+00:00
             fNumber: 1.4658129805029452
             lensModel: lensModel
             model: model
             state: state
             make: make
-            exifImageWidth: 0.6027456183070403
+            exifImageWidth: 2147483647
             focalLength: 5.637376656633329
             longitude: 9.301444243932576
-          width: 0.7457744773683765
+          width: 2147483647
           isOffline: true
           originalPath: originalPath
           fileCreatedAt: 2000-01-23T04:56:07.000+00:00
@@ -13533,7 +13559,7 @@ components:
         tagIds:
         - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
         - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-        rating: 2.616473709842242
+        rating: 2
         description: description
         encodedVideoPath: encodedVideoPath
         previewPath: previewPath
@@ -13559,7 +13585,7 @@ components:
         isEncoded: true
         createdAfter: 2024-01-01T00:00:00Z
         updatedBefore: 2024-01-01T00:00:00Z
-        size: 147.4347167522442
+        size: 147
         takenAfter: 2024-01-01T00:00:00Z
         thumbnailPath: thumbnailPath
         personIds:
@@ -13569,7 +13595,7 @@ components:
         isOffline: true
         createdBefore: 2024-01-01T00:00:00Z
         originalPath: originalPath
-        page: 1.0800828190461012
+        page: 2147483647
         withDeleted: true
         isFavorite: true
         isMotion: true
@@ -13667,8 +13693,9 @@ components:
           type: string
         page:
           description: Page number
+          maximum: 9007199254740991
           minimum: 1
-          type: number
+          type: integer
         personIds:
           description: Filter by person IDs
           items:
@@ -13684,7 +13711,7 @@ components:
           maximum: 5
           minimum: -1
           nullable: true
-          type: number
+          type: integer
           x-immich-history:
           - version: v1
             state: Added
@@ -13699,7 +13726,7 @@ components:
           description: Number of results to return
           maximum: 1000
           minimum: 1
-          type: number
+          type: integer
         state:
           description: Filter by state/province name
           nullable: true
@@ -15552,7 +15579,7 @@ components:
         tagIds:
         - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
         - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-        rating: -0.5195030857233931
+        rating: 0
         type: IMAGE
         isNotInAlbum: true
         withExif: true
@@ -15571,7 +15598,7 @@ components:
         isEncoded: true
         createdAfter: 2024-01-01T00:00:00Z
         updatedBefore: 2024-01-01T00:00:00Z
-        size: 603.1428726887333
+        size: 603
         takenAfter: 2024-01-01T00:00:00Z
         personIds:
         - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -15664,7 +15691,7 @@ components:
           maximum: 5
           minimum: -1
           nullable: true
-          type: number
+          type: integer
           x-immich-history:
           - version: v1
             state: Added
@@ -15679,7 +15706,7 @@ components:
           description: Number of results to return
           maximum: 1000
           minimum: 1
-          type: number
+          type: integer
         state:
           description: Filter by state/province name
           nullable: true
@@ -15954,7 +15981,7 @@ components:
           resized: true
           checksum: checksum
           id: id
-          height: 0.20271230230023218
+          height: 2147483647
           updatedAt: 2000-01-23T04:56:07.000+00:00
           originalFileName: originalFileName
           owner:
@@ -16056,26 +16083,26 @@ components:
             country: country
             orientation: orientation
             exposureTime: exposureTime
-            iso: 2.3021358869347655
+            iso: -2147483648
             modifyDate: 2000-01-23T04:56:07.000+00:00
             city: city
             fileSizeInByte: 2147483647
             latitude: 7.061401241503109
             projectionType: projectionType
-            rating: 3.616076749251911
+            rating: -2147483648
             description: description
             timeZone: timeZone
-            exifImageHeight: 0.08008281904610115
+            exifImageHeight: 2147483647
             dateTimeOriginal: 2000-01-23T04:56:07.000+00:00
             fNumber: 1.4658129805029452
             lensModel: lensModel
             model: model
             state: state
             make: make
-            exifImageWidth: 0.6027456183070403
+            exifImageWidth: 2147483647
             focalLength: 5.637376656633329
             longitude: 9.301444243932576
-          width: 0.7457744773683765
+          width: 2147483647
           isOffline: true
           originalPath: originalPath
           fileCreatedAt: 2000-01-23T04:56:07.000+00:00
@@ -16095,7 +16122,7 @@ components:
           resized: true
           checksum: checksum
           id: id
-          height: 0.20271230230023218
+          height: 2147483647
           updatedAt: 2000-01-23T04:56:07.000+00:00
           originalFileName: originalFileName
           owner:
@@ -16197,26 +16224,26 @@ components:
             country: country
             orientation: orientation
             exposureTime: exposureTime
-            iso: 2.3021358869347655
+            iso: -2147483648
             modifyDate: 2000-01-23T04:56:07.000+00:00
             city: city
             fileSizeInByte: 2147483647
             latitude: 7.061401241503109
             projectionType: projectionType
-            rating: 3.616076749251911
+            rating: -2147483648
             description: description
             timeZone: timeZone
-            exifImageHeight: 0.08008281904610115
+            exifImageHeight: 2147483647
             dateTimeOriginal: 2000-01-23T04:56:07.000+00:00
             fNumber: 1.4658129805029452
             lensModel: lensModel
             model: model
             state: state
             make: make
-            exifImageWidth: 0.6027456183070403
+            exifImageWidth: 2147483647
             focalLength: 5.637376656633329
             longitude: 9.301444243932576
-          width: 0.7457744773683765
+          width: 2147483647
           isOffline: true
           originalPath: originalPath
           fileCreatedAt: 2000-01-23T04:56:07.000+00:00
@@ -16282,7 +16309,7 @@ components:
           resized: true
           checksum: checksum
           id: id
-          height: 0.20271230230023218
+          height: 2147483647
           updatedAt: 2000-01-23T04:56:07.000+00:00
           originalFileName: originalFileName
           owner:
@@ -16384,26 +16411,26 @@ components:
             country: country
             orientation: orientation
             exposureTime: exposureTime
-            iso: 2.3021358869347655
+            iso: -2147483648
             modifyDate: 2000-01-23T04:56:07.000+00:00
             city: city
             fileSizeInByte: 2147483647
             latitude: 7.061401241503109
             projectionType: projectionType
-            rating: 3.616076749251911
+            rating: -2147483648
             description: description
             timeZone: timeZone
-            exifImageHeight: 0.08008281904610115
+            exifImageHeight: 2147483647
             dateTimeOriginal: 2000-01-23T04:56:07.000+00:00
             fNumber: 1.4658129805029452
             lensModel: lensModel
             model: model
             state: state
             make: make
-            exifImageWidth: 0.6027456183070403
+            exifImageWidth: 2147483647
             focalLength: 5.637376656633329
             longitude: 9.301444243932576
-          width: 0.7457744773683765
+          width: 2147483647
           isOffline: true
           originalPath: originalPath
           fileCreatedAt: 2000-01-23T04:56:07.000+00:00
@@ -16439,7 +16466,7 @@ components:
             resized: true
             checksum: checksum
             id: id
-            height: 0.20271230230023218
+            height: 2147483647
             updatedAt: 2000-01-23T04:56:07.000+00:00
             originalFileName: originalFileName
             owner:
@@ -16541,26 +16568,26 @@ components:
               country: country
               orientation: orientation
               exposureTime: exposureTime
-              iso: 2.3021358869347655
+              iso: -2147483648
               modifyDate: 2000-01-23T04:56:07.000+00:00
               city: city
               fileSizeInByte: 2147483647
               latitude: 7.061401241503109
               projectionType: projectionType
-              rating: 3.616076749251911
+              rating: -2147483648
               description: description
               timeZone: timeZone
-              exifImageHeight: 0.08008281904610115
+              exifImageHeight: 2147483647
               dateTimeOriginal: 2000-01-23T04:56:07.000+00:00
               fNumber: 1.4658129805029452
               lensModel: lensModel
               model: model
               state: state
               make: make
-              exifImageWidth: 0.6027456183070403
+              exifImageWidth: 2147483647
               focalLength: 5.637376656633329
               longitude: 9.301444243932576
-            width: 0.7457744773683765
+            width: 2147483647
             isOffline: true
             originalPath: originalPath
             fileCreatedAt: 2000-01-23T04:56:07.000+00:00
@@ -16582,7 +16609,7 @@ components:
             resized: true
             checksum: checksum
             id: id
-            height: 0.20271230230023218
+            height: 2147483647
             updatedAt: 2000-01-23T04:56:07.000+00:00
             originalFileName: originalFileName
             owner:
@@ -16684,26 +16711,26 @@ components:
               country: country
               orientation: orientation
               exposureTime: exposureTime
-              iso: 2.3021358869347655
+              iso: -2147483648
               modifyDate: 2000-01-23T04:56:07.000+00:00
               city: city
               fileSizeInByte: 2147483647
               latitude: 7.061401241503109
               projectionType: projectionType
-              rating: 3.616076749251911
+              rating: -2147483648
               description: description
               timeZone: timeZone
-              exifImageHeight: 0.08008281904610115
+              exifImageHeight: 2147483647
               dateTimeOriginal: 2000-01-23T04:56:07.000+00:00
               fNumber: 1.4658129805029452
               lensModel: lensModel
               model: model
               state: state
               make: make
-              exifImageWidth: 0.6027456183070403
+              exifImageWidth: 2147483647
               focalLength: 5.637376656633329
               longitude: 9.301444243932576
-            width: 0.7457744773683765
+            width: 2147483647
             isOffline: true
             originalPath: originalPath
             fileCreatedAt: 2000-01-23T04:56:07.000+00:00
@@ -16869,7 +16896,7 @@ components:
             resized: true
             checksum: checksum
             id: id
-            height: 0.20271230230023218
+            height: 2147483647
             updatedAt: 2000-01-23T04:56:07.000+00:00
             originalFileName: originalFileName
             owner:
@@ -16971,26 +16998,26 @@ components:
               country: country
               orientation: orientation
               exposureTime: exposureTime
-              iso: 2.3021358869347655
+              iso: -2147483648
               modifyDate: 2000-01-23T04:56:07.000+00:00
               city: city
               fileSizeInByte: 2147483647
               latitude: 7.061401241503109
               projectionType: projectionType
-              rating: 3.616076749251911
+              rating: -2147483648
               description: description
               timeZone: timeZone
-              exifImageHeight: 0.08008281904610115
+              exifImageHeight: 2147483647
               dateTimeOriginal: 2000-01-23T04:56:07.000+00:00
               fNumber: 1.4658129805029452
               lensModel: lensModel
               model: model
               state: state
               make: make
-              exifImageWidth: 0.6027456183070403
+              exifImageWidth: 2147483647
               focalLength: 5.637376656633329
               longitude: 9.301444243932576
-            width: 0.7457744773683765
+            width: 2147483647
             isOffline: true
             originalPath: originalPath
             fileCreatedAt: 2000-01-23T04:56:07.000+00:00
@@ -17010,7 +17037,7 @@ components:
             resized: true
             checksum: checksum
             id: id
-            height: 0.20271230230023218
+            height: 2147483647
             updatedAt: 2000-01-23T04:56:07.000+00:00
             originalFileName: originalFileName
             owner:
@@ -17112,26 +17139,26 @@ components:
               country: country
               orientation: orientation
               exposureTime: exposureTime
-              iso: 2.3021358869347655
+              iso: -2147483648
               modifyDate: 2000-01-23T04:56:07.000+00:00
               city: city
               fileSizeInByte: 2147483647
               latitude: 7.061401241503109
               projectionType: projectionType
-              rating: 3.616076749251911
+              rating: -2147483648
               description: description
               timeZone: timeZone
-              exifImageHeight: 0.08008281904610115
+              exifImageHeight: 2147483647
               dateTimeOriginal: 2000-01-23T04:56:07.000+00:00
               fNumber: 1.4658129805029452
               lensModel: lensModel
               model: model
               state: state
               make: make
-              exifImageWidth: 0.6027456183070403
+              exifImageWidth: 2147483647
               focalLength: 5.637376656633329
               longitude: 9.301444243932576
-            width: 0.7457744773683765
+            width: 2147483647
             isOffline: true
             originalPath: originalPath
             fileCreatedAt: 2000-01-23T04:56:07.000+00:00
@@ -17648,7 +17675,7 @@ components:
     SessionCreateDto:
       example:
         deviceType: deviceType
-        duration: 1.0800828190461012
+        duration: 2147483647
         deviceOS: deviceOS
       properties:
         deviceOS:
@@ -17659,8 +17686,9 @@ components:
           type: string
         duration:
           description: Session duration in seconds
+          maximum: 9007199254740991
           minimum: 1
-          type: number
+          type: integer
       type: object
     SessionCreateResponseDto:
       example:
@@ -17991,7 +18019,7 @@ components:
           resized: true
           checksum: checksum
           id: id
-          height: 0.20271230230023218
+          height: 2147483647
           updatedAt: 2000-01-23T04:56:07.000+00:00
           originalFileName: originalFileName
           owner:
@@ -18093,26 +18121,26 @@ components:
             country: country
             orientation: orientation
             exposureTime: exposureTime
-            iso: 2.3021358869347655
+            iso: -2147483648
             modifyDate: 2000-01-23T04:56:07.000+00:00
             city: city
             fileSizeInByte: 2147483647
             latitude: 7.061401241503109
             projectionType: projectionType
-            rating: 3.616076749251911
+            rating: -2147483648
             description: description
             timeZone: timeZone
-            exifImageHeight: 0.08008281904610115
+            exifImageHeight: 2147483647
             dateTimeOriginal: 2000-01-23T04:56:07.000+00:00
             fNumber: 1.4658129805029452
             lensModel: lensModel
             model: model
             state: state
             make: make
-            exifImageWidth: 0.6027456183070403
+            exifImageWidth: 2147483647
             focalLength: 5.637376656633329
             longitude: 9.301444243932576
-          width: 0.7457744773683765
+          width: 2147483647
           isOffline: true
           originalPath: originalPath
           fileCreatedAt: 2000-01-23T04:56:07.000+00:00
@@ -18132,7 +18160,7 @@ components:
           resized: true
           checksum: checksum
           id: id
-          height: 0.20271230230023218
+          height: 2147483647
           updatedAt: 2000-01-23T04:56:07.000+00:00
           originalFileName: originalFileName
           owner:
@@ -18234,26 +18262,26 @@ components:
             country: country
             orientation: orientation
             exposureTime: exposureTime
-            iso: 2.3021358869347655
+            iso: -2147483648
             modifyDate: 2000-01-23T04:56:07.000+00:00
             city: city
             fileSizeInByte: 2147483647
             latitude: 7.061401241503109
             projectionType: projectionType
-            rating: 3.616076749251911
+            rating: -2147483648
             description: description
             timeZone: timeZone
-            exifImageHeight: 0.08008281904610115
+            exifImageHeight: 2147483647
             dateTimeOriginal: 2000-01-23T04:56:07.000+00:00
             fNumber: 1.4658129805029452
             lensModel: lensModel
             model: model
             state: state
             make: make
-            exifImageWidth: 0.6027456183070403
+            exifImageWidth: 2147483647
             focalLength: 5.637376656633329
             longitude: 9.301444243932576
-          width: 0.7457744773683765
+          width: 2147483647
           isOffline: true
           originalPath: originalPath
           fileCreatedAt: 2000-01-23T04:56:07.000+00:00
@@ -18405,7 +18433,7 @@ components:
         tagIds:
         - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
         - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-        rating: 2.616473709842242
+        rating: 2
         language: language
         type: IMAGE
         isNotInAlbum: true
@@ -18426,14 +18454,14 @@ components:
         query: query
         createdAfter: 2024-01-01T00:00:00Z
         updatedBefore: 2024-01-01T00:00:00Z
-        size: 147.4347167522442
+        size: 147
         takenAfter: 2024-01-01T00:00:00Z
         personIds:
         - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
         - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
         isOffline: true
         createdBefore: 2024-01-01T00:00:00Z
-        page: 1.0800828190461012
+        page: 2147483647
         withDeleted: true
         isFavorite: true
         isMotion: true
@@ -18512,8 +18540,9 @@ components:
           type: string
         page:
           description: Page number
+          maximum: 9007199254740991
           minimum: 1
-          type: number
+          type: integer
         personIds:
           description: Filter by person IDs
           items:
@@ -18534,7 +18563,7 @@ components:
           maximum: 5
           minimum: -1
           nullable: true
-          type: number
+          type: integer
           x-immich-history:
           - version: v1
             state: Added
@@ -18549,7 +18578,7 @@ components:
           description: Number of results to return
           maximum: 1000
           minimum: 1
-          type: number
+          type: integer
         state:
           description: Filter by state/province name
           nullable: true
@@ -18670,7 +18699,7 @@ components:
           resized: true
           checksum: checksum
           id: id
-          height: 0.20271230230023218
+          height: 2147483647
           updatedAt: 2000-01-23T04:56:07.000+00:00
           originalFileName: originalFileName
           owner:
@@ -18772,26 +18801,26 @@ components:
             country: country
             orientation: orientation
             exposureTime: exposureTime
-            iso: 2.3021358869347655
+            iso: -2147483648
             modifyDate: 2000-01-23T04:56:07.000+00:00
             city: city
             fileSizeInByte: 2147483647
             latitude: 7.061401241503109
             projectionType: projectionType
-            rating: 3.616076749251911
+            rating: -2147483648
             description: description
             timeZone: timeZone
-            exifImageHeight: 0.08008281904610115
+            exifImageHeight: 2147483647
             dateTimeOriginal: 2000-01-23T04:56:07.000+00:00
             fNumber: 1.4658129805029452
             lensModel: lensModel
             model: model
             state: state
             make: make
-            exifImageWidth: 0.6027456183070403
+            exifImageWidth: 2147483647
             focalLength: 5.637376656633329
             longitude: 9.301444243932576
-          width: 0.7457744773683765
+          width: 2147483647
           isOffline: true
           originalPath: originalPath
           fileCreatedAt: 2000-01-23T04:56:07.000+00:00
@@ -18811,7 +18840,7 @@ components:
           resized: true
           checksum: checksum
           id: id
-          height: 0.20271230230023218
+          height: 2147483647
           updatedAt: 2000-01-23T04:56:07.000+00:00
           originalFileName: originalFileName
           owner:
@@ -18913,26 +18942,26 @@ components:
             country: country
             orientation: orientation
             exposureTime: exposureTime
-            iso: 2.3021358869347655
+            iso: -2147483648
             modifyDate: 2000-01-23T04:56:07.000+00:00
             city: city
             fileSizeInByte: 2147483647
             latitude: 7.061401241503109
             projectionType: projectionType
-            rating: 3.616076749251911
+            rating: -2147483648
             description: description
             timeZone: timeZone
-            exifImageHeight: 0.08008281904610115
+            exifImageHeight: 2147483647
             dateTimeOriginal: 2000-01-23T04:56:07.000+00:00
             fNumber: 1.4658129805029452
             lensModel: lensModel
             model: model
             state: state
             make: make
-            exifImageWidth: 0.6027456183070403
+            exifImageWidth: 2147483647
             focalLength: 5.637376656633329
             longitude: 9.301444243932576
-          width: 0.7457744773683765
+          width: 2147483647
           isOffline: true
           originalPath: originalPath
           fileCreatedAt: 2000-01-23T04:56:07.000+00:00
@@ -18974,7 +19003,7 @@ components:
         tagIds:
         - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
         - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-        rating: -0.5195030857233931
+        rating: 0
         description: description
         type: IMAGE
         isNotInAlbum: true
@@ -19086,7 +19115,7 @@ components:
           maximum: 5
           minimum: -1
           nullable: true
-          type: number
+          type: integer
           x-immich-history:
           - version: v1
             state: Added
@@ -20405,7 +20434,7 @@ components:
       example:
         database:
           cronExpression: cronExpression
-          keepLastAmount: 1.0800828190461012
+          keepLastAmount: 2147483647
           enabled: true
       properties:
         database:
@@ -20441,7 +20470,7 @@ components:
         backup:
           database:
             cronExpression: cronExpression
-            keepLastAmount: 1.0800828190461012
+            keepLastAmount: 2147483647
             enabled: true
         metadata:
           faces:
@@ -20481,9 +20510,9 @@ components:
           - urls
           - urls
           availabilityChecks:
-            interval: 4.145608029883936
+            interval: -2147483648
             enabled: true
-            timeout: 7.386281948385884
+            timeout: 2147483647
           clip:
             modelName: modelName
             enabled: true
@@ -20577,7 +20606,7 @@ components:
           mobileRedirectUri: mobileRedirectUri
           timeout: 2147483647
           profileSigningAlgorithm: profileSigningAlgorithm
-          defaultStorageQuota: 0.5025004791520294
+          defaultStorageQuota: 2147483647
           endSessionEndpoint: endSessionEndpoint
           mobileOverrideEnabled: true
           allowInsecureRequests: true
@@ -20599,7 +20628,7 @@ components:
             transport:
               ignoreCert: true
               password: password
-              port: 5248.227546186239
+              port: 5248
               host: host
               secure: true
               username: username
@@ -21038,9 +21067,9 @@ components:
         - urls
         - urls
         availabilityChecks:
-          interval: 4.145608029883936
+          interval: -2147483648
           enabled: true
-          timeout: 7.386281948385884
+          timeout: 2147483647
         clip:
           modelName: modelName
           enabled: true
@@ -21172,7 +21201,7 @@ components:
           transport:
             ignoreCert: true
             password: password
-            port: 5248.227546186239
+            port: 5248
             host: host
             secure: true
             username: username
@@ -21193,7 +21222,7 @@ components:
         mobileRedirectUri: mobileRedirectUri
         timeout: 2147483647
         profileSigningAlgorithm: profileSigningAlgorithm
-        defaultStorageQuota: 0.5025004791520294
+        defaultStorageQuota: 2147483647
         endSessionEndpoint: endSessionEndpoint
         mobileOverrideEnabled: true
         allowInsecureRequests: true
@@ -21227,9 +21256,10 @@ components:
           type: string
         defaultStorageQuota:
           description: Default storage quota
+          maximum: 9007199254740991
           minimum: 0
           nullable: true
-          type: number
+          type: integer
         enabled:
           description: Enabled
           type: boolean
@@ -21343,7 +21373,7 @@ components:
         transport:
           ignoreCert: true
           password: password
-          port: 5248.227546186239
+          port: 5248
           host: host
           secure: true
           username: username
@@ -21370,7 +21400,7 @@ components:
       example:
         ignoreCert: true
         password: password
-        port: 5248.227546186239
+        port: 5248
         host: host
         secure: true
         username: username
@@ -21388,7 +21418,7 @@ components:
           description: SMTP server port
           maximum: 65535
           minimum: 0
-          type: number
+          type: integer
         secure:
           description: Whether to use secure connection (TLS/SSL)
           type: boolean
@@ -22809,7 +22839,7 @@ components:
         pluginActionId: pluginActionId
         id: id
         workflowId: workflowId
-        order: 0.8008281904610115
+        order: -2147483648
       properties:
         actionConfig:
           allOf:
@@ -22820,7 +22850,9 @@ components:
           type: string
         order:
           description: Action order
-          type: number
+          maximum: 9007199254740991
+          minimum: -9007199254740991
+          type: integer
         pluginActionId:
           description: Plugin action ID
           type: string
@@ -22910,7 +22942,7 @@ components:
         filterConfig: ""
         pluginFilterId: pluginFilterId
         workflowId: workflowId
-        order: 6.027456183070403
+        order: 2147483647
       properties:
         filterConfig:
           allOf:
@@ -22921,7 +22953,9 @@ components:
           type: string
         order:
           description: Filter order
-          type: number
+          maximum: 9007199254740991
+          minimum: -9007199254740991
+          type: integer
         pluginFilterId:
           description: Plugin filter ID
           type: string
@@ -22945,12 +22979,12 @@ components:
           filterConfig: ""
           pluginFilterId: pluginFilterId
           workflowId: workflowId
-          order: 6.027456183070403
+          order: 2147483647
         - id: id
           filterConfig: ""
           pluginFilterId: pluginFilterId
           workflowId: workflowId
-          order: 6.027456183070403
+          order: 2147483647
         id: id
         triggerType: AssetCreate
         ownerId: ownerId
@@ -22959,12 +22993,12 @@ components:
           pluginActionId: pluginActionId
           id: id
           workflowId: workflowId
-          order: 0.8008281904610115
+          order: -2147483648
         - actionConfig: ""
           pluginActionId: pluginActionId
           id: id
           workflowId: workflowId
-          order: 0.8008281904610115
+          order: -2147483648
         enabled: true
       properties:
         actions:

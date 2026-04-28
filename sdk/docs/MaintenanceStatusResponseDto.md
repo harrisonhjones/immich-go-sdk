@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **Action** | [**MaintenanceAction**](MaintenanceAction.md) |  | 
 **Active** | **bool** |  | 
 **Error** | Pointer to **string** |  | [optional] 
-**Progress** | Pointer to **float32** |  | [optional] 
+**Progress** | Pointer to **int32** |  | [optional] 
 **Task** | Pointer to **string** |  | [optional] 
 
 ## Methods
@@ -96,20 +96,20 @@ HasError returns a boolean if a field has been set.
 
 ### GetProgress
 
-`func (o *MaintenanceStatusResponseDto) GetProgress() float32`
+`func (o *MaintenanceStatusResponseDto) GetProgress() int32`
 
 GetProgress returns the Progress field if non-nil, zero value otherwise.
 
 ### GetProgressOk
 
-`func (o *MaintenanceStatusResponseDto) GetProgressOk() (*float32, bool)`
+`func (o *MaintenanceStatusResponseDto) GetProgressOk() (*int32, bool)`
 
 GetProgressOk returns a tuple with the Progress field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetProgress
 
-`func (o *MaintenanceStatusResponseDto) SetProgress(v float32)`
+`func (o *MaintenanceStatusResponseDto) SetProgress(v int32)`
 
 SetProgress sets Progress field to given value.
 

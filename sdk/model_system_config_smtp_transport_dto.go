@@ -28,7 +28,7 @@ type SystemConfigSmtpTransportDto struct {
 	// SMTP password
 	Password string `json:"password"`
 	// SMTP server port
-	Port float32 `json:"port"`
+	Port int32 `json:"port"`
 	// Whether to use secure connection (TLS/SSL)
 	Secure bool `json:"secure"`
 	// SMTP username
@@ -41,7 +41,7 @@ type _SystemConfigSmtpTransportDto SystemConfigSmtpTransportDto
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSystemConfigSmtpTransportDto(host string, ignoreCert bool, password string, port float32, secure bool, username string) *SystemConfigSmtpTransportDto {
+func NewSystemConfigSmtpTransportDto(host string, ignoreCert bool, password string, port int32, secure bool, username string) *SystemConfigSmtpTransportDto {
 	this := SystemConfigSmtpTransportDto{}
 	this.Host = host
 	this.IgnoreCert = ignoreCert
@@ -133,9 +133,9 @@ func (o *SystemConfigSmtpTransportDto) SetPassword(v string) {
 }
 
 // GetPort returns the Port field value
-func (o *SystemConfigSmtpTransportDto) GetPort() float32 {
+func (o *SystemConfigSmtpTransportDto) GetPort() int32 {
 	if o == nil {
-		var ret float32
+		var ret int32
 		return ret
 	}
 
@@ -144,7 +144,7 @@ func (o *SystemConfigSmtpTransportDto) GetPort() float32 {
 
 // GetPortOk returns a tuple with the Port field value
 // and a boolean to check if the value has been set.
-func (o *SystemConfigSmtpTransportDto) GetPortOk() (*float32, bool) {
+func (o *SystemConfigSmtpTransportDto) GetPortOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -152,7 +152,7 @@ func (o *SystemConfigSmtpTransportDto) GetPortOk() (*float32, bool) {
 }
 
 // SetPort sets field value
-func (o *SystemConfigSmtpTransportDto) SetPort(v float32) {
+func (o *SystemConfigSmtpTransportDto) SetPort(v int32) {
 	o.Port = v
 }
 

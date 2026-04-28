@@ -20,12 +20,12 @@ Name | Type | Description | Notes
 **Make** | Pointer to **NullableString** | Filter by camera make | [optional] 
 **Model** | Pointer to **NullableString** | Filter by camera model | [optional] 
 **Ocr** | Pointer to **string** | Filter by OCR text content | [optional] 
-**Page** | Pointer to **float32** | Page number | [optional] 
+**Page** | Pointer to **int32** | Page number | [optional] 
 **PersonIds** | Pointer to **[]string** | Filter by person IDs | [optional] 
 **Query** | Pointer to **string** | Natural language search query | [optional] 
 **QueryAssetId** | Pointer to **string** | Asset ID to use as search reference | [optional] 
-**Rating** | Pointer to **NullableFloat32** | Filter by rating [1-5], or null for unrated | [optional] 
-**Size** | Pointer to **float32** | Number of results to return | [optional] 
+**Rating** | Pointer to **NullableInt32** | Filter by rating [1-5], or null for unrated | [optional] 
+**Size** | Pointer to **int32** | Number of results to return | [optional] 
 **State** | Pointer to **NullableString** | Filter by state/province name | [optional] 
 **TagIds** | Pointer to **[]string** | Filter by tag IDs | [optional] 
 **TakenAfter** | Pointer to **time.Time** | Filter by taken date (after) | [optional] 
@@ -520,20 +520,20 @@ HasOcr returns a boolean if a field has been set.
 
 ### GetPage
 
-`func (o *SmartSearchDto) GetPage() float32`
+`func (o *SmartSearchDto) GetPage() int32`
 
 GetPage returns the Page field if non-nil, zero value otherwise.
 
 ### GetPageOk
 
-`func (o *SmartSearchDto) GetPageOk() (*float32, bool)`
+`func (o *SmartSearchDto) GetPageOk() (*int32, bool)`
 
 GetPageOk returns a tuple with the Page field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPage
 
-`func (o *SmartSearchDto) SetPage(v float32)`
+`func (o *SmartSearchDto) SetPage(v int32)`
 
 SetPage sets Page field to given value.
 
@@ -620,20 +620,20 @@ HasQueryAssetId returns a boolean if a field has been set.
 
 ### GetRating
 
-`func (o *SmartSearchDto) GetRating() float32`
+`func (o *SmartSearchDto) GetRating() int32`
 
 GetRating returns the Rating field if non-nil, zero value otherwise.
 
 ### GetRatingOk
 
-`func (o *SmartSearchDto) GetRatingOk() (*float32, bool)`
+`func (o *SmartSearchDto) GetRatingOk() (*int32, bool)`
 
 GetRatingOk returns a tuple with the Rating field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetRating
 
-`func (o *SmartSearchDto) SetRating(v float32)`
+`func (o *SmartSearchDto) SetRating(v int32)`
 
 SetRating sets Rating field to given value.
 
@@ -655,20 +655,20 @@ HasRating returns a boolean if a field has been set.
 UnsetRating ensures that no value is present for Rating, not even an explicit nil
 ### GetSize
 
-`func (o *SmartSearchDto) GetSize() float32`
+`func (o *SmartSearchDto) GetSize() int32`
 
 GetSize returns the Size field if non-nil, zero value otherwise.
 
 ### GetSizeOk
 
-`func (o *SmartSearchDto) GetSizeOk() (*float32, bool)`
+`func (o *SmartSearchDto) GetSizeOk() (*int32, bool)`
 
 GetSizeOk returns a tuple with the Size field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetSize
 
-`func (o *SmartSearchDto) SetSize(v float32)`
+`func (o *SmartSearchDto) SetSize(v int32)`
 
 SetSize sets Size field to given value.
 

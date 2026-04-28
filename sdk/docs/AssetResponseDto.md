@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 **FileCreatedAt** | **time.Time** | The actual UTC timestamp when the file was created/captured, preserving timezone information. This is the authoritative timestamp for chronological sorting within timeline groups. Combined with timezone data, this can be used to determine the exact moment the photo was taken. | 
 **FileModifiedAt** | **time.Time** | The UTC timestamp when the file was last modified on the filesystem. This reflects the last time the physical file was changed, which may be different from when the photo was originally taken. | 
 **HasMetadata** | **bool** | Whether asset has metadata | 
-**Height** | **NullableFloat32** | Asset height | 
+**Height** | **NullableInt32** | Asset height | 
 **Id** | **string** | Asset ID | 
 **IsArchived** | **bool** | Is archived | 
 **IsEdited** | **bool** | Is edited | 
@@ -36,13 +36,13 @@ Name | Type | Description | Notes
 **UnassignedFaces** | Pointer to [**[]AssetFaceWithoutPersonResponseDto**](AssetFaceWithoutPersonResponseDto.md) |  | [optional] 
 **UpdatedAt** | **time.Time** | The UTC timestamp when the asset record was last updated in the database. This is automatically maintained by the database and reflects when any field in the asset was last modified. | 
 **Visibility** | [**AssetVisibility**](AssetVisibility.md) |  | 
-**Width** | **NullableFloat32** | Asset width | 
+**Width** | **NullableInt32** | Asset width | 
 
 ## Methods
 
 ### NewAssetResponseDto
 
-`func NewAssetResponseDto(checksum string, createdAt time.Time, duration NullableString, fileCreatedAt time.Time, fileModifiedAt time.Time, hasMetadata bool, height NullableFloat32, id string, isArchived bool, isEdited bool, isFavorite bool, isOffline bool, isTrashed bool, localDateTime time.Time, originalFileName string, originalPath string, ownerId string, thumbhash NullableString, type_ AssetTypeEnum, updatedAt time.Time, visibility AssetVisibility, width NullableFloat32, ) *AssetResponseDto`
+`func NewAssetResponseDto(checksum string, createdAt time.Time, duration NullableString, fileCreatedAt time.Time, fileModifiedAt time.Time, hasMetadata bool, height NullableInt32, id string, isArchived bool, isEdited bool, isFavorite bool, isOffline bool, isTrashed bool, localDateTime time.Time, originalFileName string, originalPath string, ownerId string, thumbhash NullableString, type_ AssetTypeEnum, updatedAt time.Time, visibility AssetVisibility, width NullableInt32, ) *AssetResponseDto`
 
 NewAssetResponseDto instantiates a new AssetResponseDto object
 This constructor will assign default values to properties that have it defined,
@@ -249,20 +249,20 @@ SetHasMetadata sets HasMetadata field to given value.
 
 ### GetHeight
 
-`func (o *AssetResponseDto) GetHeight() float32`
+`func (o *AssetResponseDto) GetHeight() int32`
 
 GetHeight returns the Height field if non-nil, zero value otherwise.
 
 ### GetHeightOk
 
-`func (o *AssetResponseDto) GetHeightOk() (*float32, bool)`
+`func (o *AssetResponseDto) GetHeightOk() (*int32, bool)`
 
 GetHeightOk returns a tuple with the Height field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetHeight
 
-`func (o *AssetResponseDto) SetHeight(v float32)`
+`func (o *AssetResponseDto) SetHeight(v int32)`
 
 SetHeight sets Height field to given value.
 
@@ -824,20 +824,20 @@ SetVisibility sets Visibility field to given value.
 
 ### GetWidth
 
-`func (o *AssetResponseDto) GetWidth() float32`
+`func (o *AssetResponseDto) GetWidth() int32`
 
 GetWidth returns the Width field if non-nil, zero value otherwise.
 
 ### GetWidthOk
 
-`func (o *AssetResponseDto) GetWidthOk() (*float32, bool)`
+`func (o *AssetResponseDto) GetWidthOk() (*int32, bool)`
 
 GetWidthOk returns a tuple with the Width field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetWidth
 
-`func (o *AssetResponseDto) SetWidth(v float32)`
+`func (o *AssetResponseDto) SetWidth(v int32)`
 
 SetWidth sets Width field to given value.
 

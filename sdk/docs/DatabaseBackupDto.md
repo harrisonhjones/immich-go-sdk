@@ -5,14 +5,14 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Filename** | **string** | Backup filename | 
-**Filesize** | **float32** | Backup file size | 
+**Filesize** | **int32** | Backup file size | 
 **Timezone** | **string** | Backup timezone | 
 
 ## Methods
 
 ### NewDatabaseBackupDto
 
-`func NewDatabaseBackupDto(filename string, filesize float32, timezone string, ) *DatabaseBackupDto`
+`func NewDatabaseBackupDto(filename string, filesize int32, timezone string, ) *DatabaseBackupDto`
 
 NewDatabaseBackupDto instantiates a new DatabaseBackupDto object
 This constructor will assign default values to properties that have it defined,
@@ -49,20 +49,20 @@ SetFilename sets Filename field to given value.
 
 ### GetFilesize
 
-`func (o *DatabaseBackupDto) GetFilesize() float32`
+`func (o *DatabaseBackupDto) GetFilesize() int32`
 
 GetFilesize returns the Filesize field if non-nil, zero value otherwise.
 
 ### GetFilesizeOk
 
-`func (o *DatabaseBackupDto) GetFilesizeOk() (*float32, bool)`
+`func (o *DatabaseBackupDto) GetFilesizeOk() (*int32, bool)`
 
 GetFilesizeOk returns a tuple with the Filesize field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetFilesize
 
-`func (o *DatabaseBackupDto) SetFilesize(v float32)`
+`func (o *DatabaseBackupDto) SetFilesize(v int32)`
 
 SetFilesize sets Filesize field to given value.
 

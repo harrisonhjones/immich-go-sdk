@@ -24,7 +24,7 @@ type SessionCreateDto struct {
 	// Device type
 	DeviceType *string `json:"deviceType,omitempty"`
 	// Session duration in seconds
-	Duration *float32 `json:"duration,omitempty"`
+	Duration *int32 `json:"duration,omitempty"`
 }
 
 // NewSessionCreateDto instantiates a new SessionCreateDto object
@@ -109,9 +109,9 @@ func (o *SessionCreateDto) SetDeviceType(v string) {
 }
 
 // GetDuration returns the Duration field value if set, zero value otherwise.
-func (o *SessionCreateDto) GetDuration() float32 {
+func (o *SessionCreateDto) GetDuration() int32 {
 	if o == nil || IsNil(o.Duration) {
-		var ret float32
+		var ret int32
 		return ret
 	}
 	return *o.Duration
@@ -119,7 +119,7 @@ func (o *SessionCreateDto) GetDuration() float32 {
 
 // GetDurationOk returns a tuple with the Duration field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SessionCreateDto) GetDurationOk() (*float32, bool) {
+func (o *SessionCreateDto) GetDurationOk() (*int32, bool) {
 	if o == nil || IsNil(o.Duration) {
 		return nil, false
 	}
@@ -135,8 +135,8 @@ func (o *SessionCreateDto) HasDuration() bool {
 	return false
 }
 
-// SetDuration gets a reference to the given float32 and assigns it to the Duration field.
-func (o *SessionCreateDto) SetDuration(v float32) {
+// SetDuration gets a reference to the given int32 and assigns it to the Duration field.
+func (o *SessionCreateDto) SetDuration(v int32) {
 	o.Duration = &v
 }
 

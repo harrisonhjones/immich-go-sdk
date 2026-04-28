@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Files** | **float32** | Number of files in the folder | 
+**Files** | **int32** | Number of files in the folder | 
 **Folder** | [**StorageFolder**](StorageFolder.md) |  | 
 **Readable** | **bool** | Whether the folder is readable | 
 **Writable** | **bool** | Whether the folder is writable | 
@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 
 ### NewMaintenanceDetectInstallStorageFolderDto
 
-`func NewMaintenanceDetectInstallStorageFolderDto(files float32, folder StorageFolder, readable bool, writable bool, ) *MaintenanceDetectInstallStorageFolderDto`
+`func NewMaintenanceDetectInstallStorageFolderDto(files int32, folder StorageFolder, readable bool, writable bool, ) *MaintenanceDetectInstallStorageFolderDto`
 
 NewMaintenanceDetectInstallStorageFolderDto instantiates a new MaintenanceDetectInstallStorageFolderDto object
 This constructor will assign default values to properties that have it defined,
@@ -30,20 +30,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetFiles
 
-`func (o *MaintenanceDetectInstallStorageFolderDto) GetFiles() float32`
+`func (o *MaintenanceDetectInstallStorageFolderDto) GetFiles() int32`
 
 GetFiles returns the Files field if non-nil, zero value otherwise.
 
 ### GetFilesOk
 
-`func (o *MaintenanceDetectInstallStorageFolderDto) GetFilesOk() (*float32, bool)`
+`func (o *MaintenanceDetectInstallStorageFolderDto) GetFilesOk() (*int32, bool)`
 
 GetFilesOk returns a tuple with the Files field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetFiles
 
-`func (o *MaintenanceDetectInstallStorageFolderDto) SetFiles(v float32)`
+`func (o *MaintenanceDetectInstallStorageFolderDto) SetFiles(v int32)`
 
 SetFiles sets Files field to given value.
 

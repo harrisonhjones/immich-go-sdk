@@ -5,14 +5,14 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Enabled** | **bool** | Enabled | 
-**Interval** | **float32** |  | 
-**Timeout** | **float32** |  | 
+**Interval** | **int32** |  | 
+**Timeout** | **int32** |  | 
 
 ## Methods
 
 ### NewMachineLearningAvailabilityChecksDto
 
-`func NewMachineLearningAvailabilityChecksDto(enabled bool, interval float32, timeout float32, ) *MachineLearningAvailabilityChecksDto`
+`func NewMachineLearningAvailabilityChecksDto(enabled bool, interval int32, timeout int32, ) *MachineLearningAvailabilityChecksDto`
 
 NewMachineLearningAvailabilityChecksDto instantiates a new MachineLearningAvailabilityChecksDto object
 This constructor will assign default values to properties that have it defined,
@@ -49,40 +49,40 @@ SetEnabled sets Enabled field to given value.
 
 ### GetInterval
 
-`func (o *MachineLearningAvailabilityChecksDto) GetInterval() float32`
+`func (o *MachineLearningAvailabilityChecksDto) GetInterval() int32`
 
 GetInterval returns the Interval field if non-nil, zero value otherwise.
 
 ### GetIntervalOk
 
-`func (o *MachineLearningAvailabilityChecksDto) GetIntervalOk() (*float32, bool)`
+`func (o *MachineLearningAvailabilityChecksDto) GetIntervalOk() (*int32, bool)`
 
 GetIntervalOk returns a tuple with the Interval field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetInterval
 
-`func (o *MachineLearningAvailabilityChecksDto) SetInterval(v float32)`
+`func (o *MachineLearningAvailabilityChecksDto) SetInterval(v int32)`
 
 SetInterval sets Interval field to given value.
 
 
 ### GetTimeout
 
-`func (o *MachineLearningAvailabilityChecksDto) GetTimeout() float32`
+`func (o *MachineLearningAvailabilityChecksDto) GetTimeout() int32`
 
 GetTimeout returns the Timeout field if non-nil, zero value otherwise.
 
 ### GetTimeoutOk
 
-`func (o *MachineLearningAvailabilityChecksDto) GetTimeoutOk() (*float32, bool)`
+`func (o *MachineLearningAvailabilityChecksDto) GetTimeoutOk() (*int32, bool)`
 
 GetTimeoutOk returns a tuple with the Timeout field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetTimeout
 
-`func (o *MachineLearningAvailabilityChecksDto) SetTimeout(v float32)`
+`func (o *MachineLearningAvailabilityChecksDto) SetTimeout(v int32)`
 
 SetTimeout sets Timeout field to given value.
 

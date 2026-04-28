@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **DateTimeOriginal** | Pointer to **string** | Original date and time | [optional] 
-**DateTimeRelative** | Pointer to **float32** | Relative time offset in seconds | [optional] 
+**DateTimeRelative** | Pointer to **int32** | Relative time offset in seconds | [optional] 
 **Description** | Pointer to **string** | Asset description | [optional] 
 **DuplicateId** | Pointer to **NullableString** | Duplicate ID | [optional] 
 **Ids** | **[]string** | Asset IDs to update | 
@@ -62,20 +62,20 @@ HasDateTimeOriginal returns a boolean if a field has been set.
 
 ### GetDateTimeRelative
 
-`func (o *AssetBulkUpdateDto) GetDateTimeRelative() float32`
+`func (o *AssetBulkUpdateDto) GetDateTimeRelative() int32`
 
 GetDateTimeRelative returns the DateTimeRelative field if non-nil, zero value otherwise.
 
 ### GetDateTimeRelativeOk
 
-`func (o *AssetBulkUpdateDto) GetDateTimeRelativeOk() (*float32, bool)`
+`func (o *AssetBulkUpdateDto) GetDateTimeRelativeOk() (*int32, bool)`
 
 GetDateTimeRelativeOk returns a tuple with the DateTimeRelative field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDateTimeRelative
 
-`func (o *AssetBulkUpdateDto) SetDateTimeRelative(v float32)`
+`func (o *AssetBulkUpdateDto) SetDateTimeRelative(v int32)`
 
 SetDateTimeRelative sets DateTimeRelative field to given value.
 

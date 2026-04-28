@@ -8,13 +8,13 @@ Name | Type | Description | Notes
 **Country** | Pointer to **NullableString** | Country name | [optional] 
 **DateTimeOriginal** | Pointer to **NullableTime** | Original date/time | [optional] 
 **Description** | Pointer to **NullableString** | Image description | [optional] 
-**ExifImageHeight** | Pointer to **NullableFloat32** | Image height in pixels | [optional] 
-**ExifImageWidth** | Pointer to **NullableFloat32** | Image width in pixels | [optional] 
+**ExifImageHeight** | Pointer to **NullableInt32** | Image height in pixels | [optional] 
+**ExifImageWidth** | Pointer to **NullableInt32** | Image width in pixels | [optional] 
 **ExposureTime** | Pointer to **NullableString** | Exposure time | [optional] 
 **FNumber** | Pointer to **NullableFloat32** | F-number (aperture) | [optional] 
 **FileSizeInByte** | Pointer to **NullableInt32** | File size in bytes | [optional] 
 **FocalLength** | Pointer to **NullableFloat32** | Focal length in mm | [optional] 
-**Iso** | Pointer to **NullableFloat32** | ISO sensitivity | [optional] 
+**Iso** | Pointer to **NullableInt32** | ISO sensitivity | [optional] 
 **Latitude** | Pointer to **NullableFloat32** | GPS latitude | [optional] 
 **LensModel** | Pointer to **NullableString** | Lens model | [optional] 
 **Longitude** | Pointer to **NullableFloat32** | GPS longitude | [optional] 
@@ -23,7 +23,7 @@ Name | Type | Description | Notes
 **ModifyDate** | Pointer to **NullableTime** | Modification date/time | [optional] 
 **Orientation** | Pointer to **NullableString** | Image orientation | [optional] 
 **ProjectionType** | Pointer to **NullableString** | Projection type | [optional] 
-**Rating** | Pointer to **NullableFloat32** | Rating | [optional] 
+**Rating** | Pointer to **NullableInt32** | Rating | [optional] 
 **State** | Pointer to **NullableString** | State/province name | [optional] 
 **TimeZone** | Pointer to **NullableString** | Time zone | [optional] 
 
@@ -188,20 +188,20 @@ HasDescription returns a boolean if a field has been set.
 UnsetDescription ensures that no value is present for Description, not even an explicit nil
 ### GetExifImageHeight
 
-`func (o *ExifResponseDto) GetExifImageHeight() float32`
+`func (o *ExifResponseDto) GetExifImageHeight() int32`
 
 GetExifImageHeight returns the ExifImageHeight field if non-nil, zero value otherwise.
 
 ### GetExifImageHeightOk
 
-`func (o *ExifResponseDto) GetExifImageHeightOk() (*float32, bool)`
+`func (o *ExifResponseDto) GetExifImageHeightOk() (*int32, bool)`
 
 GetExifImageHeightOk returns a tuple with the ExifImageHeight field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetExifImageHeight
 
-`func (o *ExifResponseDto) SetExifImageHeight(v float32)`
+`func (o *ExifResponseDto) SetExifImageHeight(v int32)`
 
 SetExifImageHeight sets ExifImageHeight field to given value.
 
@@ -223,20 +223,20 @@ HasExifImageHeight returns a boolean if a field has been set.
 UnsetExifImageHeight ensures that no value is present for ExifImageHeight, not even an explicit nil
 ### GetExifImageWidth
 
-`func (o *ExifResponseDto) GetExifImageWidth() float32`
+`func (o *ExifResponseDto) GetExifImageWidth() int32`
 
 GetExifImageWidth returns the ExifImageWidth field if non-nil, zero value otherwise.
 
 ### GetExifImageWidthOk
 
-`func (o *ExifResponseDto) GetExifImageWidthOk() (*float32, bool)`
+`func (o *ExifResponseDto) GetExifImageWidthOk() (*int32, bool)`
 
 GetExifImageWidthOk returns a tuple with the ExifImageWidth field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetExifImageWidth
 
-`func (o *ExifResponseDto) SetExifImageWidth(v float32)`
+`func (o *ExifResponseDto) SetExifImageWidth(v int32)`
 
 SetExifImageWidth sets ExifImageWidth field to given value.
 
@@ -398,20 +398,20 @@ HasFocalLength returns a boolean if a field has been set.
 UnsetFocalLength ensures that no value is present for FocalLength, not even an explicit nil
 ### GetIso
 
-`func (o *ExifResponseDto) GetIso() float32`
+`func (o *ExifResponseDto) GetIso() int32`
 
 GetIso returns the Iso field if non-nil, zero value otherwise.
 
 ### GetIsoOk
 
-`func (o *ExifResponseDto) GetIsoOk() (*float32, bool)`
+`func (o *ExifResponseDto) GetIsoOk() (*int32, bool)`
 
 GetIsoOk returns a tuple with the Iso field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetIso
 
-`func (o *ExifResponseDto) SetIso(v float32)`
+`func (o *ExifResponseDto) SetIso(v int32)`
 
 SetIso sets Iso field to given value.
 
@@ -713,20 +713,20 @@ HasProjectionType returns a boolean if a field has been set.
 UnsetProjectionType ensures that no value is present for ProjectionType, not even an explicit nil
 ### GetRating
 
-`func (o *ExifResponseDto) GetRating() float32`
+`func (o *ExifResponseDto) GetRating() int32`
 
 GetRating returns the Rating field if non-nil, zero value otherwise.
 
 ### GetRatingOk
 
-`func (o *ExifResponseDto) GetRatingOk() (*float32, bool)`
+`func (o *ExifResponseDto) GetRatingOk() (*int32, bool)`
 
 GetRatingOk returns a tuple with the Rating field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetRating
 
-`func (o *ExifResponseDto) SetRating(v float32)`
+`func (o *ExifResponseDto) SetRating(v int32)`
 
 SetRating sets Rating field to given value.
 

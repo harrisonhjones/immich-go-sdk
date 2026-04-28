@@ -22,7 +22,7 @@ var _ MappedNullable = &MaintenanceDetectInstallStorageFolderDto{}
 // MaintenanceDetectInstallStorageFolderDto struct for MaintenanceDetectInstallStorageFolderDto
 type MaintenanceDetectInstallStorageFolderDto struct {
 	// Number of files in the folder
-	Files float32 `json:"files"`
+	Files int32 `json:"files"`
 	Folder StorageFolder `json:"folder"`
 	// Whether the folder is readable
 	Readable bool `json:"readable"`
@@ -36,7 +36,7 @@ type _MaintenanceDetectInstallStorageFolderDto MaintenanceDetectInstallStorageFo
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMaintenanceDetectInstallStorageFolderDto(files float32, folder StorageFolder, readable bool, writable bool) *MaintenanceDetectInstallStorageFolderDto {
+func NewMaintenanceDetectInstallStorageFolderDto(files int32, folder StorageFolder, readable bool, writable bool) *MaintenanceDetectInstallStorageFolderDto {
 	this := MaintenanceDetectInstallStorageFolderDto{}
 	this.Files = files
 	this.Folder = folder
@@ -54,9 +54,9 @@ func NewMaintenanceDetectInstallStorageFolderDtoWithDefaults() *MaintenanceDetec
 }
 
 // GetFiles returns the Files field value
-func (o *MaintenanceDetectInstallStorageFolderDto) GetFiles() float32 {
+func (o *MaintenanceDetectInstallStorageFolderDto) GetFiles() int32 {
 	if o == nil {
-		var ret float32
+		var ret int32
 		return ret
 	}
 
@@ -65,7 +65,7 @@ func (o *MaintenanceDetectInstallStorageFolderDto) GetFiles() float32 {
 
 // GetFilesOk returns a tuple with the Files field value
 // and a boolean to check if the value has been set.
-func (o *MaintenanceDetectInstallStorageFolderDto) GetFilesOk() (*float32, bool) {
+func (o *MaintenanceDetectInstallStorageFolderDto) GetFilesOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -73,7 +73,7 @@ func (o *MaintenanceDetectInstallStorageFolderDto) GetFilesOk() (*float32, bool)
 }
 
 // SetFiles sets field value
-func (o *MaintenanceDetectInstallStorageFolderDto) SetFiles(v float32) {
+func (o *MaintenanceDetectInstallStorageFolderDto) SetFiles(v int32) {
 	o.Files = v
 }
 

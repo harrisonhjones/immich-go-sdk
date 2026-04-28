@@ -64,15 +64,15 @@ type MetadataSearchDto struct {
 	// Filter by original file path
 	OriginalPath *string `json:"originalPath,omitempty"`
 	// Page number
-	Page *float32 `json:"page,omitempty"`
+	Page *int32 `json:"page,omitempty"`
 	// Filter by person IDs
 	PersonIds []string `json:"personIds,omitempty"`
 	// Filter by preview file path
 	PreviewPath *string `json:"previewPath,omitempty"`
 	// Filter by rating [1-5], or null for unrated
-	Rating NullableFloat32 `json:"rating,omitempty"`
+	Rating NullableInt32 `json:"rating,omitempty"`
 	// Number of results to return
-	Size *float32 `json:"size,omitempty"`
+	Size *int32 `json:"size,omitempty"`
 	// Filter by state/province name
 	State NullableString `json:"state,omitempty"`
 	// Filter by tag IDs
@@ -885,9 +885,9 @@ func (o *MetadataSearchDto) SetOriginalPath(v string) {
 }
 
 // GetPage returns the Page field value if set, zero value otherwise.
-func (o *MetadataSearchDto) GetPage() float32 {
+func (o *MetadataSearchDto) GetPage() int32 {
 	if o == nil || IsNil(o.Page) {
-		var ret float32
+		var ret int32
 		return ret
 	}
 	return *o.Page
@@ -895,7 +895,7 @@ func (o *MetadataSearchDto) GetPage() float32 {
 
 // GetPageOk returns a tuple with the Page field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *MetadataSearchDto) GetPageOk() (*float32, bool) {
+func (o *MetadataSearchDto) GetPageOk() (*int32, bool) {
 	if o == nil || IsNil(o.Page) {
 		return nil, false
 	}
@@ -911,8 +911,8 @@ func (o *MetadataSearchDto) HasPage() bool {
 	return false
 }
 
-// SetPage gets a reference to the given float32 and assigns it to the Page field.
-func (o *MetadataSearchDto) SetPage(v float32) {
+// SetPage gets a reference to the given int32 and assigns it to the Page field.
+func (o *MetadataSearchDto) SetPage(v int32) {
 	o.Page = &v
 }
 
@@ -981,9 +981,9 @@ func (o *MetadataSearchDto) SetPreviewPath(v string) {
 }
 
 // GetRating returns the Rating field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *MetadataSearchDto) GetRating() float32 {
+func (o *MetadataSearchDto) GetRating() int32 {
 	if o == nil || IsNil(o.Rating.Get()) {
-		var ret float32
+		var ret int32
 		return ret
 	}
 	return *o.Rating.Get()
@@ -992,7 +992,7 @@ func (o *MetadataSearchDto) GetRating() float32 {
 // GetRatingOk returns a tuple with the Rating field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *MetadataSearchDto) GetRatingOk() (*float32, bool) {
+func (o *MetadataSearchDto) GetRatingOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -1008,8 +1008,8 @@ func (o *MetadataSearchDto) HasRating() bool {
 	return false
 }
 
-// SetRating gets a reference to the given NullableFloat32 and assigns it to the Rating field.
-func (o *MetadataSearchDto) SetRating(v float32) {
+// SetRating gets a reference to the given NullableInt32 and assigns it to the Rating field.
+func (o *MetadataSearchDto) SetRating(v int32) {
 	o.Rating.Set(&v)
 }
 // SetRatingNil sets the value for Rating to be an explicit nil
@@ -1023,9 +1023,9 @@ func (o *MetadataSearchDto) UnsetRating() {
 }
 
 // GetSize returns the Size field value if set, zero value otherwise.
-func (o *MetadataSearchDto) GetSize() float32 {
+func (o *MetadataSearchDto) GetSize() int32 {
 	if o == nil || IsNil(o.Size) {
-		var ret float32
+		var ret int32
 		return ret
 	}
 	return *o.Size
@@ -1033,7 +1033,7 @@ func (o *MetadataSearchDto) GetSize() float32 {
 
 // GetSizeOk returns a tuple with the Size field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *MetadataSearchDto) GetSizeOk() (*float32, bool) {
+func (o *MetadataSearchDto) GetSizeOk() (*int32, bool) {
 	if o == nil || IsNil(o.Size) {
 		return nil, false
 	}
@@ -1049,8 +1049,8 @@ func (o *MetadataSearchDto) HasSize() bool {
 	return false
 }
 
-// SetSize gets a reference to the given float32 and assigns it to the Size field.
-func (o *MetadataSearchDto) SetSize(v float32) {
+// SetSize gets a reference to the given int32 and assigns it to the Size field.
+func (o *MetadataSearchDto) SetSize(v int32) {
 	o.Size = &v
 }
 

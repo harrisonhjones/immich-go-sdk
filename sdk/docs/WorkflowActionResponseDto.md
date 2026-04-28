@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **ActionConfig** | **map[string]interface{}** |  | 
 **Id** | **string** | Action ID | 
-**Order** | **float32** | Action order | 
+**Order** | **int32** | Action order | 
 **PluginActionId** | **string** | Plugin action ID | 
 **WorkflowId** | **string** | Workflow ID | 
 
@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 
 ### NewWorkflowActionResponseDto
 
-`func NewWorkflowActionResponseDto(actionConfig map[string]interface{}, id string, order float32, pluginActionId string, workflowId string, ) *WorkflowActionResponseDto`
+`func NewWorkflowActionResponseDto(actionConfig map[string]interface{}, id string, order int32, pluginActionId string, workflowId string, ) *WorkflowActionResponseDto`
 
 NewWorkflowActionResponseDto instantiates a new WorkflowActionResponseDto object
 This constructor will assign default values to properties that have it defined,
@@ -81,20 +81,20 @@ SetId sets Id field to given value.
 
 ### GetOrder
 
-`func (o *WorkflowActionResponseDto) GetOrder() float32`
+`func (o *WorkflowActionResponseDto) GetOrder() int32`
 
 GetOrder returns the Order field if non-nil, zero value otherwise.
 
 ### GetOrderOk
 
-`func (o *WorkflowActionResponseDto) GetOrderOk() (*float32, bool)`
+`func (o *WorkflowActionResponseDto) GetOrderOk() (*int32, bool)`
 
 GetOrderOk returns a tuple with the Order field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetOrder
 
-`func (o *WorkflowActionResponseDto) SetOrder(v float32)`
+`func (o *WorkflowActionResponseDto) SetOrder(v int32)`
 
 SetOrder sets Order field to given value.
 

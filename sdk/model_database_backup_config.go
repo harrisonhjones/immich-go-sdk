@@ -26,7 +26,7 @@ type DatabaseBackupConfig struct {
 	// Enabled
 	Enabled bool `json:"enabled"`
 	// Keep last amount
-	KeepLastAmount float32 `json:"keepLastAmount"`
+	KeepLastAmount int32 `json:"keepLastAmount"`
 }
 
 type _DatabaseBackupConfig DatabaseBackupConfig
@@ -35,7 +35,7 @@ type _DatabaseBackupConfig DatabaseBackupConfig
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewDatabaseBackupConfig(cronExpression string, enabled bool, keepLastAmount float32) *DatabaseBackupConfig {
+func NewDatabaseBackupConfig(cronExpression string, enabled bool, keepLastAmount int32) *DatabaseBackupConfig {
 	this := DatabaseBackupConfig{}
 	this.CronExpression = cronExpression
 	this.Enabled = enabled
@@ -100,9 +100,9 @@ func (o *DatabaseBackupConfig) SetEnabled(v bool) {
 }
 
 // GetKeepLastAmount returns the KeepLastAmount field value
-func (o *DatabaseBackupConfig) GetKeepLastAmount() float32 {
+func (o *DatabaseBackupConfig) GetKeepLastAmount() int32 {
 	if o == nil {
-		var ret float32
+		var ret int32
 		return ret
 	}
 
@@ -111,7 +111,7 @@ func (o *DatabaseBackupConfig) GetKeepLastAmount() float32 {
 
 // GetKeepLastAmountOk returns a tuple with the KeepLastAmount field value
 // and a boolean to check if the value has been set.
-func (o *DatabaseBackupConfig) GetKeepLastAmountOk() (*float32, bool) {
+func (o *DatabaseBackupConfig) GetKeepLastAmountOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -119,7 +119,7 @@ func (o *DatabaseBackupConfig) GetKeepLastAmountOk() (*float32, bool) {
 }
 
 // SetKeepLastAmount sets field value
-func (o *DatabaseBackupConfig) SetKeepLastAmount(v float32) {
+func (o *DatabaseBackupConfig) SetKeepLastAmount(v int32) {
 	o.KeepLastAmount = v
 }
 

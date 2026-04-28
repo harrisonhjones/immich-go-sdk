@@ -21,7 +21,7 @@ Name | Type | Description | Notes
 **Model** | Pointer to **NullableString** | Filter by camera model | [optional] 
 **Ocr** | Pointer to **string** | Filter by OCR text content | [optional] 
 **PersonIds** | Pointer to **[]string** | Filter by person IDs | [optional] 
-**Rating** | Pointer to **NullableFloat32** | Filter by rating [1-5], or null for unrated | [optional] 
+**Rating** | Pointer to **NullableInt32** | Filter by rating [1-5], or null for unrated | [optional] 
 **State** | Pointer to **NullableString** | Filter by state/province name | [optional] 
 **TagIds** | Pointer to **[]string** | Filter by tag IDs | [optional] 
 **TakenAfter** | Pointer to **time.Time** | Filter by taken date (after) | [optional] 
@@ -539,20 +539,20 @@ HasPersonIds returns a boolean if a field has been set.
 
 ### GetRating
 
-`func (o *StatisticsSearchDto) GetRating() float32`
+`func (o *StatisticsSearchDto) GetRating() int32`
 
 GetRating returns the Rating field if non-nil, zero value otherwise.
 
 ### GetRatingOk
 
-`func (o *StatisticsSearchDto) GetRatingOk() (*float32, bool)`
+`func (o *StatisticsSearchDto) GetRatingOk() (*int32, bool)`
 
 GetRatingOk returns a tuple with the Rating field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetRating
 
-`func (o *StatisticsSearchDto) SetRating(v float32)`
+`func (o *StatisticsSearchDto) SetRating(v int32)`
 
 SetRating sets Rating field to given value.
 

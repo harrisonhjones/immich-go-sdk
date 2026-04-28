@@ -25,7 +25,7 @@ type WorkflowActionResponseDto struct {
 	// Action ID
 	Id string `json:"id"`
 	// Action order
-	Order float32 `json:"order"`
+	Order int32 `json:"order"`
 	// Plugin action ID
 	PluginActionId string `json:"pluginActionId"`
 	// Workflow ID
@@ -38,7 +38,7 @@ type _WorkflowActionResponseDto WorkflowActionResponseDto
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewWorkflowActionResponseDto(actionConfig map[string]interface{}, id string, order float32, pluginActionId string, workflowId string) *WorkflowActionResponseDto {
+func NewWorkflowActionResponseDto(actionConfig map[string]interface{}, id string, order int32, pluginActionId string, workflowId string) *WorkflowActionResponseDto {
 	this := WorkflowActionResponseDto{}
 	this.ActionConfig = actionConfig
 	this.Id = id
@@ -107,9 +107,9 @@ func (o *WorkflowActionResponseDto) SetId(v string) {
 }
 
 // GetOrder returns the Order field value
-func (o *WorkflowActionResponseDto) GetOrder() float32 {
+func (o *WorkflowActionResponseDto) GetOrder() int32 {
 	if o == nil {
-		var ret float32
+		var ret int32
 		return ret
 	}
 
@@ -118,7 +118,7 @@ func (o *WorkflowActionResponseDto) GetOrder() float32 {
 
 // GetOrderOk returns a tuple with the Order field value
 // and a boolean to check if the value has been set.
-func (o *WorkflowActionResponseDto) GetOrderOk() (*float32, bool) {
+func (o *WorkflowActionResponseDto) GetOrderOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -126,7 +126,7 @@ func (o *WorkflowActionResponseDto) GetOrderOk() (*float32, bool) {
 }
 
 // SetOrder sets field value
-func (o *WorkflowActionResponseDto) SetOrder(v float32) {
+func (o *WorkflowActionResponseDto) SetOrder(v int32) {
 	o.Order = v
 }
 

@@ -53,7 +53,7 @@ type SmartSearchDto struct {
 	// Filter by OCR text content
 	Ocr *string `json:"ocr,omitempty"`
 	// Page number
-	Page *float32 `json:"page,omitempty"`
+	Page *int32 `json:"page,omitempty"`
 	// Filter by person IDs
 	PersonIds []string `json:"personIds,omitempty"`
 	// Natural language search query
@@ -61,9 +61,9 @@ type SmartSearchDto struct {
 	// Asset ID to use as search reference
 	QueryAssetId *string `json:"queryAssetId,omitempty" validate:"regexp=^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$"`
 	// Filter by rating [1-5], or null for unrated
-	Rating NullableFloat32 `json:"rating,omitempty"`
+	Rating NullableInt32 `json:"rating,omitempty"`
 	// Number of results to return
-	Size *float32 `json:"size,omitempty"`
+	Size *int32 `json:"size,omitempty"`
 	// Filter by state/province name
 	State NullableString `json:"state,omitempty"`
 	// Filter by tag IDs
@@ -678,9 +678,9 @@ func (o *SmartSearchDto) SetOcr(v string) {
 }
 
 // GetPage returns the Page field value if set, zero value otherwise.
-func (o *SmartSearchDto) GetPage() float32 {
+func (o *SmartSearchDto) GetPage() int32 {
 	if o == nil || IsNil(o.Page) {
-		var ret float32
+		var ret int32
 		return ret
 	}
 	return *o.Page
@@ -688,7 +688,7 @@ func (o *SmartSearchDto) GetPage() float32 {
 
 // GetPageOk returns a tuple with the Page field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SmartSearchDto) GetPageOk() (*float32, bool) {
+func (o *SmartSearchDto) GetPageOk() (*int32, bool) {
 	if o == nil || IsNil(o.Page) {
 		return nil, false
 	}
@@ -704,8 +704,8 @@ func (o *SmartSearchDto) HasPage() bool {
 	return false
 }
 
-// SetPage gets a reference to the given float32 and assigns it to the Page field.
-func (o *SmartSearchDto) SetPage(v float32) {
+// SetPage gets a reference to the given int32 and assigns it to the Page field.
+func (o *SmartSearchDto) SetPage(v int32) {
 	o.Page = &v
 }
 
@@ -806,9 +806,9 @@ func (o *SmartSearchDto) SetQueryAssetId(v string) {
 }
 
 // GetRating returns the Rating field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *SmartSearchDto) GetRating() float32 {
+func (o *SmartSearchDto) GetRating() int32 {
 	if o == nil || IsNil(o.Rating.Get()) {
-		var ret float32
+		var ret int32
 		return ret
 	}
 	return *o.Rating.Get()
@@ -817,7 +817,7 @@ func (o *SmartSearchDto) GetRating() float32 {
 // GetRatingOk returns a tuple with the Rating field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *SmartSearchDto) GetRatingOk() (*float32, bool) {
+func (o *SmartSearchDto) GetRatingOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -833,8 +833,8 @@ func (o *SmartSearchDto) HasRating() bool {
 	return false
 }
 
-// SetRating gets a reference to the given NullableFloat32 and assigns it to the Rating field.
-func (o *SmartSearchDto) SetRating(v float32) {
+// SetRating gets a reference to the given NullableInt32 and assigns it to the Rating field.
+func (o *SmartSearchDto) SetRating(v int32) {
 	o.Rating.Set(&v)
 }
 // SetRatingNil sets the value for Rating to be an explicit nil
@@ -848,9 +848,9 @@ func (o *SmartSearchDto) UnsetRating() {
 }
 
 // GetSize returns the Size field value if set, zero value otherwise.
-func (o *SmartSearchDto) GetSize() float32 {
+func (o *SmartSearchDto) GetSize() int32 {
 	if o == nil || IsNil(o.Size) {
-		var ret float32
+		var ret int32
 		return ret
 	}
 	return *o.Size
@@ -858,7 +858,7 @@ func (o *SmartSearchDto) GetSize() float32 {
 
 // GetSizeOk returns a tuple with the Size field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SmartSearchDto) GetSizeOk() (*float32, bool) {
+func (o *SmartSearchDto) GetSizeOk() (*int32, bool) {
 	if o == nil || IsNil(o.Size) {
 		return nil, false
 	}
@@ -874,8 +874,8 @@ func (o *SmartSearchDto) HasSize() bool {
 	return false
 }
 
-// SetSize gets a reference to the given float32 and assigns it to the Size field.
-func (o *SmartSearchDto) SetSize(v float32) {
+// SetSize gets a reference to the given int32 and assigns it to the Size field.
+func (o *SmartSearchDto) SetSize(v int32) {
 	o.Size = &v
 }
 

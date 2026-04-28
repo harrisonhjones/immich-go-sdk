@@ -46,7 +46,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "harrisonhjones.com/immich-go-sdk/sdk"
 )
 
 func main() {
@@ -112,7 +112,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "harrisonhjones.com/immich-go-sdk/sdk"
 )
 
 func main() {
@@ -176,7 +176,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "harrisonhjones.com/immich-go-sdk/sdk"
 )
 
 func main() {
@@ -247,7 +247,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "harrisonhjones.com/immich-go-sdk/sdk"
 )
 
 func main() {
@@ -311,7 +311,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "harrisonhjones.com/immich-go-sdk/sdk"
 )
 
 func main() {
@@ -375,7 +375,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "harrisonhjones.com/immich-go-sdk/sdk"
 )
 
 func main() {
@@ -451,12 +451,12 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "harrisonhjones.com/immich-go-sdk/sdk"
 )
 
 func main() {
 	id := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
-	assetEditsCreateDto := *openapiclient.NewAssetEditsCreateDto([]openapiclient.AssetEditActionItemDto{*openapiclient.NewAssetEditActionItemDto(openapiclient.AssetEditAction("crop"), *openapiclient.NewAssetEditActionItemDtoParameters(float32(123), float32(123), float32(123), float32(123), float32(123), openapiclient.MirrorAxis("horizontal")))}) // AssetEditsCreateDto | 
+	assetEditsCreateDto := *openapiclient.NewAssetEditsCreateDto([]openapiclient.AssetEditActionItemDto{*openapiclient.NewAssetEditActionItemDto(openapiclient.AssetEditAction("crop"), *openapiclient.NewAssetEditActionItemDtoParameters(int32(123), int32(123), int32(123), int32(123), float32(123), openapiclient.MirrorAxis("horizontal")))}) // AssetEditsCreateDto | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -523,7 +523,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "harrisonhjones.com/immich-go-sdk/sdk"
 )
 
 func main() {
@@ -593,7 +593,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "harrisonhjones.com/immich-go-sdk/sdk"
 )
 
 func main() {
@@ -667,7 +667,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "harrisonhjones.com/immich-go-sdk/sdk"
 )
 
 func main() {
@@ -737,7 +737,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "harrisonhjones.com/immich-go-sdk/sdk"
 )
 
 func main() {
@@ -810,7 +810,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "harrisonhjones.com/immich-go-sdk/sdk"
 )
 
 func main() {
@@ -880,7 +880,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "harrisonhjones.com/immich-go-sdk/sdk"
 )
 
 func main() {
@@ -950,7 +950,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "harrisonhjones.com/immich-go-sdk/sdk"
 )
 
 func main() {
@@ -1024,7 +1024,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "harrisonhjones.com/immich-go-sdk/sdk"
 )
 
 func main() {
@@ -1092,7 +1092,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "harrisonhjones.com/immich-go-sdk/sdk"
 )
 
 func main() {
@@ -1156,7 +1156,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "harrisonhjones.com/immich-go-sdk/sdk"
 )
 
 func main() {
@@ -1228,7 +1228,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "harrisonhjones.com/immich-go-sdk/sdk"
 )
 
 func main() {
@@ -1300,7 +1300,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "harrisonhjones.com/immich-go-sdk/sdk"
 )
 
 func main() {
@@ -1364,7 +1364,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "harrisonhjones.com/immich-go-sdk/sdk"
 )
 
 func main() {
@@ -1431,7 +1431,7 @@ import (
 	"fmt"
 	"os"
     "time"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "harrisonhjones.com/immich-go-sdk/sdk"
 )
 
 func main() {
@@ -1521,7 +1521,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "harrisonhjones.com/immich-go-sdk/sdk"
 )
 
 func main() {

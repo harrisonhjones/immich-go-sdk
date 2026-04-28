@@ -6,13 +6,13 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **CronExpression** | **string** | Cron expression | 
 **Enabled** | **bool** | Enabled | 
-**KeepLastAmount** | **float32** | Keep last amount | 
+**KeepLastAmount** | **int32** | Keep last amount | 
 
 ## Methods
 
 ### NewDatabaseBackupConfig
 
-`func NewDatabaseBackupConfig(cronExpression string, enabled bool, keepLastAmount float32, ) *DatabaseBackupConfig`
+`func NewDatabaseBackupConfig(cronExpression string, enabled bool, keepLastAmount int32, ) *DatabaseBackupConfig`
 
 NewDatabaseBackupConfig instantiates a new DatabaseBackupConfig object
 This constructor will assign default values to properties that have it defined,
@@ -69,20 +69,20 @@ SetEnabled sets Enabled field to given value.
 
 ### GetKeepLastAmount
 
-`func (o *DatabaseBackupConfig) GetKeepLastAmount() float32`
+`func (o *DatabaseBackupConfig) GetKeepLastAmount() int32`
 
 GetKeepLastAmount returns the KeepLastAmount field if non-nil, zero value otherwise.
 
 ### GetKeepLastAmountOk
 
-`func (o *DatabaseBackupConfig) GetKeepLastAmountOk() (*float32, bool)`
+`func (o *DatabaseBackupConfig) GetKeepLastAmountOk() (*int32, bool)`
 
 GetKeepLastAmountOk returns a tuple with the KeepLastAmount field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetKeepLastAmount
 
-`func (o *DatabaseBackupConfig) SetKeepLastAmount(v float32)`
+`func (o *DatabaseBackupConfig) SetKeepLastAmount(v int32)`
 
 SetKeepLastAmount sets KeepLastAmount field to given value.
 

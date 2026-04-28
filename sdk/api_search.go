@@ -844,8 +844,8 @@ type ApiSearchLargeAssetsRequest struct {
 	model *string
 	ocr *string
 	personIds *[]string
-	rating *float32
-	size *float32
+	rating *int32
+	size *int32
 	state *string
 	tagIds *[]string
 	takenAfter *time.Time
@@ -963,13 +963,13 @@ func (r ApiSearchLargeAssetsRequest) PersonIds(personIds []string) ApiSearchLarg
 }
 
 // Filter by rating [1-5], or null for unrated
-func (r ApiSearchLargeAssetsRequest) Rating(rating float32) ApiSearchLargeAssetsRequest {
+func (r ApiSearchLargeAssetsRequest) Rating(rating int32) ApiSearchLargeAssetsRequest {
 	r.rating = &rating
 	return r
 }
 
 // Number of results to return
-func (r ApiSearchLargeAssetsRequest) Size(size float32) ApiSearchLargeAssetsRequest {
+func (r ApiSearchLargeAssetsRequest) Size(size int32) ApiSearchLargeAssetsRequest {
 	r.size = &size
 	return r
 }

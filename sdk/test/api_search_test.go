@@ -14,7 +14,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"testing"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "harrisonhjones.com/immich-go-sdk/sdk"
 )
 
 func Test_immich_SearchAPIService(t *testing.T) {

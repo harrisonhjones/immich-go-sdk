@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **Host** | **string** | SMTP server hostname | 
 **IgnoreCert** | **bool** | Whether to ignore SSL certificate errors | 
 **Password** | **string** | SMTP password | 
-**Port** | **float32** | SMTP server port | 
+**Port** | **int32** | SMTP server port | 
 **Secure** | **bool** | Whether to use secure connection (TLS/SSL) | 
 **Username** | **string** | SMTP username | 
 
@@ -15,7 +15,7 @@ Name | Type | Description | Notes
 
 ### NewSystemConfigSmtpTransportDto
 
-`func NewSystemConfigSmtpTransportDto(host string, ignoreCert bool, password string, port float32, secure bool, username string, ) *SystemConfigSmtpTransportDto`
+`func NewSystemConfigSmtpTransportDto(host string, ignoreCert bool, password string, port int32, secure bool, username string, ) *SystemConfigSmtpTransportDto`
 
 NewSystemConfigSmtpTransportDto instantiates a new SystemConfigSmtpTransportDto object
 This constructor will assign default values to properties that have it defined,
@@ -92,20 +92,20 @@ SetPassword sets Password field to given value.
 
 ### GetPort
 
-`func (o *SystemConfigSmtpTransportDto) GetPort() float32`
+`func (o *SystemConfigSmtpTransportDto) GetPort() int32`
 
 GetPort returns the Port field if non-nil, zero value otherwise.
 
 ### GetPortOk
 
-`func (o *SystemConfigSmtpTransportDto) GetPortOk() (*float32, bool)`
+`func (o *SystemConfigSmtpTransportDto) GetPortOk() (*int32, bool)`
 
 GetPortOk returns a tuple with the Port field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPort
 
-`func (o *SystemConfigSmtpTransportDto) SetPort(v float32)`
+`func (o *SystemConfigSmtpTransportDto) SetPort(v int32)`
 
 SetPort sets Port field to given value.
 

@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **DeviceOS** | Pointer to **string** | Device OS | [optional] 
 **DeviceType** | Pointer to **string** | Device type | [optional] 
-**Duration** | Pointer to **float32** | Session duration in seconds | [optional] 
+**Duration** | Pointer to **int32** | Session duration in seconds | [optional] 
 
 ## Methods
 
@@ -79,20 +79,20 @@ HasDeviceType returns a boolean if a field has been set.
 
 ### GetDuration
 
-`func (o *SessionCreateDto) GetDuration() float32`
+`func (o *SessionCreateDto) GetDuration() int32`
 
 GetDuration returns the Duration field if non-nil, zero value otherwise.
 
 ### GetDurationOk
 
-`func (o *SessionCreateDto) GetDurationOk() (*float32, bool)`
+`func (o *SessionCreateDto) GetDurationOk() (*int32, bool)`
 
 GetDurationOk returns a tuple with the Duration field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDuration
 
-`func (o *SessionCreateDto) SetDuration(v float32)`
+`func (o *SessionCreateDto) SetDuration(v int32)`
 
 SetDuration sets Duration field to given value.
 

@@ -34,7 +34,7 @@ type SystemConfigOAuthDto struct {
 	// Client secret
 	ClientSecret string `json:"clientSecret"`
 	// Default storage quota
-	DefaultStorageQuota NullableFloat32 `json:"defaultStorageQuota"`
+	DefaultStorageQuota NullableInt32 `json:"defaultStorageQuota"`
 	// Enabled
 	Enabled bool `json:"enabled"`
 	// End session endpoint
@@ -70,7 +70,7 @@ type _SystemConfigOAuthDto SystemConfigOAuthDto
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSystemConfigOAuthDto(allowInsecureRequests bool, autoLaunch bool, autoRegister bool, buttonText string, clientId string, clientSecret string, defaultStorageQuota NullableFloat32, enabled bool, endSessionEndpoint string, issuerUrl string, mobileOverrideEnabled bool, mobileRedirectUri string, profileSigningAlgorithm string, prompt string, roleClaim string, scope string, signingAlgorithm string, storageLabelClaim string, storageQuotaClaim string, timeout int32, tokenEndpointAuthMethod OAuthTokenEndpointAuthMethod) *SystemConfigOAuthDto {
+func NewSystemConfigOAuthDto(allowInsecureRequests bool, autoLaunch bool, autoRegister bool, buttonText string, clientId string, clientSecret string, defaultStorageQuota NullableInt32, enabled bool, endSessionEndpoint string, issuerUrl string, mobileOverrideEnabled bool, mobileRedirectUri string, profileSigningAlgorithm string, prompt string, roleClaim string, scope string, signingAlgorithm string, storageLabelClaim string, storageQuotaClaim string, timeout int32, tokenEndpointAuthMethod OAuthTokenEndpointAuthMethod) *SystemConfigOAuthDto {
 	this := SystemConfigOAuthDto{}
 	this.AllowInsecureRequests = allowInsecureRequests
 	this.AutoLaunch = autoLaunch
@@ -249,10 +249,10 @@ func (o *SystemConfigOAuthDto) SetClientSecret(v string) {
 }
 
 // GetDefaultStorageQuota returns the DefaultStorageQuota field value
-// If the value is explicit nil, the zero value for float32 will be returned
-func (o *SystemConfigOAuthDto) GetDefaultStorageQuota() float32 {
+// If the value is explicit nil, the zero value for int32 will be returned
+func (o *SystemConfigOAuthDto) GetDefaultStorageQuota() int32 {
 	if o == nil || o.DefaultStorageQuota.Get() == nil {
-		var ret float32
+		var ret int32
 		return ret
 	}
 
@@ -262,7 +262,7 @@ func (o *SystemConfigOAuthDto) GetDefaultStorageQuota() float32 {
 // GetDefaultStorageQuotaOk returns a tuple with the DefaultStorageQuota field value
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *SystemConfigOAuthDto) GetDefaultStorageQuotaOk() (*float32, bool) {
+func (o *SystemConfigOAuthDto) GetDefaultStorageQuotaOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -270,7 +270,7 @@ func (o *SystemConfigOAuthDto) GetDefaultStorageQuotaOk() (*float32, bool) {
 }
 
 // SetDefaultStorageQuota sets field value
-func (o *SystemConfigOAuthDto) SetDefaultStorageQuota(v float32) {
+func (o *SystemConfigOAuthDto) SetDefaultStorageQuota(v int32) {
 	o.DefaultStorageQuota.Set(&v)
 }
 

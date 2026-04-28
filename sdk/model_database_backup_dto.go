@@ -24,7 +24,7 @@ type DatabaseBackupDto struct {
 	// Backup filename
 	Filename string `json:"filename"`
 	// Backup file size
-	Filesize float32 `json:"filesize"`
+	Filesize int32 `json:"filesize"`
 	// Backup timezone
 	Timezone string `json:"timezone"`
 }
@@ -35,7 +35,7 @@ type _DatabaseBackupDto DatabaseBackupDto
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewDatabaseBackupDto(filename string, filesize float32, timezone string) *DatabaseBackupDto {
+func NewDatabaseBackupDto(filename string, filesize int32, timezone string) *DatabaseBackupDto {
 	this := DatabaseBackupDto{}
 	this.Filename = filename
 	this.Filesize = filesize
@@ -76,9 +76,9 @@ func (o *DatabaseBackupDto) SetFilename(v string) {
 }
 
 // GetFilesize returns the Filesize field value
-func (o *DatabaseBackupDto) GetFilesize() float32 {
+func (o *DatabaseBackupDto) GetFilesize() int32 {
 	if o == nil {
-		var ret float32
+		var ret int32
 		return ret
 	}
 
@@ -87,7 +87,7 @@ func (o *DatabaseBackupDto) GetFilesize() float32 {
 
 // GetFilesizeOk returns a tuple with the Filesize field value
 // and a boolean to check if the value has been set.
-func (o *DatabaseBackupDto) GetFilesizeOk() (*float32, bool) {
+func (o *DatabaseBackupDto) GetFilesizeOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -95,7 +95,7 @@ func (o *DatabaseBackupDto) GetFilesizeOk() (*float32, bool) {
 }
 
 // SetFilesize sets field value
-func (o *DatabaseBackupDto) SetFilesize(v float32) {
+func (o *DatabaseBackupDto) SetFilesize(v int32) {
 	o.Filesize = v
 }
 

@@ -29,9 +29,9 @@ type ExifResponseDto struct {
 	// Image description
 	Description NullableString `json:"description,omitempty"`
 	// Image height in pixels
-	ExifImageHeight NullableFloat32 `json:"exifImageHeight,omitempty"`
+	ExifImageHeight NullableInt32 `json:"exifImageHeight,omitempty"`
 	// Image width in pixels
-	ExifImageWidth NullableFloat32 `json:"exifImageWidth,omitempty"`
+	ExifImageWidth NullableInt32 `json:"exifImageWidth,omitempty"`
 	// Exposure time
 	ExposureTime NullableString `json:"exposureTime,omitempty"`
 	// F-number (aperture)
@@ -41,7 +41,7 @@ type ExifResponseDto struct {
 	// Focal length in mm
 	FocalLength NullableFloat32 `json:"focalLength,omitempty"`
 	// ISO sensitivity
-	Iso NullableFloat32 `json:"iso,omitempty"`
+	Iso NullableInt32 `json:"iso,omitempty"`
 	// GPS latitude
 	Latitude NullableFloat32 `json:"latitude,omitempty"`
 	// Lens model
@@ -59,7 +59,7 @@ type ExifResponseDto struct {
 	// Projection type
 	ProjectionType NullableString `json:"projectionType,omitempty"`
 	// Rating
-	Rating NullableFloat32 `json:"rating,omitempty"`
+	Rating NullableInt32 `json:"rating,omitempty"`
 	// State/province name
 	State NullableString `json:"state,omitempty"`
 	// Time zone
@@ -252,9 +252,9 @@ func (o *ExifResponseDto) UnsetDescription() {
 }
 
 // GetExifImageHeight returns the ExifImageHeight field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *ExifResponseDto) GetExifImageHeight() float32 {
+func (o *ExifResponseDto) GetExifImageHeight() int32 {
 	if o == nil || IsNil(o.ExifImageHeight.Get()) {
-		var ret float32
+		var ret int32
 		return ret
 	}
 	return *o.ExifImageHeight.Get()
@@ -263,7 +263,7 @@ func (o *ExifResponseDto) GetExifImageHeight() float32 {
 // GetExifImageHeightOk returns a tuple with the ExifImageHeight field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *ExifResponseDto) GetExifImageHeightOk() (*float32, bool) {
+func (o *ExifResponseDto) GetExifImageHeightOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -279,8 +279,8 @@ func (o *ExifResponseDto) HasExifImageHeight() bool {
 	return false
 }
 
-// SetExifImageHeight gets a reference to the given NullableFloat32 and assigns it to the ExifImageHeight field.
-func (o *ExifResponseDto) SetExifImageHeight(v float32) {
+// SetExifImageHeight gets a reference to the given NullableInt32 and assigns it to the ExifImageHeight field.
+func (o *ExifResponseDto) SetExifImageHeight(v int32) {
 	o.ExifImageHeight.Set(&v)
 }
 // SetExifImageHeightNil sets the value for ExifImageHeight to be an explicit nil
@@ -294,9 +294,9 @@ func (o *ExifResponseDto) UnsetExifImageHeight() {
 }
 
 // GetExifImageWidth returns the ExifImageWidth field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *ExifResponseDto) GetExifImageWidth() float32 {
+func (o *ExifResponseDto) GetExifImageWidth() int32 {
 	if o == nil || IsNil(o.ExifImageWidth.Get()) {
-		var ret float32
+		var ret int32
 		return ret
 	}
 	return *o.ExifImageWidth.Get()
@@ -305,7 +305,7 @@ func (o *ExifResponseDto) GetExifImageWidth() float32 {
 // GetExifImageWidthOk returns a tuple with the ExifImageWidth field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *ExifResponseDto) GetExifImageWidthOk() (*float32, bool) {
+func (o *ExifResponseDto) GetExifImageWidthOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -321,8 +321,8 @@ func (o *ExifResponseDto) HasExifImageWidth() bool {
 	return false
 }
 
-// SetExifImageWidth gets a reference to the given NullableFloat32 and assigns it to the ExifImageWidth field.
-func (o *ExifResponseDto) SetExifImageWidth(v float32) {
+// SetExifImageWidth gets a reference to the given NullableInt32 and assigns it to the ExifImageWidth field.
+func (o *ExifResponseDto) SetExifImageWidth(v int32) {
 	o.ExifImageWidth.Set(&v)
 }
 // SetExifImageWidthNil sets the value for ExifImageWidth to be an explicit nil
@@ -504,9 +504,9 @@ func (o *ExifResponseDto) UnsetFocalLength() {
 }
 
 // GetIso returns the Iso field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *ExifResponseDto) GetIso() float32 {
+func (o *ExifResponseDto) GetIso() int32 {
 	if o == nil || IsNil(o.Iso.Get()) {
-		var ret float32
+		var ret int32
 		return ret
 	}
 	return *o.Iso.Get()
@@ -515,7 +515,7 @@ func (o *ExifResponseDto) GetIso() float32 {
 // GetIsoOk returns a tuple with the Iso field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *ExifResponseDto) GetIsoOk() (*float32, bool) {
+func (o *ExifResponseDto) GetIsoOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -531,8 +531,8 @@ func (o *ExifResponseDto) HasIso() bool {
 	return false
 }
 
-// SetIso gets a reference to the given NullableFloat32 and assigns it to the Iso field.
-func (o *ExifResponseDto) SetIso(v float32) {
+// SetIso gets a reference to the given NullableInt32 and assigns it to the Iso field.
+func (o *ExifResponseDto) SetIso(v int32) {
 	o.Iso.Set(&v)
 }
 // SetIsoNil sets the value for Iso to be an explicit nil
@@ -882,9 +882,9 @@ func (o *ExifResponseDto) UnsetProjectionType() {
 }
 
 // GetRating returns the Rating field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *ExifResponseDto) GetRating() float32 {
+func (o *ExifResponseDto) GetRating() int32 {
 	if o == nil || IsNil(o.Rating.Get()) {
-		var ret float32
+		var ret int32
 		return ret
 	}
 	return *o.Rating.Get()
@@ -893,7 +893,7 @@ func (o *ExifResponseDto) GetRating() float32 {
 // GetRatingOk returns a tuple with the Rating field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *ExifResponseDto) GetRatingOk() (*float32, bool) {
+func (o *ExifResponseDto) GetRatingOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -909,8 +909,8 @@ func (o *ExifResponseDto) HasRating() bool {
 	return false
 }
 
-// SetRating gets a reference to the given NullableFloat32 and assigns it to the Rating field.
-func (o *ExifResponseDto) SetRating(v float32) {
+// SetRating gets a reference to the given NullableInt32 and assigns it to the Rating field.
+func (o *ExifResponseDto) SetRating(v int32) {
 	o.Rating.Set(&v)
 }
 // SetRatingNil sets the value for Rating to be an explicit nil

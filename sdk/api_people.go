@@ -534,8 +534,8 @@ type ApiGetAllPeopleRequest struct {
 	ApiService PeopleAPI
 	closestAssetId *string
 	closestPersonId *string
-	page *float32
-	size *float32
+	page *int32
+	size *int32
 	withHidden *bool
 }
 
@@ -552,13 +552,13 @@ func (r ApiGetAllPeopleRequest) ClosestPersonId(closestPersonId string) ApiGetAl
 }
 
 // Page number for pagination
-func (r ApiGetAllPeopleRequest) Page(page float32) ApiGetAllPeopleRequest {
+func (r ApiGetAllPeopleRequest) Page(page int32) ApiGetAllPeopleRequest {
 	r.page = &page
 	return r
 }
 
 // Number of items per page
-func (r ApiGetAllPeopleRequest) Size(size float32) ApiGetAllPeopleRequest {
+func (r ApiGetAllPeopleRequest) Size(size int32) ApiGetAllPeopleRequest {
 	r.size = &size
 	return r
 }
@@ -618,14 +618,14 @@ func (a *PeopleAPIService) GetAllPeopleExecute(r ApiGetAllPeopleRequest) (*Peopl
 	if r.page != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "page", r.page, "form", "")
 	} else {
-		var defaultValue float32 = 1
+		var defaultValue int32 = 1
 		parameterAddToHeaderOrQuery(localVarQueryParams, "page", defaultValue, "form", "")
 		r.page = &defaultValue
 	}
 	if r.size != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "size", r.size, "form", "")
 	} else {
-		var defaultValue float32 = 500
+		var defaultValue int32 = 500
 		parameterAddToHeaderOrQuery(localVarQueryParams, "size", defaultValue, "form", "")
 		r.size = &defaultValue
 	}

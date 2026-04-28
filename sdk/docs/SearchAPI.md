@@ -34,7 +34,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "harrisonhjones.com/immich-go-sdk/sdk"
 )
 
 func main() {
@@ -95,7 +95,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "harrisonhjones.com/immich-go-sdk/sdk"
 )
 
 func main() {
@@ -156,7 +156,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "harrisonhjones.com/immich-go-sdk/sdk"
 )
 
 func main() {
@@ -234,7 +234,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "harrisonhjones.com/immich-go-sdk/sdk"
 )
 
 func main() {
@@ -300,7 +300,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "harrisonhjones.com/immich-go-sdk/sdk"
 )
 
 func main() {
@@ -367,7 +367,7 @@ import (
 	"fmt"
 	"os"
     "time"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "harrisonhjones.com/immich-go-sdk/sdk"
 )
 
 func main() {
@@ -388,8 +388,8 @@ func main() {
 	model := "model_example" // string | Filter by camera model (optional)
 	ocr := "ocr_example" // string | Filter by OCR text content (optional)
 	personIds := []string{"Inner_example"} // []string | Filter by person IDs (optional)
-	rating := float32(8.14) // float32 | Filter by rating [1-5], or null for unrated (optional)
-	size := float32(8.14) // float32 | Number of results to return (optional)
+	rating := int32(56) // int32 | Filter by rating [1-5], or null for unrated (optional)
+	size := int32(56) // int32 | Number of results to return (optional)
 	state := "state_example" // string | Filter by state/province name (optional)
 	tagIds := []string{"Inner_example"} // []string | Filter by tag IDs (optional)
 	takenAfter := time.Now() // time.Time | Filter by taken date (after) (optional)
@@ -443,8 +443,8 @@ Name | Type | Description  | Notes
  **model** | **string** | Filter by camera model | 
  **ocr** | **string** | Filter by OCR text content | 
  **personIds** | **[]string** | Filter by person IDs | 
- **rating** | **float32** | Filter by rating [1-5], or null for unrated | 
- **size** | **float32** | Number of results to return | 
+ **rating** | **int32** | Filter by rating [1-5], or null for unrated | 
+ **size** | **int32** | Number of results to return | 
  **state** | **string** | Filter by state/province name | 
  **tagIds** | **[]string** | Filter by tag IDs | 
  **takenAfter** | **time.Time** | Filter by taken date (after) | 
@@ -493,7 +493,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "harrisonhjones.com/immich-go-sdk/sdk"
 )
 
 func main() {
@@ -561,7 +561,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "harrisonhjones.com/immich-go-sdk/sdk"
 )
 
 func main() {
@@ -627,7 +627,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "harrisonhjones.com/immich-go-sdk/sdk"
 )
 
 func main() {
@@ -693,7 +693,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "harrisonhjones.com/immich-go-sdk/sdk"
 )
 
 func main() {

@@ -55,7 +55,7 @@ type StatisticsSearchDto struct {
 	// Filter by person IDs
 	PersonIds []string `json:"personIds,omitempty"`
 	// Filter by rating [1-5], or null for unrated
-	Rating NullableFloat32 `json:"rating,omitempty"`
+	Rating NullableInt32 `json:"rating,omitempty"`
 	// Filter by state/province name
 	State NullableString `json:"state,omitempty"`
 	// Filter by tag IDs
@@ -698,9 +698,9 @@ func (o *StatisticsSearchDto) SetPersonIds(v []string) {
 }
 
 // GetRating returns the Rating field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *StatisticsSearchDto) GetRating() float32 {
+func (o *StatisticsSearchDto) GetRating() int32 {
 	if o == nil || IsNil(o.Rating.Get()) {
-		var ret float32
+		var ret int32
 		return ret
 	}
 	return *o.Rating.Get()
@@ -709,7 +709,7 @@ func (o *StatisticsSearchDto) GetRating() float32 {
 // GetRatingOk returns a tuple with the Rating field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *StatisticsSearchDto) GetRatingOk() (*float32, bool) {
+func (o *StatisticsSearchDto) GetRatingOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -725,8 +725,8 @@ func (o *StatisticsSearchDto) HasRating() bool {
 	return false
 }
 
-// SetRating gets a reference to the given NullableFloat32 and assigns it to the Rating field.
-func (o *StatisticsSearchDto) SetRating(v float32) {
+// SetRating gets a reference to the given NullableInt32 and assigns it to the Rating field.
+func (o *StatisticsSearchDto) SetRating(v int32) {
 	o.Rating.Set(&v)
 }
 // SetRatingNil sets the value for Rating to be an explicit nil

@@ -38,7 +38,7 @@ type AssetResponseDto struct {
 	// Whether asset has metadata
 	HasMetadata bool `json:"hasMetadata"`
 	// Asset height
-	Height NullableFloat32 `json:"height"`
+	Height NullableInt32 `json:"height"`
 	// Asset ID
 	Id string `json:"id"`
 	// Is archived
@@ -79,7 +79,7 @@ type AssetResponseDto struct {
 	UpdatedAt time.Time `json:"updatedAt"`
 	Visibility AssetVisibility `json:"visibility"`
 	// Asset width
-	Width NullableFloat32 `json:"width"`
+	Width NullableInt32 `json:"width"`
 }
 
 type _AssetResponseDto AssetResponseDto
@@ -88,7 +88,7 @@ type _AssetResponseDto AssetResponseDto
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewAssetResponseDto(checksum string, createdAt time.Time, duration NullableString, fileCreatedAt time.Time, fileModifiedAt time.Time, hasMetadata bool, height NullableFloat32, id string, isArchived bool, isEdited bool, isFavorite bool, isOffline bool, isTrashed bool, localDateTime time.Time, originalFileName string, originalPath string, ownerId string, thumbhash NullableString, type_ AssetTypeEnum, updatedAt time.Time, visibility AssetVisibility, width NullableFloat32) *AssetResponseDto {
+func NewAssetResponseDto(checksum string, createdAt time.Time, duration NullableString, fileCreatedAt time.Time, fileModifiedAt time.Time, hasMetadata bool, height NullableInt32, id string, isArchived bool, isEdited bool, isFavorite bool, isOffline bool, isTrashed bool, localDateTime time.Time, originalFileName string, originalPath string, ownerId string, thumbhash NullableString, type_ AssetTypeEnum, updatedAt time.Time, visibility AssetVisibility, width NullableInt32) *AssetResponseDto {
 	this := AssetResponseDto{}
 	this.Checksum = checksum
 	this.CreatedAt = createdAt
@@ -344,10 +344,10 @@ func (o *AssetResponseDto) SetHasMetadata(v bool) {
 }
 
 // GetHeight returns the Height field value
-// If the value is explicit nil, the zero value for float32 will be returned
-func (o *AssetResponseDto) GetHeight() float32 {
+// If the value is explicit nil, the zero value for int32 will be returned
+func (o *AssetResponseDto) GetHeight() int32 {
 	if o == nil || o.Height.Get() == nil {
-		var ret float32
+		var ret int32
 		return ret
 	}
 
@@ -357,7 +357,7 @@ func (o *AssetResponseDto) GetHeight() float32 {
 // GetHeightOk returns a tuple with the Height field value
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *AssetResponseDto) GetHeightOk() (*float32, bool) {
+func (o *AssetResponseDto) GetHeightOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -365,7 +365,7 @@ func (o *AssetResponseDto) GetHeightOk() (*float32, bool) {
 }
 
 // SetHeight sets field value
-func (o *AssetResponseDto) SetHeight(v float32) {
+func (o *AssetResponseDto) SetHeight(v int32) {
 	o.Height.Set(&v)
 }
 
@@ -1026,10 +1026,10 @@ func (o *AssetResponseDto) SetVisibility(v AssetVisibility) {
 }
 
 // GetWidth returns the Width field value
-// If the value is explicit nil, the zero value for float32 will be returned
-func (o *AssetResponseDto) GetWidth() float32 {
+// If the value is explicit nil, the zero value for int32 will be returned
+func (o *AssetResponseDto) GetWidth() int32 {
 	if o == nil || o.Width.Get() == nil {
-		var ret float32
+		var ret int32
 		return ret
 	}
 
@@ -1039,7 +1039,7 @@ func (o *AssetResponseDto) GetWidth() float32 {
 // GetWidthOk returns a tuple with the Width field value
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *AssetResponseDto) GetWidthOk() (*float32, bool) {
+func (o *AssetResponseDto) GetWidthOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -1047,7 +1047,7 @@ func (o *AssetResponseDto) GetWidthOk() (*float32, bool) {
 }
 
 // SetWidth sets field value
-func (o *AssetResponseDto) SetWidth(v float32) {
+func (o *AssetResponseDto) SetWidth(v int32) {
 	o.Width.Set(&v)
 }
 

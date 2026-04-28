@@ -23,8 +23,8 @@ var _ MappedNullable = &MachineLearningAvailabilityChecksDto{}
 type MachineLearningAvailabilityChecksDto struct {
 	// Enabled
 	Enabled bool `json:"enabled"`
-	Interval float32 `json:"interval"`
-	Timeout float32 `json:"timeout"`
+	Interval int32 `json:"interval"`
+	Timeout int32 `json:"timeout"`
 }
 
 type _MachineLearningAvailabilityChecksDto MachineLearningAvailabilityChecksDto
@@ -33,7 +33,7 @@ type _MachineLearningAvailabilityChecksDto MachineLearningAvailabilityChecksDto
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMachineLearningAvailabilityChecksDto(enabled bool, interval float32, timeout float32) *MachineLearningAvailabilityChecksDto {
+func NewMachineLearningAvailabilityChecksDto(enabled bool, interval int32, timeout int32) *MachineLearningAvailabilityChecksDto {
 	this := MachineLearningAvailabilityChecksDto{}
 	this.Enabled = enabled
 	this.Interval = interval
@@ -74,9 +74,9 @@ func (o *MachineLearningAvailabilityChecksDto) SetEnabled(v bool) {
 }
 
 // GetInterval returns the Interval field value
-func (o *MachineLearningAvailabilityChecksDto) GetInterval() float32 {
+func (o *MachineLearningAvailabilityChecksDto) GetInterval() int32 {
 	if o == nil {
-		var ret float32
+		var ret int32
 		return ret
 	}
 
@@ -85,7 +85,7 @@ func (o *MachineLearningAvailabilityChecksDto) GetInterval() float32 {
 
 // GetIntervalOk returns a tuple with the Interval field value
 // and a boolean to check if the value has been set.
-func (o *MachineLearningAvailabilityChecksDto) GetIntervalOk() (*float32, bool) {
+func (o *MachineLearningAvailabilityChecksDto) GetIntervalOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -93,14 +93,14 @@ func (o *MachineLearningAvailabilityChecksDto) GetIntervalOk() (*float32, bool) 
 }
 
 // SetInterval sets field value
-func (o *MachineLearningAvailabilityChecksDto) SetInterval(v float32) {
+func (o *MachineLearningAvailabilityChecksDto) SetInterval(v int32) {
 	o.Interval = v
 }
 
 // GetTimeout returns the Timeout field value
-func (o *MachineLearningAvailabilityChecksDto) GetTimeout() float32 {
+func (o *MachineLearningAvailabilityChecksDto) GetTimeout() int32 {
 	if o == nil {
-		var ret float32
+		var ret int32
 		return ret
 	}
 
@@ -109,7 +109,7 @@ func (o *MachineLearningAvailabilityChecksDto) GetTimeout() float32 {
 
 // GetTimeoutOk returns a tuple with the Timeout field value
 // and a boolean to check if the value has been set.
-func (o *MachineLearningAvailabilityChecksDto) GetTimeoutOk() (*float32, bool) {
+func (o *MachineLearningAvailabilityChecksDto) GetTimeoutOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -117,7 +117,7 @@ func (o *MachineLearningAvailabilityChecksDto) GetTimeoutOk() (*float32, bool) {
 }
 
 // SetTimeout sets field value
-func (o *MachineLearningAvailabilityChecksDto) SetTimeout(v float32) {
+func (o *MachineLearningAvailabilityChecksDto) SetTimeout(v int32) {
 	o.Timeout = v
 }
 

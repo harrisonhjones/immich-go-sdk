@@ -24,7 +24,7 @@ type AssetBulkUpdateDto struct {
 	// Original date and time
 	DateTimeOriginal *string `json:"dateTimeOriginal,omitempty"`
 	// Relative time offset in seconds
-	DateTimeRelative *float32 `json:"dateTimeRelative,omitempty"`
+	DateTimeRelative *int32 `json:"dateTimeRelative,omitempty"`
 	// Asset description
 	Description *string `json:"description,omitempty"`
 	// Duplicate ID
@@ -97,9 +97,9 @@ func (o *AssetBulkUpdateDto) SetDateTimeOriginal(v string) {
 }
 
 // GetDateTimeRelative returns the DateTimeRelative field value if set, zero value otherwise.
-func (o *AssetBulkUpdateDto) GetDateTimeRelative() float32 {
+func (o *AssetBulkUpdateDto) GetDateTimeRelative() int32 {
 	if o == nil || IsNil(o.DateTimeRelative) {
-		var ret float32
+		var ret int32
 		return ret
 	}
 	return *o.DateTimeRelative
@@ -107,7 +107,7 @@ func (o *AssetBulkUpdateDto) GetDateTimeRelative() float32 {
 
 // GetDateTimeRelativeOk returns a tuple with the DateTimeRelative field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AssetBulkUpdateDto) GetDateTimeRelativeOk() (*float32, bool) {
+func (o *AssetBulkUpdateDto) GetDateTimeRelativeOk() (*int32, bool) {
 	if o == nil || IsNil(o.DateTimeRelative) {
 		return nil, false
 	}
@@ -123,8 +123,8 @@ func (o *AssetBulkUpdateDto) HasDateTimeRelative() bool {
 	return false
 }
 
-// SetDateTimeRelative gets a reference to the given float32 and assigns it to the DateTimeRelative field.
-func (o *AssetBulkUpdateDto) SetDateTimeRelative(v float32) {
+// SetDateTimeRelative gets a reference to the given int32 and assigns it to the DateTimeRelative field.
+func (o *AssetBulkUpdateDto) SetDateTimeRelative(v int32) {
 	o.DateTimeRelative = &v
 }
 

@@ -35,7 +35,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "harrisonhjones.com/immich-go-sdk/sdk"
 )
 
 func main() {
@@ -101,7 +101,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "harrisonhjones.com/immich-go-sdk/sdk"
 )
 
 func main() {
@@ -165,7 +165,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "harrisonhjones.com/immich-go-sdk/sdk"
 )
 
 func main() {
@@ -233,14 +233,14 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "harrisonhjones.com/immich-go-sdk/sdk"
 )
 
 func main() {
 	closestAssetId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | Closest asset ID for similarity search (optional)
 	closestPersonId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | Closest person ID for similarity search (optional)
-	page := float32(8.14) // float32 | Page number for pagination (optional) (default to 1)
-	size := float32(8.14) // float32 | Number of items per page (optional) (default to 500)
+	page := int32(56) // int32 | Page number for pagination (optional) (default to 1)
+	size := int32(56) // int32 | Number of items per page (optional) (default to 500)
 	withHidden := true // bool | Include hidden people (optional)
 
 	configuration := openapiclient.NewConfiguration()
@@ -268,8 +268,8 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **closestAssetId** | **string** | Closest asset ID for similarity search | 
  **closestPersonId** | **string** | Closest person ID for similarity search | 
- **page** | **float32** | Page number for pagination | [default to 1]
- **size** | **float32** | Number of items per page | [default to 500]
+ **page** | **int32** | Page number for pagination | [default to 1]
+ **size** | **int32** | Number of items per page | [default to 500]
  **withHidden** | **bool** | Include hidden people | 
 
 ### Return type
@@ -307,7 +307,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "harrisonhjones.com/immich-go-sdk/sdk"
 )
 
 func main() {
@@ -377,7 +377,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "harrisonhjones.com/immich-go-sdk/sdk"
 )
 
 func main() {
@@ -447,7 +447,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "harrisonhjones.com/immich-go-sdk/sdk"
 )
 
 func main() {
@@ -517,7 +517,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "harrisonhjones.com/immich-go-sdk/sdk"
 )
 
 func main() {
@@ -589,7 +589,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "harrisonhjones.com/immich-go-sdk/sdk"
 )
 
 func main() {
@@ -661,7 +661,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "harrisonhjones.com/immich-go-sdk/sdk"
 )
 
 func main() {
@@ -727,7 +727,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "harrisonhjones.com/immich-go-sdk/sdk"
 )
 
 func main() {

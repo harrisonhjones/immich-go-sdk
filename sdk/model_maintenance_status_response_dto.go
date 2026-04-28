@@ -24,7 +24,7 @@ type MaintenanceStatusResponseDto struct {
 	Action MaintenanceAction `json:"action"`
 	Active bool `json:"active"`
 	Error *string `json:"error,omitempty"`
-	Progress *float32 `json:"progress,omitempty"`
+	Progress *int32 `json:"progress,omitempty"`
 	Task *string `json:"task,omitempty"`
 }
 
@@ -130,9 +130,9 @@ func (o *MaintenanceStatusResponseDto) SetError(v string) {
 }
 
 // GetProgress returns the Progress field value if set, zero value otherwise.
-func (o *MaintenanceStatusResponseDto) GetProgress() float32 {
+func (o *MaintenanceStatusResponseDto) GetProgress() int32 {
 	if o == nil || IsNil(o.Progress) {
-		var ret float32
+		var ret int32
 		return ret
 	}
 	return *o.Progress
@@ -140,7 +140,7 @@ func (o *MaintenanceStatusResponseDto) GetProgress() float32 {
 
 // GetProgressOk returns a tuple with the Progress field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *MaintenanceStatusResponseDto) GetProgressOk() (*float32, bool) {
+func (o *MaintenanceStatusResponseDto) GetProgressOk() (*int32, bool) {
 	if o == nil || IsNil(o.Progress) {
 		return nil, false
 	}
@@ -156,8 +156,8 @@ func (o *MaintenanceStatusResponseDto) HasProgress() bool {
 	return false
 }
 
-// SetProgress gets a reference to the given float32 and assigns it to the Progress field.
-func (o *MaintenanceStatusResponseDto) SetProgress(v float32) {
+// SetProgress gets a reference to the given int32 and assigns it to the Progress field.
+func (o *MaintenanceStatusResponseDto) SetProgress(v int32) {
 	o.Progress = &v
 }
 

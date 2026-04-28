@@ -26,11 +26,11 @@ Name | Type | Description | Notes
 **Order** | Pointer to [**AssetOrder**](AssetOrder.md) |  | [optional] 
 **OriginalFileName** | Pointer to **string** | Filter by original file name | [optional] 
 **OriginalPath** | Pointer to **string** | Filter by original file path | [optional] 
-**Page** | Pointer to **float32** | Page number | [optional] 
+**Page** | Pointer to **int32** | Page number | [optional] 
 **PersonIds** | Pointer to **[]string** | Filter by person IDs | [optional] 
 **PreviewPath** | Pointer to **string** | Filter by preview file path | [optional] 
-**Rating** | Pointer to **NullableFloat32** | Filter by rating [1-5], or null for unrated | [optional] 
-**Size** | Pointer to **float32** | Number of results to return | [optional] 
+**Rating** | Pointer to **NullableInt32** | Filter by rating [1-5], or null for unrated | [optional] 
+**Size** | Pointer to **int32** | Number of results to return | [optional] 
 **State** | Pointer to **NullableString** | Filter by state/province name | [optional] 
 **TagIds** | Pointer to **[]string** | Filter by tag IDs | [optional] 
 **TakenAfter** | Pointer to **time.Time** | Filter by taken date (after) | [optional] 
@@ -678,20 +678,20 @@ HasOriginalPath returns a boolean if a field has been set.
 
 ### GetPage
 
-`func (o *MetadataSearchDto) GetPage() float32`
+`func (o *MetadataSearchDto) GetPage() int32`
 
 GetPage returns the Page field if non-nil, zero value otherwise.
 
 ### GetPageOk
 
-`func (o *MetadataSearchDto) GetPageOk() (*float32, bool)`
+`func (o *MetadataSearchDto) GetPageOk() (*int32, bool)`
 
 GetPageOk returns a tuple with the Page field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPage
 
-`func (o *MetadataSearchDto) SetPage(v float32)`
+`func (o *MetadataSearchDto) SetPage(v int32)`
 
 SetPage sets Page field to given value.
 
@@ -753,20 +753,20 @@ HasPreviewPath returns a boolean if a field has been set.
 
 ### GetRating
 
-`func (o *MetadataSearchDto) GetRating() float32`
+`func (o *MetadataSearchDto) GetRating() int32`
 
 GetRating returns the Rating field if non-nil, zero value otherwise.
 
 ### GetRatingOk
 
-`func (o *MetadataSearchDto) GetRatingOk() (*float32, bool)`
+`func (o *MetadataSearchDto) GetRatingOk() (*int32, bool)`
 
 GetRatingOk returns a tuple with the Rating field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetRating
 
-`func (o *MetadataSearchDto) SetRating(v float32)`
+`func (o *MetadataSearchDto) SetRating(v int32)`
 
 SetRating sets Rating field to given value.
 
@@ -788,20 +788,20 @@ HasRating returns a boolean if a field has been set.
 UnsetRating ensures that no value is present for Rating, not even an explicit nil
 ### GetSize
 
-`func (o *MetadataSearchDto) GetSize() float32`
+`func (o *MetadataSearchDto) GetSize() int32`
 
 GetSize returns the Size field if non-nil, zero value otherwise.
 
 ### GetSizeOk
 
-`func (o *MetadataSearchDto) GetSizeOk() (*float32, bool)`
+`func (o *MetadataSearchDto) GetSizeOk() (*int32, bool)`
 
 GetSizeOk returns a tuple with the Size field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetSize
 
-`func (o *MetadataSearchDto) SetSize(v float32)`
+`func (o *MetadataSearchDto) SetSize(v int32)`
 
 SetSize sets Size field to given value.
 

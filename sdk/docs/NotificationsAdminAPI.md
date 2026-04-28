@@ -27,7 +27,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "harrisonhjones.com/immich-go-sdk/sdk"
 )
 
 func main() {
@@ -93,7 +93,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "harrisonhjones.com/immich-go-sdk/sdk"
 )
 
 func main() {
@@ -165,11 +165,11 @@ import (
 	"context"
 	"fmt"
 	"os"
-	openapiclient "github.com/GIT_USER_ID/GIT_REPO_ID"
+	openapiclient "harrisonhjones.com/immich-go-sdk/sdk"
 )
 
 func main() {
-	systemConfigSmtpDto := *openapiclient.NewSystemConfigSmtpDto(false, "From_example", "ReplyTo_example", *openapiclient.NewSystemConfigSmtpTransportDto("Host_example", false, "Password_example", float32(123), false, "Username_example")) // SystemConfigSmtpDto | 
+	systemConfigSmtpDto := *openapiclient.NewSystemConfigSmtpDto(false, "From_example", "ReplyTo_example", *openapiclient.NewSystemConfigSmtpTransportDto("Host_example", false, "Password_example", int32(123), false, "Username_example")) // SystemConfigSmtpDto | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
