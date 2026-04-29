@@ -23,7 +23,10 @@ type PurchaseUpdate struct {
 	HideBuyButtonUntil *string `json:"hideBuyButtonUntil,omitempty"`
 	// Whether to show support badge
 	ShowSupportBadge *bool `json:"showSupportBadge,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _PurchaseUpdate PurchaseUpdate
 
 // NewPurchaseUpdate instantiates a new PurchaseUpdate object
 // This constructor will assign default values to properties that have it defined,
@@ -122,7 +125,34 @@ func (o PurchaseUpdate) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.ShowSupportBadge) {
 		toSerialize["showSupportBadge"] = o.ShowSupportBadge
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *PurchaseUpdate) UnmarshalJSON(data []byte) (err error) {
+	varPurchaseUpdate := _PurchaseUpdate{}
+
+	err = json.Unmarshal(data, &varPurchaseUpdate)
+
+	if err != nil {
+		return err
+	}
+
+	*o = PurchaseUpdate(varPurchaseUpdate)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "hideBuyButtonUntil")
+		delete(additionalProperties, "showSupportBadge")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullablePurchaseUpdate struct {

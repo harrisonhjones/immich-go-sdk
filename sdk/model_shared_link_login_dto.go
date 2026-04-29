@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &SharedLinkLoginDto{}
 type SharedLinkLoginDto struct {
 	// Shared link password
 	Password string `json:"password"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SharedLinkLoginDto SharedLinkLoginDto
@@ -80,6 +80,11 @@ func (o SharedLinkLoginDto) MarshalJSON() ([]byte, error) {
 func (o SharedLinkLoginDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["password"] = o.Password
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *SharedLinkLoginDto) UnmarshalJSON(data []byte) (err error) {
 
 	varSharedLinkLoginDto := _SharedLinkLoginDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSharedLinkLoginDto)
+	err = json.Unmarshal(data, &varSharedLinkLoginDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SharedLinkLoginDto(varSharedLinkLoginDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "password")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

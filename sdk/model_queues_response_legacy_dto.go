@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -39,6 +38,7 @@ type QueuesResponseLegacyDto struct {
 	ThumbnailGeneration QueueResponseLegacyDto `json:"thumbnailGeneration"`
 	VideoConversion QueueResponseLegacyDto `json:"videoConversion"`
 	Workflow QueueResponseLegacyDto `json:"workflow"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _QueuesResponseLegacyDto QueuesResponseLegacyDto
@@ -538,6 +538,11 @@ func (o QueuesResponseLegacyDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["thumbnailGeneration"] = o.ThumbnailGeneration
 	toSerialize["videoConversion"] = o.VideoConversion
 	toSerialize["workflow"] = o.Workflow
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -582,15 +587,37 @@ func (o *QueuesResponseLegacyDto) UnmarshalJSON(data []byte) (err error) {
 
 	varQueuesResponseLegacyDto := _QueuesResponseLegacyDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varQueuesResponseLegacyDto)
+	err = json.Unmarshal(data, &varQueuesResponseLegacyDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = QueuesResponseLegacyDto(varQueuesResponseLegacyDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "backgroundTask")
+		delete(additionalProperties, "backupDatabase")
+		delete(additionalProperties, "duplicateDetection")
+		delete(additionalProperties, "editor")
+		delete(additionalProperties, "faceDetection")
+		delete(additionalProperties, "facialRecognition")
+		delete(additionalProperties, "library")
+		delete(additionalProperties, "metadataExtraction")
+		delete(additionalProperties, "migration")
+		delete(additionalProperties, "notifications")
+		delete(additionalProperties, "ocr")
+		delete(additionalProperties, "search")
+		delete(additionalProperties, "sidecar")
+		delete(additionalProperties, "smartSearch")
+		delete(additionalProperties, "storageTemplateMigration")
+		delete(additionalProperties, "thumbnailGeneration")
+		delete(additionalProperties, "videoConversion")
+		delete(additionalProperties, "workflow")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

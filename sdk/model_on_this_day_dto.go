@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &OnThisDayDto{}
 type OnThisDayDto struct {
 	// Year for on this day memory
 	Year int32 `json:"year"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _OnThisDayDto OnThisDayDto
@@ -80,6 +80,11 @@ func (o OnThisDayDto) MarshalJSON() ([]byte, error) {
 func (o OnThisDayDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["year"] = o.Year
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *OnThisDayDto) UnmarshalJSON(data []byte) (err error) {
 
 	varOnThisDayDto := _OnThisDayDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varOnThisDayDto)
+	err = json.Unmarshal(data, &varOnThisDayDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = OnThisDayDto(varOnThisDayDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "year")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

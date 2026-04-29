@@ -13,7 +13,6 @@ package immich
 import (
 	"encoding/json"
 	"time"
-	"bytes"
 	"fmt"
 )
 
@@ -28,6 +27,7 @@ type UserLicense struct {
 	ActivationKey string `json:"activationKey"`
 	// License key (format: /^IM(SV|CL)(-[\\dA-Za-z]{4}){8}$/)
 	LicenseKey string `json:"licenseKey" validate:"regexp=^IM(SV|CL)(-[\\\\dA-Za-z]{4}){8}$"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _UserLicense UserLicense
@@ -137,6 +137,11 @@ func (o UserLicense) ToMap() (map[string]interface{}, error) {
 	toSerialize["activatedAt"] = o.ActivatedAt
 	toSerialize["activationKey"] = o.ActivationKey
 	toSerialize["licenseKey"] = o.LicenseKey
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -166,15 +171,22 @@ func (o *UserLicense) UnmarshalJSON(data []byte) (err error) {
 
 	varUserLicense := _UserLicense{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varUserLicense)
+	err = json.Unmarshal(data, &varUserLicense)
 
 	if err != nil {
 		return err
 	}
 
 	*o = UserLicense(varUserLicense)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "activatedAt")
+		delete(additionalProperties, "activationKey")
+		delete(additionalProperties, "licenseKey")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

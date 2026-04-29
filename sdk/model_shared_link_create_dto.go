@@ -13,7 +13,6 @@ package immich
 import (
 	"encoding/json"
 	"time"
-	"bytes"
 	"fmt"
 )
 
@@ -41,6 +40,7 @@ type SharedLinkCreateDto struct {
 	// Custom URL slug
 	Slug NullableString `json:"slug,omitempty"`
 	Type SharedLinkType `json:"type"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SharedLinkCreateDto SharedLinkCreateDto
@@ -461,6 +461,11 @@ func (o SharedLinkCreateDto) ToMap() (map[string]interface{}, error) {
 		toSerialize["slug"] = o.Slug.Get()
 	}
 	toSerialize["type"] = o.Type
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -488,15 +493,29 @@ func (o *SharedLinkCreateDto) UnmarshalJSON(data []byte) (err error) {
 
 	varSharedLinkCreateDto := _SharedLinkCreateDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSharedLinkCreateDto)
+	err = json.Unmarshal(data, &varSharedLinkCreateDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SharedLinkCreateDto(varSharedLinkCreateDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "albumId")
+		delete(additionalProperties, "allowDownload")
+		delete(additionalProperties, "allowUpload")
+		delete(additionalProperties, "assetIds")
+		delete(additionalProperties, "description")
+		delete(additionalProperties, "expiresAt")
+		delete(additionalProperties, "password")
+		delete(additionalProperties, "showMetadata")
+		delete(additionalProperties, "slug")
+		delete(additionalProperties, "type")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

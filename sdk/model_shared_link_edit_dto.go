@@ -36,7 +36,10 @@ type SharedLinkEditDto struct {
 	ShowMetadata *bool `json:"showMetadata,omitempty"`
 	// Custom URL slug
 	Slug NullableString `json:"slug,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _SharedLinkEditDto SharedLinkEditDto
 
 // NewSharedLinkEditDto instantiates a new SharedLinkEditDto object
 // This constructor will assign default values to properties that have it defined,
@@ -385,7 +388,40 @@ func (o SharedLinkEditDto) ToMap() (map[string]interface{}, error) {
 	if o.Slug.IsSet() {
 		toSerialize["slug"] = o.Slug.Get()
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *SharedLinkEditDto) UnmarshalJSON(data []byte) (err error) {
+	varSharedLinkEditDto := _SharedLinkEditDto{}
+
+	err = json.Unmarshal(data, &varSharedLinkEditDto)
+
+	if err != nil {
+		return err
+	}
+
+	*o = SharedLinkEditDto(varSharedLinkEditDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "allowDownload")
+		delete(additionalProperties, "allowUpload")
+		delete(additionalProperties, "changeExpiryTime")
+		delete(additionalProperties, "description")
+		delete(additionalProperties, "expiresAt")
+		delete(additionalProperties, "password")
+		delete(additionalProperties, "showMetadata")
+		delete(additionalProperties, "slug")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableSharedLinkEditDto struct {

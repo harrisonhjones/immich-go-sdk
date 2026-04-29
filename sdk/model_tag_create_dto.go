@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -27,6 +26,7 @@ type TagCreateDto struct {
 	Name string `json:"name"`
 	// Parent tag ID
 	ParentId NullableString `json:"parentId,omitempty" validate:"regexp=^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _TagCreateDto TagCreateDto
@@ -174,6 +174,11 @@ func (o TagCreateDto) ToMap() (map[string]interface{}, error) {
 	if o.ParentId.IsSet() {
 		toSerialize["parentId"] = o.ParentId.Get()
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -201,15 +206,22 @@ func (o *TagCreateDto) UnmarshalJSON(data []byte) (err error) {
 
 	varTagCreateDto := _TagCreateDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varTagCreateDto)
+	err = json.Unmarshal(data, &varTagCreateDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = TagCreateDto(varTagCreateDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "color")
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "parentId")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

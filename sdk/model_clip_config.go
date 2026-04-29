@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -25,6 +24,7 @@ type CLIPConfig struct {
 	Enabled bool `json:"enabled"`
 	// Name of the model to use
 	ModelName string `json:"modelName"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _CLIPConfig CLIPConfig
@@ -108,6 +108,11 @@ func (o CLIPConfig) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["enabled"] = o.Enabled
 	toSerialize["modelName"] = o.ModelName
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -136,15 +141,21 @@ func (o *CLIPConfig) UnmarshalJSON(data []byte) (err error) {
 
 	varCLIPConfig := _CLIPConfig{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varCLIPConfig)
+	err = json.Unmarshal(data, &varCLIPConfig)
 
 	if err != nil {
 		return err
 	}
 
 	*o = CLIPConfig(varCLIPConfig)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "enabled")
+		delete(additionalProperties, "modelName")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

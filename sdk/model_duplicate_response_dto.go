@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -27,6 +26,7 @@ type DuplicateResponseDto struct {
 	DuplicateId string `json:"duplicateId"`
 	// Suggested asset IDs to keep based on file size and EXIF data
 	SuggestedKeepAssetIds []string `json:"suggestedKeepAssetIds"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _DuplicateResponseDto DuplicateResponseDto
@@ -136,6 +136,11 @@ func (o DuplicateResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["assets"] = o.Assets
 	toSerialize["duplicateId"] = o.DuplicateId
 	toSerialize["suggestedKeepAssetIds"] = o.SuggestedKeepAssetIds
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -165,15 +170,22 @@ func (o *DuplicateResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varDuplicateResponseDto := _DuplicateResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varDuplicateResponseDto)
+	err = json.Unmarshal(data, &varDuplicateResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = DuplicateResponseDto(varDuplicateResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "assets")
+		delete(additionalProperties, "duplicateId")
+		delete(additionalProperties, "suggestedKeepAssetIds")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

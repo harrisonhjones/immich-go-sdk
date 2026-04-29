@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -41,6 +40,7 @@ type PluginResponseDto struct {
 	UpdatedAt string `json:"updatedAt"`
 	// Plugin version
 	Version string `json:"version"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _PluginResponseDto PluginResponseDto
@@ -332,6 +332,11 @@ func (o PluginResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["title"] = o.Title
 	toSerialize["updatedAt"] = o.UpdatedAt
 	toSerialize["version"] = o.Version
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -368,15 +373,29 @@ func (o *PluginResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varPluginResponseDto := _PluginResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varPluginResponseDto)
+	err = json.Unmarshal(data, &varPluginResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = PluginResponseDto(varPluginResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "actions")
+		delete(additionalProperties, "author")
+		delete(additionalProperties, "createdAt")
+		delete(additionalProperties, "description")
+		delete(additionalProperties, "filters")
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "title")
+		delete(additionalProperties, "updatedAt")
+		delete(additionalProperties, "version")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

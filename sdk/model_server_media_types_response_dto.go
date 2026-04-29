@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -27,6 +26,7 @@ type ServerMediaTypesResponseDto struct {
 	Sidecar []string `json:"sidecar"`
 	// Supported video MIME types
 	Video []string `json:"video"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _ServerMediaTypesResponseDto ServerMediaTypesResponseDto
@@ -136,6 +136,11 @@ func (o ServerMediaTypesResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["image"] = o.Image
 	toSerialize["sidecar"] = o.Sidecar
 	toSerialize["video"] = o.Video
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -165,15 +170,22 @@ func (o *ServerMediaTypesResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varServerMediaTypesResponseDto := _ServerMediaTypesResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varServerMediaTypesResponseDto)
+	err = json.Unmarshal(data, &varServerMediaTypesResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = ServerMediaTypesResponseDto(varServerMediaTypesResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "image")
+		delete(additionalProperties, "sidecar")
+		delete(additionalProperties, "video")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

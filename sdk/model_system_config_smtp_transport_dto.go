@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -33,6 +32,7 @@ type SystemConfigSmtpTransportDto struct {
 	Secure bool `json:"secure"`
 	// SMTP username
 	Username string `json:"username"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SystemConfigSmtpTransportDto SystemConfigSmtpTransportDto
@@ -220,6 +220,11 @@ func (o SystemConfigSmtpTransportDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["port"] = o.Port
 	toSerialize["secure"] = o.Secure
 	toSerialize["username"] = o.Username
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -252,15 +257,25 @@ func (o *SystemConfigSmtpTransportDto) UnmarshalJSON(data []byte) (err error) {
 
 	varSystemConfigSmtpTransportDto := _SystemConfigSmtpTransportDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSystemConfigSmtpTransportDto)
+	err = json.Unmarshal(data, &varSystemConfigSmtpTransportDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SystemConfigSmtpTransportDto(varSystemConfigSmtpTransportDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "host")
+		delete(additionalProperties, "ignoreCert")
+		delete(additionalProperties, "password")
+		delete(additionalProperties, "port")
+		delete(additionalProperties, "secure")
+		delete(additionalProperties, "username")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

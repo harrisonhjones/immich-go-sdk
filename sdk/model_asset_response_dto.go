@@ -13,7 +13,6 @@ package immich
 import (
 	"encoding/json"
 	"time"
-	"bytes"
 	"fmt"
 )
 
@@ -80,6 +79,7 @@ type AssetResponseDto struct {
 	Visibility AssetVisibility `json:"visibility"`
 	// Asset width
 	Width NullableInt32 `json:"width"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _AssetResponseDto AssetResponseDto
@@ -1116,6 +1116,11 @@ func (o AssetResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["updatedAt"] = o.UpdatedAt
 	toSerialize["visibility"] = o.Visibility
 	toSerialize["width"] = o.Width.Get()
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -1164,15 +1169,52 @@ func (o *AssetResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varAssetResponseDto := _AssetResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varAssetResponseDto)
+	err = json.Unmarshal(data, &varAssetResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = AssetResponseDto(varAssetResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "checksum")
+		delete(additionalProperties, "createdAt")
+		delete(additionalProperties, "duplicateId")
+		delete(additionalProperties, "duration")
+		delete(additionalProperties, "exifInfo")
+		delete(additionalProperties, "fileCreatedAt")
+		delete(additionalProperties, "fileModifiedAt")
+		delete(additionalProperties, "hasMetadata")
+		delete(additionalProperties, "height")
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "isArchived")
+		delete(additionalProperties, "isEdited")
+		delete(additionalProperties, "isFavorite")
+		delete(additionalProperties, "isOffline")
+		delete(additionalProperties, "isTrashed")
+		delete(additionalProperties, "libraryId")
+		delete(additionalProperties, "livePhotoVideoId")
+		delete(additionalProperties, "localDateTime")
+		delete(additionalProperties, "originalFileName")
+		delete(additionalProperties, "originalMimeType")
+		delete(additionalProperties, "originalPath")
+		delete(additionalProperties, "owner")
+		delete(additionalProperties, "ownerId")
+		delete(additionalProperties, "people")
+		delete(additionalProperties, "resized")
+		delete(additionalProperties, "stack")
+		delete(additionalProperties, "tags")
+		delete(additionalProperties, "thumbhash")
+		delete(additionalProperties, "type")
+		delete(additionalProperties, "unassignedFaces")
+		delete(additionalProperties, "updatedAt")
+		delete(additionalProperties, "visibility")
+		delete(additionalProperties, "width")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

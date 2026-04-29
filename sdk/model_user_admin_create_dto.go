@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -40,6 +39,7 @@ type UserAdminCreateDto struct {
 	ShouldChangePassword *bool `json:"shouldChangePassword,omitempty"`
 	// Storage label
 	StorageLabel NullableString `json:"storageLabel,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _UserAdminCreateDto UserAdminCreateDto
@@ -434,6 +434,11 @@ func (o UserAdminCreateDto) ToMap() (map[string]interface{}, error) {
 	if o.StorageLabel.IsSet() {
 		toSerialize["storageLabel"] = o.StorageLabel.Get()
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -463,15 +468,29 @@ func (o *UserAdminCreateDto) UnmarshalJSON(data []byte) (err error) {
 
 	varUserAdminCreateDto := _UserAdminCreateDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varUserAdminCreateDto)
+	err = json.Unmarshal(data, &varUserAdminCreateDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = UserAdminCreateDto(varUserAdminCreateDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "avatarColor")
+		delete(additionalProperties, "email")
+		delete(additionalProperties, "isAdmin")
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "notify")
+		delete(additionalProperties, "password")
+		delete(additionalProperties, "pinCode")
+		delete(additionalProperties, "quotaSizeInBytes")
+		delete(additionalProperties, "shouldChangePassword")
+		delete(additionalProperties, "storageLabel")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

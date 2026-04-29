@@ -25,7 +25,10 @@ type EmailNotificationsUpdate struct {
 	AlbumUpdate *bool `json:"albumUpdate,omitempty"`
 	// Whether email notifications are enabled
 	Enabled *bool `json:"enabled,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _EmailNotificationsUpdate EmailNotificationsUpdate
 
 // NewEmailNotificationsUpdate instantiates a new EmailNotificationsUpdate object
 // This constructor will assign default values to properties that have it defined,
@@ -159,7 +162,35 @@ func (o EmailNotificationsUpdate) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Enabled) {
 		toSerialize["enabled"] = o.Enabled
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *EmailNotificationsUpdate) UnmarshalJSON(data []byte) (err error) {
+	varEmailNotificationsUpdate := _EmailNotificationsUpdate{}
+
+	err = json.Unmarshal(data, &varEmailNotificationsUpdate)
+
+	if err != nil {
+		return err
+	}
+
+	*o = EmailNotificationsUpdate(varEmailNotificationsUpdate)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "albumInvite")
+		delete(additionalProperties, "albumUpdate")
+		delete(additionalProperties, "enabled")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableEmailNotificationsUpdate struct {

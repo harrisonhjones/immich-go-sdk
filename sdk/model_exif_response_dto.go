@@ -64,7 +64,10 @@ type ExifResponseDto struct {
 	State NullableString `json:"state,omitempty"`
 	// Time zone
 	TimeZone NullableString `json:"timeZone,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _ExifResponseDto ExifResponseDto
 
 // NewExifResponseDto instantiates a new ExifResponseDto object
 // This constructor will assign default values to properties that have it defined,
@@ -1083,7 +1086,54 @@ func (o ExifResponseDto) ToMap() (map[string]interface{}, error) {
 	if o.TimeZone.IsSet() {
 		toSerialize["timeZone"] = o.TimeZone.Get()
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *ExifResponseDto) UnmarshalJSON(data []byte) (err error) {
+	varExifResponseDto := _ExifResponseDto{}
+
+	err = json.Unmarshal(data, &varExifResponseDto)
+
+	if err != nil {
+		return err
+	}
+
+	*o = ExifResponseDto(varExifResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "city")
+		delete(additionalProperties, "country")
+		delete(additionalProperties, "dateTimeOriginal")
+		delete(additionalProperties, "description")
+		delete(additionalProperties, "exifImageHeight")
+		delete(additionalProperties, "exifImageWidth")
+		delete(additionalProperties, "exposureTime")
+		delete(additionalProperties, "fNumber")
+		delete(additionalProperties, "fileSizeInByte")
+		delete(additionalProperties, "focalLength")
+		delete(additionalProperties, "iso")
+		delete(additionalProperties, "latitude")
+		delete(additionalProperties, "lensModel")
+		delete(additionalProperties, "longitude")
+		delete(additionalProperties, "make")
+		delete(additionalProperties, "model")
+		delete(additionalProperties, "modifyDate")
+		delete(additionalProperties, "orientation")
+		delete(additionalProperties, "projectionType")
+		delete(additionalProperties, "rating")
+		delete(additionalProperties, "state")
+		delete(additionalProperties, "timeZone")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableExifResponseDto struct {

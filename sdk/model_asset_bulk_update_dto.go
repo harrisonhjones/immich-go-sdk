@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -42,6 +41,7 @@ type AssetBulkUpdateDto struct {
 	// Time zone (IANA timezone)
 	TimeZone *string `json:"timeZone,omitempty"`
 	Visibility *AssetVisibility `json:"visibility,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _AssetBulkUpdateDto AssetBulkUpdateDto
@@ -469,6 +469,11 @@ func (o AssetBulkUpdateDto) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Visibility) {
 		toSerialize["visibility"] = o.Visibility
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -496,15 +501,30 @@ func (o *AssetBulkUpdateDto) UnmarshalJSON(data []byte) (err error) {
 
 	varAssetBulkUpdateDto := _AssetBulkUpdateDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varAssetBulkUpdateDto)
+	err = json.Unmarshal(data, &varAssetBulkUpdateDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = AssetBulkUpdateDto(varAssetBulkUpdateDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "dateTimeOriginal")
+		delete(additionalProperties, "dateTimeRelative")
+		delete(additionalProperties, "description")
+		delete(additionalProperties, "duplicateId")
+		delete(additionalProperties, "ids")
+		delete(additionalProperties, "isFavorite")
+		delete(additionalProperties, "latitude")
+		delete(additionalProperties, "longitude")
+		delete(additionalProperties, "rating")
+		delete(additionalProperties, "timeZone")
+		delete(additionalProperties, "visibility")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

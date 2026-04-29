@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -37,6 +36,7 @@ type AssetFaceResponseDto struct {
 	ImageWidth int32 `json:"imageWidth"`
 	Person NullablePersonResponseDto `json:"person"`
 	SourceType *SourceType `json:"sourceType,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _AssetFaceResponseDto AssetFaceResponseDto
@@ -313,6 +313,11 @@ func (o AssetFaceResponseDto) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.SourceType) {
 		toSerialize["sourceType"] = o.SourceType
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -347,15 +352,28 @@ func (o *AssetFaceResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varAssetFaceResponseDto := _AssetFaceResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varAssetFaceResponseDto)
+	err = json.Unmarshal(data, &varAssetFaceResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = AssetFaceResponseDto(varAssetFaceResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "boundingBoxX1")
+		delete(additionalProperties, "boundingBoxX2")
+		delete(additionalProperties, "boundingBoxY1")
+		delete(additionalProperties, "boundingBoxY2")
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "imageHeight")
+		delete(additionalProperties, "imageWidth")
+		delete(additionalProperties, "person")
+		delete(additionalProperties, "sourceType")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

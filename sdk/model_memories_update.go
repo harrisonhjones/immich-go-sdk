@@ -23,7 +23,10 @@ type MemoriesUpdate struct {
 	Duration *int32 `json:"duration,omitempty"`
 	// Whether memories are enabled
 	Enabled *bool `json:"enabled,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _MemoriesUpdate MemoriesUpdate
 
 // NewMemoriesUpdate instantiates a new MemoriesUpdate object
 // This constructor will assign default values to properties that have it defined,
@@ -122,7 +125,34 @@ func (o MemoriesUpdate) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Enabled) {
 		toSerialize["enabled"] = o.Enabled
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *MemoriesUpdate) UnmarshalJSON(data []byte) (err error) {
+	varMemoriesUpdate := _MemoriesUpdate{}
+
+	err = json.Unmarshal(data, &varMemoriesUpdate)
+
+	if err != nil {
+		return err
+	}
+
+	*o = MemoriesUpdate(varMemoriesUpdate)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "duration")
+		delete(additionalProperties, "enabled")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableMemoriesUpdate struct {

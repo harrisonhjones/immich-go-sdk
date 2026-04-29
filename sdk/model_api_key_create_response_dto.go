@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -24,6 +23,7 @@ type ApiKeyCreateResponseDto struct {
 	ApiKey ApiKeyResponseDto `json:"apiKey"`
 	// API key secret (only shown once)
 	Secret string `json:"secret"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _ApiKeyCreateResponseDto ApiKeyCreateResponseDto
@@ -107,6 +107,11 @@ func (o ApiKeyCreateResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["apiKey"] = o.ApiKey
 	toSerialize["secret"] = o.Secret
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -135,15 +140,21 @@ func (o *ApiKeyCreateResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varApiKeyCreateResponseDto := _ApiKeyCreateResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varApiKeyCreateResponseDto)
+	err = json.Unmarshal(data, &varApiKeyCreateResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = ApiKeyCreateResponseDto(varApiKeyCreateResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "apiKey")
+		delete(additionalProperties, "secret")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

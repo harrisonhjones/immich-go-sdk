@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -25,6 +24,7 @@ type ContributorCountResponseDto struct {
 	AssetCount int32 `json:"assetCount"`
 	// User ID
 	UserId string `json:"userId"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _ContributorCountResponseDto ContributorCountResponseDto
@@ -108,6 +108,11 @@ func (o ContributorCountResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["assetCount"] = o.AssetCount
 	toSerialize["userId"] = o.UserId
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -136,15 +141,21 @@ func (o *ContributorCountResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varContributorCountResponseDto := _ContributorCountResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varContributorCountResponseDto)
+	err = json.Unmarshal(data, &varContributorCountResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = ContributorCountResponseDto(varContributorCountResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "assetCount")
+		delete(additionalProperties, "userId")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

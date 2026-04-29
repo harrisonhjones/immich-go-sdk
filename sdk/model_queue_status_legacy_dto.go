@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -25,6 +24,7 @@ type QueueStatusLegacyDto struct {
 	IsActive bool `json:"isActive"`
 	// Whether the queue is paused
 	IsPaused bool `json:"isPaused"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _QueueStatusLegacyDto QueueStatusLegacyDto
@@ -108,6 +108,11 @@ func (o QueueStatusLegacyDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["isActive"] = o.IsActive
 	toSerialize["isPaused"] = o.IsPaused
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -136,15 +141,21 @@ func (o *QueueStatusLegacyDto) UnmarshalJSON(data []byte) (err error) {
 
 	varQueueStatusLegacyDto := _QueueStatusLegacyDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varQueueStatusLegacyDto)
+	err = json.Unmarshal(data, &varQueueStatusLegacyDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = QueueStatusLegacyDto(varQueueStatusLegacyDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "isActive")
+		delete(additionalProperties, "isPaused")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

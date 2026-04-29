@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -27,6 +26,7 @@ type SystemConfigImageDto struct {
 	Fullsize SystemConfigGeneratedFullsizeImageDto `json:"fullsize"`
 	Preview SystemConfigGeneratedImageDto `json:"preview"`
 	Thumbnail SystemConfigGeneratedImageDto `json:"thumbnail"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SystemConfigImageDto SystemConfigImageDto
@@ -188,6 +188,11 @@ func (o SystemConfigImageDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["fullsize"] = o.Fullsize
 	toSerialize["preview"] = o.Preview
 	toSerialize["thumbnail"] = o.Thumbnail
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -219,15 +224,24 @@ func (o *SystemConfigImageDto) UnmarshalJSON(data []byte) (err error) {
 
 	varSystemConfigImageDto := _SystemConfigImageDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSystemConfigImageDto)
+	err = json.Unmarshal(data, &varSystemConfigImageDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SystemConfigImageDto(varSystemConfigImageDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "colorspace")
+		delete(additionalProperties, "extractEmbedded")
+		delete(additionalProperties, "fullsize")
+		delete(additionalProperties, "preview")
+		delete(additionalProperties, "thumbnail")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -22,6 +21,7 @@ var _ MappedNullable = &UpdateAlbumUserDto{}
 // UpdateAlbumUserDto struct for UpdateAlbumUserDto
 type UpdateAlbumUserDto struct {
 	Role AlbumUserRole `json:"role"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _UpdateAlbumUserDto UpdateAlbumUserDto
@@ -79,6 +79,11 @@ func (o UpdateAlbumUserDto) MarshalJSON() ([]byte, error) {
 func (o UpdateAlbumUserDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["role"] = o.Role
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -106,15 +111,20 @@ func (o *UpdateAlbumUserDto) UnmarshalJSON(data []byte) (err error) {
 
 	varUpdateAlbumUserDto := _UpdateAlbumUserDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varUpdateAlbumUserDto)
+	err = json.Unmarshal(data, &varUpdateAlbumUserDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = UpdateAlbumUserDto(varUpdateAlbumUserDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "role")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

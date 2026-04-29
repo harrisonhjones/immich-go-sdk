@@ -23,7 +23,10 @@ type SessionUnlockDto struct {
 	Password *string `json:"password,omitempty"`
 	// New PIN code (4-6 digits)
 	PinCode *string `json:"pinCode,omitempty" validate:"regexp=^\\\\d{6}$"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _SessionUnlockDto SessionUnlockDto
 
 // NewSessionUnlockDto instantiates a new SessionUnlockDto object
 // This constructor will assign default values to properties that have it defined,
@@ -122,7 +125,34 @@ func (o SessionUnlockDto) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.PinCode) {
 		toSerialize["pinCode"] = o.PinCode
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *SessionUnlockDto) UnmarshalJSON(data []byte) (err error) {
+	varSessionUnlockDto := _SessionUnlockDto{}
+
+	err = json.Unmarshal(data, &varSessionUnlockDto)
+
+	if err != nil {
+		return err
+	}
+
+	*o = SessionUnlockDto(varSessionUnlockDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "password")
+		delete(additionalProperties, "pinCode")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableSessionUnlockDto struct {

@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -26,6 +25,7 @@ type MaintenanceStatusResponseDto struct {
 	Error *string `json:"error,omitempty"`
 	Progress *int32 `json:"progress,omitempty"`
 	Task *string `json:"task,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _MaintenanceStatusResponseDto MaintenanceStatusResponseDto
@@ -214,6 +214,11 @@ func (o MaintenanceStatusResponseDto) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Task) {
 		toSerialize["task"] = o.Task
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -242,15 +247,24 @@ func (o *MaintenanceStatusResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varMaintenanceStatusResponseDto := _MaintenanceStatusResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varMaintenanceStatusResponseDto)
+	err = json.Unmarshal(data, &varMaintenanceStatusResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = MaintenanceStatusResponseDto(varMaintenanceStatusResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "action")
+		delete(additionalProperties, "active")
+		delete(additionalProperties, "error")
+		delete(additionalProperties, "progress")
+		delete(additionalProperties, "task")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

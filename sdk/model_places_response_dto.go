@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -31,6 +30,7 @@ type PlacesResponseDto struct {
 	Longitude float32 `json:"longitude"`
 	// Place name
 	Name string `json:"name"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _PlacesResponseDto PlacesResponseDto
@@ -210,6 +210,11 @@ func (o PlacesResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["latitude"] = o.Latitude
 	toSerialize["longitude"] = o.Longitude
 	toSerialize["name"] = o.Name
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -239,15 +244,24 @@ func (o *PlacesResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varPlacesResponseDto := _PlacesResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varPlacesResponseDto)
+	err = json.Unmarshal(data, &varPlacesResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = PlacesResponseDto(varPlacesResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "admin1name")
+		delete(additionalProperties, "admin2name")
+		delete(additionalProperties, "latitude")
+		delete(additionalProperties, "longitude")
+		delete(additionalProperties, "name")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

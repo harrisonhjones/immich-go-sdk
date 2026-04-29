@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -25,6 +24,7 @@ type DownloadArchiveDto struct {
 	AssetIds []string `json:"assetIds"`
 	// Download edited asset if available
 	Edited *bool `json:"edited,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _DownloadArchiveDto DownloadArchiveDto
@@ -117,6 +117,11 @@ func (o DownloadArchiveDto) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Edited) {
 		toSerialize["edited"] = o.Edited
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -144,15 +149,21 @@ func (o *DownloadArchiveDto) UnmarshalJSON(data []byte) (err error) {
 
 	varDownloadArchiveDto := _DownloadArchiveDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varDownloadArchiveDto)
+	err = json.Unmarshal(data, &varDownloadArchiveDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = DownloadArchiveDto(varDownloadArchiveDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "assetIds")
+		delete(additionalProperties, "edited")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

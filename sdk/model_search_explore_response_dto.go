@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -24,6 +23,7 @@ type SearchExploreResponseDto struct {
 	// Explore field name
 	FieldName string `json:"fieldName"`
 	Items []SearchExploreItem `json:"items"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SearchExploreResponseDto SearchExploreResponseDto
@@ -107,6 +107,11 @@ func (o SearchExploreResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["fieldName"] = o.FieldName
 	toSerialize["items"] = o.Items
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -135,15 +140,21 @@ func (o *SearchExploreResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varSearchExploreResponseDto := _SearchExploreResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSearchExploreResponseDto)
+	err = json.Unmarshal(data, &varSearchExploreResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SearchExploreResponseDto(varSearchExploreResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "fieldName")
+		delete(additionalProperties, "items")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

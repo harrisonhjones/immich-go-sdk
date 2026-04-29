@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -27,6 +26,7 @@ type BulkIdResponseDto struct {
 	Id string `json:"id"`
 	// Whether operation succeeded
 	Success bool `json:"success"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _BulkIdResponseDto BulkIdResponseDto
@@ -180,6 +180,11 @@ func (o BulkIdResponseDto) ToMap() (map[string]interface{}, error) {
 	}
 	toSerialize["id"] = o.Id
 	toSerialize["success"] = o.Success
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -208,15 +213,23 @@ func (o *BulkIdResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varBulkIdResponseDto := _BulkIdResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varBulkIdResponseDto)
+	err = json.Unmarshal(data, &varBulkIdResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = BulkIdResponseDto(varBulkIdResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "error")
+		delete(additionalProperties, "errorMessage")
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "success")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

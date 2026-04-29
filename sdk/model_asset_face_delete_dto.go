@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &AssetFaceDeleteDto{}
 type AssetFaceDeleteDto struct {
 	// Force delete even if person has other faces
 	Force bool `json:"force"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _AssetFaceDeleteDto AssetFaceDeleteDto
@@ -80,6 +80,11 @@ func (o AssetFaceDeleteDto) MarshalJSON() ([]byte, error) {
 func (o AssetFaceDeleteDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["force"] = o.Force
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *AssetFaceDeleteDto) UnmarshalJSON(data []byte) (err error) {
 
 	varAssetFaceDeleteDto := _AssetFaceDeleteDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varAssetFaceDeleteDto)
+	err = json.Unmarshal(data, &varAssetFaceDeleteDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = AssetFaceDeleteDto(varAssetFaceDeleteDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "force")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

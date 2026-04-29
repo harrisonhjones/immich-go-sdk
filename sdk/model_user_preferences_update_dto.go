@@ -31,7 +31,10 @@ type UserPreferencesUpdateDto struct {
 	Ratings *RatingsUpdate `json:"ratings,omitempty"`
 	SharedLinks *SharedLinksUpdate `json:"sharedLinks,omitempty"`
 	Tags *TagsUpdate `json:"tags,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _UserPreferencesUpdateDto UserPreferencesUpdateDto
 
 // NewUserPreferencesUpdateDto instantiates a new UserPreferencesUpdateDto object
 // This constructor will assign default values to properties that have it defined,
@@ -480,7 +483,44 @@ func (o UserPreferencesUpdateDto) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Tags) {
 		toSerialize["tags"] = o.Tags
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *UserPreferencesUpdateDto) UnmarshalJSON(data []byte) (err error) {
+	varUserPreferencesUpdateDto := _UserPreferencesUpdateDto{}
+
+	err = json.Unmarshal(data, &varUserPreferencesUpdateDto)
+
+	if err != nil {
+		return err
+	}
+
+	*o = UserPreferencesUpdateDto(varUserPreferencesUpdateDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "albums")
+		delete(additionalProperties, "avatar")
+		delete(additionalProperties, "cast")
+		delete(additionalProperties, "download")
+		delete(additionalProperties, "emailNotifications")
+		delete(additionalProperties, "folders")
+		delete(additionalProperties, "memories")
+		delete(additionalProperties, "people")
+		delete(additionalProperties, "purchase")
+		delete(additionalProperties, "ratings")
+		delete(additionalProperties, "sharedLinks")
+		delete(additionalProperties, "tags")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableUserPreferencesUpdateDto struct {

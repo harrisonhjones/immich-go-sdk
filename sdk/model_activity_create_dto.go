@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -28,6 +27,7 @@ type ActivityCreateDto struct {
 	// Comment text (required if type is comment)
 	Comment *string `json:"comment,omitempty"`
 	Type ReactionType `json:"type"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _ActivityCreateDto ActivityCreateDto
@@ -181,6 +181,11 @@ func (o ActivityCreateDto) ToMap() (map[string]interface{}, error) {
 		toSerialize["comment"] = o.Comment
 	}
 	toSerialize["type"] = o.Type
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -209,15 +214,23 @@ func (o *ActivityCreateDto) UnmarshalJSON(data []byte) (err error) {
 
 	varActivityCreateDto := _ActivityCreateDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varActivityCreateDto)
+	err = json.Unmarshal(data, &varActivityCreateDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = ActivityCreateDto(varActivityCreateDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "albumId")
+		delete(additionalProperties, "assetId")
+		delete(additionalProperties, "comment")
+		delete(additionalProperties, "type")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

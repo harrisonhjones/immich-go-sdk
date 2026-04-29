@@ -23,7 +23,10 @@ type ApiKeyUpdateDto struct {
 	Name *string `json:"name,omitempty"`
 	// List of permissions
 	Permissions []Permission `json:"permissions,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _ApiKeyUpdateDto ApiKeyUpdateDto
 
 // NewApiKeyUpdateDto instantiates a new ApiKeyUpdateDto object
 // This constructor will assign default values to properties that have it defined,
@@ -122,7 +125,34 @@ func (o ApiKeyUpdateDto) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Permissions) {
 		toSerialize["permissions"] = o.Permissions
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *ApiKeyUpdateDto) UnmarshalJSON(data []byte) (err error) {
+	varApiKeyUpdateDto := _ApiKeyUpdateDto{}
+
+	err = json.Unmarshal(data, &varApiKeyUpdateDto)
+
+	if err != nil {
+		return err
+	}
+
+	*o = ApiKeyUpdateDto(varApiKeyUpdateDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "permissions")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableApiKeyUpdateDto struct {

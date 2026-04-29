@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -28,6 +27,7 @@ type PeopleResponseDto struct {
 	People []PersonResponseDto `json:"people"`
 	// Total number of people
 	Total int32 `json:"total"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _PeopleResponseDto PeopleResponseDto
@@ -172,6 +172,11 @@ func (o PeopleResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["hidden"] = o.Hidden
 	toSerialize["people"] = o.People
 	toSerialize["total"] = o.Total
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -201,15 +206,23 @@ func (o *PeopleResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varPeopleResponseDto := _PeopleResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varPeopleResponseDto)
+	err = json.Unmarshal(data, &varPeopleResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = PeopleResponseDto(varPeopleResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "hasNextPage")
+		delete(additionalProperties, "hidden")
+		delete(additionalProperties, "people")
+		delete(additionalProperties, "total")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -27,6 +26,7 @@ type MapReverseGeocodeResponseDto struct {
 	Country NullableString `json:"country"`
 	// State/Province name
 	State NullableString `json:"state"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _MapReverseGeocodeResponseDto MapReverseGeocodeResponseDto
@@ -142,6 +142,11 @@ func (o MapReverseGeocodeResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["city"] = o.City.Get()
 	toSerialize["country"] = o.Country.Get()
 	toSerialize["state"] = o.State.Get()
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -171,15 +176,22 @@ func (o *MapReverseGeocodeResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varMapReverseGeocodeResponseDto := _MapReverseGeocodeResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varMapReverseGeocodeResponseDto)
+	err = json.Unmarshal(data, &varMapReverseGeocodeResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = MapReverseGeocodeResponseDto(varMapReverseGeocodeResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "city")
+		delete(additionalProperties, "country")
+		delete(additionalProperties, "state")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

@@ -13,7 +13,6 @@ package immich
 import (
 	"encoding/json"
 	"time"
-	"bytes"
 	"fmt"
 )
 
@@ -35,6 +34,7 @@ type PartnerResponseDto struct {
 	ProfileChangedAt time.Time `json:"profileChangedAt"`
 	// Profile image path
 	ProfileImagePath string `json:"profileImagePath"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _PartnerResponseDto PartnerResponseDto
@@ -257,6 +257,11 @@ func (o PartnerResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["name"] = o.Name
 	toSerialize["profileChangedAt"] = o.ProfileChangedAt
 	toSerialize["profileImagePath"] = o.ProfileImagePath
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -289,15 +294,26 @@ func (o *PartnerResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varPartnerResponseDto := _PartnerResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varPartnerResponseDto)
+	err = json.Unmarshal(data, &varPartnerResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = PartnerResponseDto(varPartnerResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "avatarColor")
+		delete(additionalProperties, "email")
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "inTimeline")
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "profileChangedAt")
+		delete(additionalProperties, "profileImagePath")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

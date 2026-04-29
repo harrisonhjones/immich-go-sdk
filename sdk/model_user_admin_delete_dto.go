@@ -21,7 +21,10 @@ var _ MappedNullable = &UserAdminDeleteDto{}
 type UserAdminDeleteDto struct {
 	// Force delete even if user has assets
 	Force *bool `json:"force,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _UserAdminDeleteDto UserAdminDeleteDto
 
 // NewUserAdminDeleteDto instantiates a new UserAdminDeleteDto object
 // This constructor will assign default values to properties that have it defined,
@@ -85,7 +88,33 @@ func (o UserAdminDeleteDto) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Force) {
 		toSerialize["force"] = o.Force
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *UserAdminDeleteDto) UnmarshalJSON(data []byte) (err error) {
+	varUserAdminDeleteDto := _UserAdminDeleteDto{}
+
+	err = json.Unmarshal(data, &varUserAdminDeleteDto)
+
+	if err != nil {
+		return err
+	}
+
+	*o = UserAdminDeleteDto(varUserAdminDeleteDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "force")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableUserAdminDeleteDto struct {

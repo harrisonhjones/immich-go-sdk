@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -25,6 +24,7 @@ type MachineLearningAvailabilityChecksDto struct {
 	Enabled bool `json:"enabled"`
 	Interval int32 `json:"interval"`
 	Timeout int32 `json:"timeout"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _MachineLearningAvailabilityChecksDto MachineLearningAvailabilityChecksDto
@@ -134,6 +134,11 @@ func (o MachineLearningAvailabilityChecksDto) ToMap() (map[string]interface{}, e
 	toSerialize["enabled"] = o.Enabled
 	toSerialize["interval"] = o.Interval
 	toSerialize["timeout"] = o.Timeout
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -163,15 +168,22 @@ func (o *MachineLearningAvailabilityChecksDto) UnmarshalJSON(data []byte) (err e
 
 	varMachineLearningAvailabilityChecksDto := _MachineLearningAvailabilityChecksDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varMachineLearningAvailabilityChecksDto)
+	err = json.Unmarshal(data, &varMachineLearningAvailabilityChecksDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = MachineLearningAvailabilityChecksDto(varMachineLearningAvailabilityChecksDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "enabled")
+		delete(additionalProperties, "interval")
+		delete(additionalProperties, "timeout")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

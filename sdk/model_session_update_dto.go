@@ -21,7 +21,10 @@ var _ MappedNullable = &SessionUpdateDto{}
 type SessionUpdateDto struct {
 	// Reset pending sync state
 	IsPendingSyncReset *bool `json:"isPendingSyncReset,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _SessionUpdateDto SessionUpdateDto
 
 // NewSessionUpdateDto instantiates a new SessionUpdateDto object
 // This constructor will assign default values to properties that have it defined,
@@ -85,7 +88,33 @@ func (o SessionUpdateDto) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.IsPendingSyncReset) {
 		toSerialize["isPendingSyncReset"] = o.IsPendingSyncReset
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *SessionUpdateDto) UnmarshalJSON(data []byte) (err error) {
+	varSessionUpdateDto := _SessionUpdateDto{}
+
+	err = json.Unmarshal(data, &varSessionUpdateDto)
+
+	if err != nil {
+		return err
+	}
+
+	*o = SessionUpdateDto(varSessionUpdateDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "isPendingSyncReset")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableSessionUpdateDto struct {

@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -27,6 +26,7 @@ type SystemConfigMapDto struct {
 	Enabled bool `json:"enabled"`
 	// Light map style URL
 	LightStyle string `json:"lightStyle"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SystemConfigMapDto SystemConfigMapDto
@@ -136,6 +136,11 @@ func (o SystemConfigMapDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["darkStyle"] = o.DarkStyle
 	toSerialize["enabled"] = o.Enabled
 	toSerialize["lightStyle"] = o.LightStyle
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -165,15 +170,22 @@ func (o *SystemConfigMapDto) UnmarshalJSON(data []byte) (err error) {
 
 	varSystemConfigMapDto := _SystemConfigMapDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSystemConfigMapDto)
+	err = json.Unmarshal(data, &varSystemConfigMapDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SystemConfigMapDto(varSystemConfigMapDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "darkStyle")
+		delete(additionalProperties, "enabled")
+		delete(additionalProperties, "lightStyle")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

@@ -13,7 +13,6 @@ package immich
 import (
 	"encoding/json"
 	"time"
-	"bytes"
 	"fmt"
 )
 
@@ -36,6 +35,7 @@ type TagResponseDto struct {
 	UpdatedAt time.Time `json:"updatedAt"`
 	// Tag value (full path)
 	Value string `json:"value"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _TagResponseDto TagResponseDto
@@ -267,6 +267,11 @@ func (o TagResponseDto) ToMap() (map[string]interface{}, error) {
 	}
 	toSerialize["updatedAt"] = o.UpdatedAt
 	toSerialize["value"] = o.Value
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -298,15 +303,26 @@ func (o *TagResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varTagResponseDto := _TagResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varTagResponseDto)
+	err = json.Unmarshal(data, &varTagResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = TagResponseDto(varTagResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "color")
+		delete(additionalProperties, "createdAt")
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "parentId")
+		delete(additionalProperties, "updatedAt")
+		delete(additionalProperties, "value")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

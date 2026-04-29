@@ -28,7 +28,10 @@ type UpdateAlbumDto struct {
 	// Enable activity feed
 	IsActivityEnabled *bool `json:"isActivityEnabled,omitempty"`
 	Order *AssetOrder `json:"order,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _UpdateAlbumDto UpdateAlbumDto
 
 // NewUpdateAlbumDto instantiates a new UpdateAlbumDto object
 // This constructor will assign default values to properties that have it defined,
@@ -232,7 +235,37 @@ func (o UpdateAlbumDto) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Order) {
 		toSerialize["order"] = o.Order
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *UpdateAlbumDto) UnmarshalJSON(data []byte) (err error) {
+	varUpdateAlbumDto := _UpdateAlbumDto{}
+
+	err = json.Unmarshal(data, &varUpdateAlbumDto)
+
+	if err != nil {
+		return err
+	}
+
+	*o = UpdateAlbumDto(varUpdateAlbumDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "albumName")
+		delete(additionalProperties, "albumThumbnailAssetId")
+		delete(additionalProperties, "description")
+		delete(additionalProperties, "isActivityEnabled")
+		delete(additionalProperties, "order")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableUpdateAlbumDto struct {

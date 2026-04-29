@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -25,6 +24,7 @@ type AssetBulkDeleteDto struct {
 	Force *bool `json:"force,omitempty"`
 	// IDs to process
 	Ids []string `json:"ids"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _AssetBulkDeleteDto AssetBulkDeleteDto
@@ -117,6 +117,11 @@ func (o AssetBulkDeleteDto) ToMap() (map[string]interface{}, error) {
 		toSerialize["force"] = o.Force
 	}
 	toSerialize["ids"] = o.Ids
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -144,15 +149,21 @@ func (o *AssetBulkDeleteDto) UnmarshalJSON(data []byte) (err error) {
 
 	varAssetBulkDeleteDto := _AssetBulkDeleteDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varAssetBulkDeleteDto)
+	err = json.Unmarshal(data, &varAssetBulkDeleteDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = AssetBulkDeleteDto(varAssetBulkDeleteDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "force")
+		delete(additionalProperties, "ids")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

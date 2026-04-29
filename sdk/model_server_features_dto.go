@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -51,6 +50,7 @@ type ServerFeaturesDto struct {
 	SmartSearch bool `json:"smartSearch"`
 	// Whether trash feature is enabled
 	Trash bool `json:"trash"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _ServerFeaturesDto ServerFeaturesDto
@@ -472,6 +472,11 @@ func (o ServerFeaturesDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["sidecar"] = o.Sidecar
 	toSerialize["smartSearch"] = o.SmartSearch
 	toSerialize["trash"] = o.Trash
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -513,15 +518,34 @@ func (o *ServerFeaturesDto) UnmarshalJSON(data []byte) (err error) {
 
 	varServerFeaturesDto := _ServerFeaturesDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varServerFeaturesDto)
+	err = json.Unmarshal(data, &varServerFeaturesDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = ServerFeaturesDto(varServerFeaturesDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "configFile")
+		delete(additionalProperties, "duplicateDetection")
+		delete(additionalProperties, "email")
+		delete(additionalProperties, "facialRecognition")
+		delete(additionalProperties, "importFaces")
+		delete(additionalProperties, "map")
+		delete(additionalProperties, "oauth")
+		delete(additionalProperties, "oauthAutoLaunch")
+		delete(additionalProperties, "ocr")
+		delete(additionalProperties, "passwordLogin")
+		delete(additionalProperties, "reverseGeocoding")
+		delete(additionalProperties, "search")
+		delete(additionalProperties, "sidecar")
+		delete(additionalProperties, "smartSearch")
+		delete(additionalProperties, "trash")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

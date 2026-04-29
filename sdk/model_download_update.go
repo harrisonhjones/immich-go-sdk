@@ -23,7 +23,10 @@ type DownloadUpdate struct {
 	ArchiveSize *int32 `json:"archiveSize,omitempty"`
 	// Whether to include embedded videos in downloads
 	IncludeEmbeddedVideos *bool `json:"includeEmbeddedVideos,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _DownloadUpdate DownloadUpdate
 
 // NewDownloadUpdate instantiates a new DownloadUpdate object
 // This constructor will assign default values to properties that have it defined,
@@ -122,7 +125,34 @@ func (o DownloadUpdate) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.IncludeEmbeddedVideos) {
 		toSerialize["includeEmbeddedVideos"] = o.IncludeEmbeddedVideos
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *DownloadUpdate) UnmarshalJSON(data []byte) (err error) {
+	varDownloadUpdate := _DownloadUpdate{}
+
+	err = json.Unmarshal(data, &varDownloadUpdate)
+
+	if err != nil {
+		return err
+	}
+
+	*o = DownloadUpdate(varDownloadUpdate)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "archiveSize")
+		delete(additionalProperties, "includeEmbeddedVideos")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableDownloadUpdate struct {

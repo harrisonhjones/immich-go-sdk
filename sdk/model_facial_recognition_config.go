@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -31,6 +30,7 @@ type FacialRecognitionConfig struct {
 	MinScore float64 `json:"minScore"`
 	// Name of the model to use
 	ModelName string `json:"modelName"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _FacialRecognitionConfig FacialRecognitionConfig
@@ -192,6 +192,11 @@ func (o FacialRecognitionConfig) ToMap() (map[string]interface{}, error) {
 	toSerialize["minFaces"] = o.MinFaces
 	toSerialize["minScore"] = o.MinScore
 	toSerialize["modelName"] = o.ModelName
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -223,15 +228,24 @@ func (o *FacialRecognitionConfig) UnmarshalJSON(data []byte) (err error) {
 
 	varFacialRecognitionConfig := _FacialRecognitionConfig{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varFacialRecognitionConfig)
+	err = json.Unmarshal(data, &varFacialRecognitionConfig)
 
 	if err != nil {
 		return err
 	}
 
 	*o = FacialRecognitionConfig(varFacialRecognitionConfig)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "enabled")
+		delete(additionalProperties, "maxDistance")
+		delete(additionalProperties, "minFaces")
+		delete(additionalProperties, "minScore")
+		delete(additionalProperties, "modelName")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

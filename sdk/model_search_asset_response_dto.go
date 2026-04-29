@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -29,6 +28,7 @@ type SearchAssetResponseDto struct {
 	NextPage NullableString `json:"nextPage"`
 	// Total number of matching assets
 	Total int32 `json:"total"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SearchAssetResponseDto SearchAssetResponseDto
@@ -192,6 +192,11 @@ func (o SearchAssetResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["items"] = o.Items
 	toSerialize["nextPage"] = o.NextPage.Get()
 	toSerialize["total"] = o.Total
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -223,15 +228,24 @@ func (o *SearchAssetResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varSearchAssetResponseDto := _SearchAssetResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSearchAssetResponseDto)
+	err = json.Unmarshal(data, &varSearchAssetResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SearchAssetResponseDto(varSearchAssetResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "count")
+		delete(additionalProperties, "facets")
+		delete(additionalProperties, "items")
+		delete(additionalProperties, "nextPage")
+		delete(additionalProperties, "total")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

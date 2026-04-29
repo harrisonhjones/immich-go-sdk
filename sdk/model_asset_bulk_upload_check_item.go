@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -25,6 +24,7 @@ type AssetBulkUploadCheckItem struct {
 	Checksum string `json:"checksum"`
 	// Asset ID
 	Id string `json:"id"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _AssetBulkUploadCheckItem AssetBulkUploadCheckItem
@@ -108,6 +108,11 @@ func (o AssetBulkUploadCheckItem) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["checksum"] = o.Checksum
 	toSerialize["id"] = o.Id
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -136,15 +141,21 @@ func (o *AssetBulkUploadCheckItem) UnmarshalJSON(data []byte) (err error) {
 
 	varAssetBulkUploadCheckItem := _AssetBulkUploadCheckItem{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varAssetBulkUploadCheckItem)
+	err = json.Unmarshal(data, &varAssetBulkUploadCheckItem)
 
 	if err != nil {
 		return err
 	}
 
 	*o = AssetBulkUploadCheckItem(varAssetBulkUploadCheckItem)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "checksum")
+		delete(additionalProperties, "id")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &AdminOnboardingUpdateDto{}
 type AdminOnboardingUpdateDto struct {
 	// Is admin onboarded
 	IsOnboarded bool `json:"isOnboarded"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _AdminOnboardingUpdateDto AdminOnboardingUpdateDto
@@ -80,6 +80,11 @@ func (o AdminOnboardingUpdateDto) MarshalJSON() ([]byte, error) {
 func (o AdminOnboardingUpdateDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["isOnboarded"] = o.IsOnboarded
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *AdminOnboardingUpdateDto) UnmarshalJSON(data []byte) (err error) {
 
 	varAdminOnboardingUpdateDto := _AdminOnboardingUpdateDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varAdminOnboardingUpdateDto)
+	err = json.Unmarshal(data, &varAdminOnboardingUpdateDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = AdminOnboardingUpdateDto(varAdminOnboardingUpdateDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "isOnboarded")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

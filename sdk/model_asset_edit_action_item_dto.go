@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &AssetEditActionItemDto{}
 type AssetEditActionItemDto struct {
 	Action AssetEditAction `json:"action"`
 	Parameters AssetEditActionItemDtoParameters `json:"parameters"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _AssetEditActionItemDto AssetEditActionItemDto
@@ -106,6 +106,11 @@ func (o AssetEditActionItemDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["action"] = o.Action
 	toSerialize["parameters"] = o.Parameters
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -134,15 +139,21 @@ func (o *AssetEditActionItemDto) UnmarshalJSON(data []byte) (err error) {
 
 	varAssetEditActionItemDto := _AssetEditActionItemDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varAssetEditActionItemDto)
+	err = json.Unmarshal(data, &varAssetEditActionItemDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = AssetEditActionItemDto(varAssetEditActionItemDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "action")
+		delete(additionalProperties, "parameters")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

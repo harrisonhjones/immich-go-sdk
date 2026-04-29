@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &OAuthAuthorizeResponseDto{}
 type OAuthAuthorizeResponseDto struct {
 	// OAuth authorization URL
 	Url string `json:"url"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _OAuthAuthorizeResponseDto OAuthAuthorizeResponseDto
@@ -80,6 +80,11 @@ func (o OAuthAuthorizeResponseDto) MarshalJSON() ([]byte, error) {
 func (o OAuthAuthorizeResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["url"] = o.Url
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *OAuthAuthorizeResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varOAuthAuthorizeResponseDto := _OAuthAuthorizeResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varOAuthAuthorizeResponseDto)
+	err = json.Unmarshal(data, &varOAuthAuthorizeResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = OAuthAuthorizeResponseDto(varOAuthAuthorizeResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "url")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -32,6 +31,7 @@ type UserPreferencesResponseDto struct {
 	Ratings RatingsResponse `json:"ratings"`
 	SharedLinks SharedLinksResponse `json:"sharedLinks"`
 	Tags TagsResponse `json:"tags"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _UserPreferencesResponseDto UserPreferencesResponseDto
@@ -349,6 +349,11 @@ func (o UserPreferencesResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["ratings"] = o.Ratings
 	toSerialize["sharedLinks"] = o.SharedLinks
 	toSerialize["tags"] = o.Tags
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -386,15 +391,30 @@ func (o *UserPreferencesResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varUserPreferencesResponseDto := _UserPreferencesResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varUserPreferencesResponseDto)
+	err = json.Unmarshal(data, &varUserPreferencesResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = UserPreferencesResponseDto(varUserPreferencesResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "albums")
+		delete(additionalProperties, "cast")
+		delete(additionalProperties, "download")
+		delete(additionalProperties, "emailNotifications")
+		delete(additionalProperties, "folders")
+		delete(additionalProperties, "memories")
+		delete(additionalProperties, "people")
+		delete(additionalProperties, "purchase")
+		delete(additionalProperties, "ratings")
+		delete(additionalProperties, "sharedLinks")
+		delete(additionalProperties, "tags")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

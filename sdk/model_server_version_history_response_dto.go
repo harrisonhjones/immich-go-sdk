@@ -13,7 +13,6 @@ package immich
 import (
 	"encoding/json"
 	"time"
-	"bytes"
 	"fmt"
 )
 
@@ -28,6 +27,7 @@ type ServerVersionHistoryResponseDto struct {
 	Id string `json:"id"`
 	// Version string
 	Version string `json:"version"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _ServerVersionHistoryResponseDto ServerVersionHistoryResponseDto
@@ -137,6 +137,11 @@ func (o ServerVersionHistoryResponseDto) ToMap() (map[string]interface{}, error)
 	toSerialize["createdAt"] = o.CreatedAt
 	toSerialize["id"] = o.Id
 	toSerialize["version"] = o.Version
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -166,15 +171,22 @@ func (o *ServerVersionHistoryResponseDto) UnmarshalJSON(data []byte) (err error)
 
 	varServerVersionHistoryResponseDto := _ServerVersionHistoryResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varServerVersionHistoryResponseDto)
+	err = json.Unmarshal(data, &varServerVersionHistoryResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = ServerVersionHistoryResponseDto(varServerVersionHistoryResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "createdAt")
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "version")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

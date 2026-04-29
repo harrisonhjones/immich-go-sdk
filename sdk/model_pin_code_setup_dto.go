@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &PinCodeSetupDto{}
 type PinCodeSetupDto struct {
 	// PIN code (4-6 digits)
 	PinCode string `json:"pinCode" validate:"regexp=^\\\\d{6}$"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _PinCodeSetupDto PinCodeSetupDto
@@ -80,6 +80,11 @@ func (o PinCodeSetupDto) MarshalJSON() ([]byte, error) {
 func (o PinCodeSetupDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["pinCode"] = o.PinCode
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *PinCodeSetupDto) UnmarshalJSON(data []byte) (err error) {
 
 	varPinCodeSetupDto := _PinCodeSetupDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varPinCodeSetupDto)
+	err = json.Unmarshal(data, &varPinCodeSetupDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = PinCodeSetupDto(varPinCodeSetupDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "pinCode")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

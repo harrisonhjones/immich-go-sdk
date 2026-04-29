@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &PersonStatisticsResponseDto{}
 type PersonStatisticsResponseDto struct {
 	// Number of assets
 	Assets int32 `json:"assets"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _PersonStatisticsResponseDto PersonStatisticsResponseDto
@@ -80,6 +80,11 @@ func (o PersonStatisticsResponseDto) MarshalJSON() ([]byte, error) {
 func (o PersonStatisticsResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["assets"] = o.Assets
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *PersonStatisticsResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varPersonStatisticsResponseDto := _PersonStatisticsResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varPersonStatisticsResponseDto)
+	err = json.Unmarshal(data, &varPersonStatisticsResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = PersonStatisticsResponseDto(varPersonStatisticsResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "assets")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -27,6 +26,7 @@ type ValidateLibraryImportPathResponseDto struct {
 	IsValid bool `json:"isValid"`
 	// Validation message
 	Message *string `json:"message,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _ValidateLibraryImportPathResponseDto ValidateLibraryImportPathResponseDto
@@ -145,6 +145,11 @@ func (o ValidateLibraryImportPathResponseDto) ToMap() (map[string]interface{}, e
 	if !IsNil(o.Message) {
 		toSerialize["message"] = o.Message
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -173,15 +178,22 @@ func (o *ValidateLibraryImportPathResponseDto) UnmarshalJSON(data []byte) (err e
 
 	varValidateLibraryImportPathResponseDto := _ValidateLibraryImportPathResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varValidateLibraryImportPathResponseDto)
+	err = json.Unmarshal(data, &varValidateLibraryImportPathResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = ValidateLibraryImportPathResponseDto(varValidateLibraryImportPathResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "importPath")
+		delete(additionalProperties, "isValid")
+		delete(additionalProperties, "message")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

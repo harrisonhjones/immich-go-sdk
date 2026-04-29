@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -28,6 +27,7 @@ type SystemConfigGeneratedImageDto struct {
 	Quality int32 `json:"quality"`
 	// Size
 	Size int32 `json:"size"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SystemConfigGeneratedImageDto SystemConfigGeneratedImageDto
@@ -172,6 +172,11 @@ func (o SystemConfigGeneratedImageDto) ToMap() (map[string]interface{}, error) {
 	}
 	toSerialize["quality"] = o.Quality
 	toSerialize["size"] = o.Size
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -201,15 +206,23 @@ func (o *SystemConfigGeneratedImageDto) UnmarshalJSON(data []byte) (err error) {
 
 	varSystemConfigGeneratedImageDto := _SystemConfigGeneratedImageDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSystemConfigGeneratedImageDto)
+	err = json.Unmarshal(data, &varSystemConfigGeneratedImageDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SystemConfigGeneratedImageDto(varSystemConfigGeneratedImageDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "format")
+		delete(additionalProperties, "progressive")
+		delete(additionalProperties, "quality")
+		delete(additionalProperties, "size")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

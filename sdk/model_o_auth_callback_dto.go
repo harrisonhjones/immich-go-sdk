@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -27,6 +26,7 @@ type OAuthCallbackDto struct {
 	State *string `json:"state,omitempty"`
 	// OAuth callback URL
 	Url string `json:"url"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _OAuthCallbackDto OAuthCallbackDto
@@ -154,6 +154,11 @@ func (o OAuthCallbackDto) ToMap() (map[string]interface{}, error) {
 		toSerialize["state"] = o.State
 	}
 	toSerialize["url"] = o.Url
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -181,15 +186,22 @@ func (o *OAuthCallbackDto) UnmarshalJSON(data []byte) (err error) {
 
 	varOAuthCallbackDto := _OAuthCallbackDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varOAuthCallbackDto)
+	err = json.Unmarshal(data, &varOAuthCallbackDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = OAuthCallbackDto(varOAuthCallbackDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "codeVerifier")
+		delete(additionalProperties, "state")
+		delete(additionalProperties, "url")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

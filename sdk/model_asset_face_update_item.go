@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -25,6 +24,7 @@ type AssetFaceUpdateItem struct {
 	AssetId string `json:"assetId" validate:"regexp=^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$"`
 	// Person ID
 	PersonId string `json:"personId" validate:"regexp=^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _AssetFaceUpdateItem AssetFaceUpdateItem
@@ -108,6 +108,11 @@ func (o AssetFaceUpdateItem) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["assetId"] = o.AssetId
 	toSerialize["personId"] = o.PersonId
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -136,15 +141,21 @@ func (o *AssetFaceUpdateItem) UnmarshalJSON(data []byte) (err error) {
 
 	varAssetFaceUpdateItem := _AssetFaceUpdateItem{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varAssetFaceUpdateItem)
+	err = json.Unmarshal(data, &varAssetFaceUpdateItem)
 
 	if err != nil {
 		return err
 	}
 
 	*o = AssetFaceUpdateItem(varAssetFaceUpdateItem)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "assetId")
+		delete(additionalProperties, "personId")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

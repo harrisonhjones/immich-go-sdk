@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -24,6 +23,7 @@ type SetMaintenanceModeDto struct {
 	Action MaintenanceAction `json:"action"`
 	// Restore backup filename
 	RestoreBackupFilename *string `json:"restoreBackupFilename,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SetMaintenanceModeDto SetMaintenanceModeDto
@@ -116,6 +116,11 @@ func (o SetMaintenanceModeDto) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.RestoreBackupFilename) {
 		toSerialize["restoreBackupFilename"] = o.RestoreBackupFilename
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -143,15 +148,21 @@ func (o *SetMaintenanceModeDto) UnmarshalJSON(data []byte) (err error) {
 
 	varSetMaintenanceModeDto := _SetMaintenanceModeDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSetMaintenanceModeDto)
+	err = json.Unmarshal(data, &varSetMaintenanceModeDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SetMaintenanceModeDto(varSetMaintenanceModeDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "action")
+		delete(additionalProperties, "restoreBackupFilename")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

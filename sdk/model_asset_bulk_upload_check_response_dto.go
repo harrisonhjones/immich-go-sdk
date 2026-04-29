@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &AssetBulkUploadCheckResponseDto{}
 type AssetBulkUploadCheckResponseDto struct {
 	// Upload check results
 	Results []AssetBulkUploadCheckResult `json:"results"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _AssetBulkUploadCheckResponseDto AssetBulkUploadCheckResponseDto
@@ -80,6 +80,11 @@ func (o AssetBulkUploadCheckResponseDto) MarshalJSON() ([]byte, error) {
 func (o AssetBulkUploadCheckResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["results"] = o.Results
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *AssetBulkUploadCheckResponseDto) UnmarshalJSON(data []byte) (err error)
 
 	varAssetBulkUploadCheckResponseDto := _AssetBulkUploadCheckResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varAssetBulkUploadCheckResponseDto)
+	err = json.Unmarshal(data, &varAssetBulkUploadCheckResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = AssetBulkUploadCheckResponseDto(varAssetBulkUploadCheckResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "results")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

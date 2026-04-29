@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -25,6 +24,7 @@ type PeopleResponse struct {
 	Enabled bool `json:"enabled"`
 	// Whether people appear in web sidebar
 	SidebarWeb bool `json:"sidebarWeb"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _PeopleResponse PeopleResponse
@@ -108,6 +108,11 @@ func (o PeopleResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["enabled"] = o.Enabled
 	toSerialize["sidebarWeb"] = o.SidebarWeb
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -136,15 +141,21 @@ func (o *PeopleResponse) UnmarshalJSON(data []byte) (err error) {
 
 	varPeopleResponse := _PeopleResponse{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varPeopleResponse)
+	err = json.Unmarshal(data, &varPeopleResponse)
 
 	if err != nil {
 		return err
 	}
 
 	*o = PeopleResponse(varPeopleResponse)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "enabled")
+		delete(additionalProperties, "sidebarWeb")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

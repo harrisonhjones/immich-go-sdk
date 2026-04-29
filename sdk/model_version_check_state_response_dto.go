@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -25,6 +24,7 @@ type VersionCheckStateResponseDto struct {
 	CheckedAt NullableString `json:"checkedAt"`
 	// Release version
 	ReleaseVersion NullableString `json:"releaseVersion"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _VersionCheckStateResponseDto VersionCheckStateResponseDto
@@ -112,6 +112,11 @@ func (o VersionCheckStateResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["checkedAt"] = o.CheckedAt.Get()
 	toSerialize["releaseVersion"] = o.ReleaseVersion.Get()
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -140,15 +145,21 @@ func (o *VersionCheckStateResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varVersionCheckStateResponseDto := _VersionCheckStateResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varVersionCheckStateResponseDto)
+	err = json.Unmarshal(data, &varVersionCheckStateResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = VersionCheckStateResponseDto(varVersionCheckStateResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "checkedAt")
+		delete(additionalProperties, "releaseVersion")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

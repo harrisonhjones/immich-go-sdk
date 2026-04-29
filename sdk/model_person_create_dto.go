@@ -29,7 +29,10 @@ type PersonCreateDto struct {
 	IsHidden *bool `json:"isHidden,omitempty"`
 	// Person name
 	Name *string `json:"name,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _PersonCreateDto PersonCreateDto
 
 // NewPersonCreateDto instantiates a new PersonCreateDto object
 // This constructor will assign default values to properties that have it defined,
@@ -253,7 +256,37 @@ func (o PersonCreateDto) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Name) {
 		toSerialize["name"] = o.Name
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *PersonCreateDto) UnmarshalJSON(data []byte) (err error) {
+	varPersonCreateDto := _PersonCreateDto{}
+
+	err = json.Unmarshal(data, &varPersonCreateDto)
+
+	if err != nil {
+		return err
+	}
+
+	*o = PersonCreateDto(varPersonCreateDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "birthDate")
+		delete(additionalProperties, "color")
+		delete(additionalProperties, "isFavorite")
+		delete(additionalProperties, "isHidden")
+		delete(additionalProperties, "name")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullablePersonCreateDto struct {

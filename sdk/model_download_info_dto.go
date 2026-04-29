@@ -27,7 +27,10 @@ type DownloadInfoDto struct {
 	AssetIds []string `json:"assetIds,omitempty"`
 	// User ID to download assets from
 	UserId *string `json:"userId,omitempty" validate:"regexp=^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _DownloadInfoDto DownloadInfoDto
 
 // NewDownloadInfoDto instantiates a new DownloadInfoDto object
 // This constructor will assign default values to properties that have it defined,
@@ -196,7 +199,36 @@ func (o DownloadInfoDto) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.UserId) {
 		toSerialize["userId"] = o.UserId
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *DownloadInfoDto) UnmarshalJSON(data []byte) (err error) {
+	varDownloadInfoDto := _DownloadInfoDto{}
+
+	err = json.Unmarshal(data, &varDownloadInfoDto)
+
+	if err != nil {
+		return err
+	}
+
+	*o = DownloadInfoDto(varDownloadInfoDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "albumId")
+		delete(additionalProperties, "archiveSize")
+		delete(additionalProperties, "assetIds")
+		delete(additionalProperties, "userId")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableDownloadInfoDto struct {

@@ -21,7 +21,10 @@ var _ MappedNullable = &RatingsUpdate{}
 type RatingsUpdate struct {
 	// Whether ratings are enabled
 	Enabled *bool `json:"enabled,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _RatingsUpdate RatingsUpdate
 
 // NewRatingsUpdate instantiates a new RatingsUpdate object
 // This constructor will assign default values to properties that have it defined,
@@ -85,7 +88,33 @@ func (o RatingsUpdate) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Enabled) {
 		toSerialize["enabled"] = o.Enabled
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *RatingsUpdate) UnmarshalJSON(data []byte) (err error) {
+	varRatingsUpdate := _RatingsUpdate{}
+
+	err = json.Unmarshal(data, &varRatingsUpdate)
+
+	if err != nil {
+		return err
+	}
+
+	*o = RatingsUpdate(varRatingsUpdate)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "enabled")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableRatingsUpdate struct {

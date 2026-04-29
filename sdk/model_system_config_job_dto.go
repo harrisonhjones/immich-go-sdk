@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -35,6 +34,7 @@ type SystemConfigJobDto struct {
 	ThumbnailGeneration JobSettingsDto `json:"thumbnailGeneration"`
 	VideoConversion JobSettingsDto `json:"videoConversion"`
 	Workflow JobSettingsDto `json:"workflow"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SystemConfigJobDto SystemConfigJobDto
@@ -430,6 +430,11 @@ func (o SystemConfigJobDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["thumbnailGeneration"] = o.ThumbnailGeneration
 	toSerialize["videoConversion"] = o.VideoConversion
 	toSerialize["workflow"] = o.Workflow
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -470,15 +475,33 @@ func (o *SystemConfigJobDto) UnmarshalJSON(data []byte) (err error) {
 
 	varSystemConfigJobDto := _SystemConfigJobDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSystemConfigJobDto)
+	err = json.Unmarshal(data, &varSystemConfigJobDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SystemConfigJobDto(varSystemConfigJobDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "backgroundTask")
+		delete(additionalProperties, "editor")
+		delete(additionalProperties, "faceDetection")
+		delete(additionalProperties, "library")
+		delete(additionalProperties, "metadataExtraction")
+		delete(additionalProperties, "migration")
+		delete(additionalProperties, "notifications")
+		delete(additionalProperties, "ocr")
+		delete(additionalProperties, "search")
+		delete(additionalProperties, "sidecar")
+		delete(additionalProperties, "smartSearch")
+		delete(additionalProperties, "thumbnailGeneration")
+		delete(additionalProperties, "videoConversion")
+		delete(additionalProperties, "workflow")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

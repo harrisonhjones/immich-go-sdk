@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -24,6 +23,7 @@ type AlbumUserCreateDto struct {
 	Role AlbumUserRole `json:"role"`
 	// User ID
 	UserId string `json:"userId" validate:"regexp=^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _AlbumUserCreateDto AlbumUserCreateDto
@@ -107,6 +107,11 @@ func (o AlbumUserCreateDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["role"] = o.Role
 	toSerialize["userId"] = o.UserId
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -135,15 +140,21 @@ func (o *AlbumUserCreateDto) UnmarshalJSON(data []byte) (err error) {
 
 	varAlbumUserCreateDto := _AlbumUserCreateDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varAlbumUserCreateDto)
+	err = json.Unmarshal(data, &varAlbumUserCreateDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = AlbumUserCreateDto(varAlbumUserCreateDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "role")
+		delete(additionalProperties, "userId")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

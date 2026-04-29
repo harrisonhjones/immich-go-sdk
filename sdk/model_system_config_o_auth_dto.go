@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -62,6 +61,7 @@ type SystemConfigOAuthDto struct {
 	// Timeout
 	Timeout int32 `json:"timeout"`
 	TokenEndpointAuthMethod OAuthTokenEndpointAuthMethod `json:"tokenEndpointAuthMethod"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SystemConfigOAuthDto SystemConfigOAuthDto
@@ -641,6 +641,11 @@ func (o SystemConfigOAuthDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["storageQuotaClaim"] = o.StorageQuotaClaim
 	toSerialize["timeout"] = o.Timeout
 	toSerialize["tokenEndpointAuthMethod"] = o.TokenEndpointAuthMethod
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -688,15 +693,40 @@ func (o *SystemConfigOAuthDto) UnmarshalJSON(data []byte) (err error) {
 
 	varSystemConfigOAuthDto := _SystemConfigOAuthDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSystemConfigOAuthDto)
+	err = json.Unmarshal(data, &varSystemConfigOAuthDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SystemConfigOAuthDto(varSystemConfigOAuthDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "allowInsecureRequests")
+		delete(additionalProperties, "autoLaunch")
+		delete(additionalProperties, "autoRegister")
+		delete(additionalProperties, "buttonText")
+		delete(additionalProperties, "clientId")
+		delete(additionalProperties, "clientSecret")
+		delete(additionalProperties, "defaultStorageQuota")
+		delete(additionalProperties, "enabled")
+		delete(additionalProperties, "endSessionEndpoint")
+		delete(additionalProperties, "issuerUrl")
+		delete(additionalProperties, "mobileOverrideEnabled")
+		delete(additionalProperties, "mobileRedirectUri")
+		delete(additionalProperties, "profileSigningAlgorithm")
+		delete(additionalProperties, "prompt")
+		delete(additionalProperties, "roleClaim")
+		delete(additionalProperties, "scope")
+		delete(additionalProperties, "signingAlgorithm")
+		delete(additionalProperties, "storageLabelClaim")
+		delete(additionalProperties, "storageQuotaClaim")
+		delete(additionalProperties, "timeout")
+		delete(additionalProperties, "tokenEndpointAuthMethod")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

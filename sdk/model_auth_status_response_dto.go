@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -31,6 +30,7 @@ type AuthStatusResponseDto struct {
 	PinCode bool `json:"pinCode"`
 	// PIN expiration date
 	PinExpiresAt *string `json:"pinExpiresAt,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _AuthStatusResponseDto AuthStatusResponseDto
@@ -210,6 +210,11 @@ func (o AuthStatusResponseDto) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.PinExpiresAt) {
 		toSerialize["pinExpiresAt"] = o.PinExpiresAt
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -239,15 +244,24 @@ func (o *AuthStatusResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varAuthStatusResponseDto := _AuthStatusResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varAuthStatusResponseDto)
+	err = json.Unmarshal(data, &varAuthStatusResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = AuthStatusResponseDto(varAuthStatusResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "expiresAt")
+		delete(additionalProperties, "isElevated")
+		delete(additionalProperties, "password")
+		delete(additionalProperties, "pinCode")
+		delete(additionalProperties, "pinExpiresAt")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

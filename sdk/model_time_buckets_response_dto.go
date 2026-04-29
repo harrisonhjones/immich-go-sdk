@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -25,6 +24,7 @@ type TimeBucketsResponseDto struct {
 	Count int32 `json:"count"`
 	// Time bucket identifier in YYYY-MM-DD format representing the start of the time period
 	TimeBucket string `json:"timeBucket"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _TimeBucketsResponseDto TimeBucketsResponseDto
@@ -108,6 +108,11 @@ func (o TimeBucketsResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["count"] = o.Count
 	toSerialize["timeBucket"] = o.TimeBucket
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -136,15 +141,21 @@ func (o *TimeBucketsResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varTimeBucketsResponseDto := _TimeBucketsResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varTimeBucketsResponseDto)
+	err = json.Unmarshal(data, &varTimeBucketsResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = TimeBucketsResponseDto(varTimeBucketsResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "count")
+		delete(additionalProperties, "timeBucket")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

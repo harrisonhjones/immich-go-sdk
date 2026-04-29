@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -27,6 +26,7 @@ type SystemConfigServerDto struct {
 	LoginPageMessage string `json:"loginPageMessage"`
 	// Public users
 	PublicUsers bool `json:"publicUsers"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SystemConfigServerDto SystemConfigServerDto
@@ -136,6 +136,11 @@ func (o SystemConfigServerDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["externalDomain"] = o.ExternalDomain
 	toSerialize["loginPageMessage"] = o.LoginPageMessage
 	toSerialize["publicUsers"] = o.PublicUsers
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -165,15 +170,22 @@ func (o *SystemConfigServerDto) UnmarshalJSON(data []byte) (err error) {
 
 	varSystemConfigServerDto := _SystemConfigServerDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSystemConfigServerDto)
+	err = json.Unmarshal(data, &varSystemConfigServerDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SystemConfigServerDto(varSystemConfigServerDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "externalDomain")
+		delete(additionalProperties, "loginPageMessage")
+		delete(additionalProperties, "publicUsers")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

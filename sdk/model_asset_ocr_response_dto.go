@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -45,6 +44,7 @@ type AssetOcrResponseDto struct {
 	Y3 float64 `json:"y3"`
 	// Normalized y coordinate of box corner 4 (0-1)
 	Y4 float64 `json:"y4"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _AssetOcrResponseDto AssetOcrResponseDto
@@ -414,6 +414,11 @@ func (o AssetOcrResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["y2"] = o.Y2
 	toSerialize["y3"] = o.Y3
 	toSerialize["y4"] = o.Y4
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -453,15 +458,32 @@ func (o *AssetOcrResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varAssetOcrResponseDto := _AssetOcrResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varAssetOcrResponseDto)
+	err = json.Unmarshal(data, &varAssetOcrResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = AssetOcrResponseDto(varAssetOcrResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "assetId")
+		delete(additionalProperties, "boxScore")
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "text")
+		delete(additionalProperties, "textScore")
+		delete(additionalProperties, "x1")
+		delete(additionalProperties, "x2")
+		delete(additionalProperties, "x3")
+		delete(additionalProperties, "x4")
+		delete(additionalProperties, "y1")
+		delete(additionalProperties, "y2")
+		delete(additionalProperties, "y3")
+		delete(additionalProperties, "y4")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

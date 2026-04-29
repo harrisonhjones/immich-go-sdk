@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -25,6 +24,7 @@ type SharedLinksResponse struct {
 	Enabled bool `json:"enabled"`
 	// Whether shared links appear in web sidebar
 	SidebarWeb bool `json:"sidebarWeb"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SharedLinksResponse SharedLinksResponse
@@ -108,6 +108,11 @@ func (o SharedLinksResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["enabled"] = o.Enabled
 	toSerialize["sidebarWeb"] = o.SidebarWeb
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -136,15 +141,21 @@ func (o *SharedLinksResponse) UnmarshalJSON(data []byte) (err error) {
 
 	varSharedLinksResponse := _SharedLinksResponse{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSharedLinksResponse)
+	err = json.Unmarshal(data, &varSharedLinksResponse)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SharedLinksResponse(varSharedLinksResponse)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "enabled")
+		delete(additionalProperties, "sidebarWeb")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

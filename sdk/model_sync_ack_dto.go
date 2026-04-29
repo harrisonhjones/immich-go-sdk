@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -24,6 +23,7 @@ type SyncAckDto struct {
 	// Acknowledgment ID
 	Ack string `json:"ack"`
 	Type SyncEntityType `json:"type"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SyncAckDto SyncAckDto
@@ -107,6 +107,11 @@ func (o SyncAckDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["ack"] = o.Ack
 	toSerialize["type"] = o.Type
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -135,15 +140,21 @@ func (o *SyncAckDto) UnmarshalJSON(data []byte) (err error) {
 
 	varSyncAckDto := _SyncAckDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSyncAckDto)
+	err = json.Unmarshal(data, &varSyncAckDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SyncAckDto(varSyncAckDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "ack")
+		delete(additionalProperties, "type")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

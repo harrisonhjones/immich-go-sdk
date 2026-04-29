@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &TagUpsertDto{}
 type TagUpsertDto struct {
 	// Tag names to upsert
 	Tags []string `json:"tags"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _TagUpsertDto TagUpsertDto
@@ -80,6 +80,11 @@ func (o TagUpsertDto) MarshalJSON() ([]byte, error) {
 func (o TagUpsertDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["tags"] = o.Tags
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *TagUpsertDto) UnmarshalJSON(data []byte) (err error) {
 
 	varTagUpsertDto := _TagUpsertDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varTagUpsertDto)
+	err = json.Unmarshal(data, &varTagUpsertDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = TagUpsertDto(varTagUpsertDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "tags")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

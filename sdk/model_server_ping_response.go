@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -22,6 +21,7 @@ var _ MappedNullable = &ServerPingResponse{}
 // ServerPingResponse struct for ServerPingResponse
 type ServerPingResponse struct {
 	Res string `json:"res"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _ServerPingResponse ServerPingResponse
@@ -79,6 +79,11 @@ func (o ServerPingResponse) MarshalJSON() ([]byte, error) {
 func (o ServerPingResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["res"] = o.Res
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -106,15 +111,20 @@ func (o *ServerPingResponse) UnmarshalJSON(data []byte) (err error) {
 
 	varServerPingResponse := _ServerPingResponse{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varServerPingResponse)
+	err = json.Unmarshal(data, &varServerPingResponse)
 
 	if err != nil {
 		return err
 	}
 
 	*o = ServerPingResponse(varServerPingResponse)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "res")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

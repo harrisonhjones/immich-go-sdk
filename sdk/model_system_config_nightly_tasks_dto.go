@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -33,6 +32,7 @@ type SystemConfigNightlyTasksDto struct {
 	StartTime string `json:"startTime" validate:"regexp=^([01]\\\\d|2[0-3]):[0-5]\\\\d$"`
 	// Sync quota usage
 	SyncQuotaUsage bool `json:"syncQuotaUsage"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SystemConfigNightlyTasksDto SystemConfigNightlyTasksDto
@@ -220,6 +220,11 @@ func (o SystemConfigNightlyTasksDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["missingThumbnails"] = o.MissingThumbnails
 	toSerialize["startTime"] = o.StartTime
 	toSerialize["syncQuotaUsage"] = o.SyncQuotaUsage
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -252,15 +257,25 @@ func (o *SystemConfigNightlyTasksDto) UnmarshalJSON(data []byte) (err error) {
 
 	varSystemConfigNightlyTasksDto := _SystemConfigNightlyTasksDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSystemConfigNightlyTasksDto)
+	err = json.Unmarshal(data, &varSystemConfigNightlyTasksDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SystemConfigNightlyTasksDto(varSystemConfigNightlyTasksDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "clusterNewFaces")
+		delete(additionalProperties, "databaseCleanup")
+		delete(additionalProperties, "generateMemories")
+		delete(additionalProperties, "missingThumbnails")
+		delete(additionalProperties, "startTime")
+		delete(additionalProperties, "syncQuotaUsage")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

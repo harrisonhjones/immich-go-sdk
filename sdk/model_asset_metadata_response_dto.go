@@ -13,7 +13,6 @@ package immich
 import (
 	"encoding/json"
 	"time"
-	"bytes"
 	"fmt"
 )
 
@@ -28,6 +27,7 @@ type AssetMetadataResponseDto struct {
 	UpdatedAt time.Time `json:"updatedAt" validate:"regexp=^(?:(?:\\\\d\\\\d[2468][048]|\\\\d\\\\d[13579][26]|\\\\d\\\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\\\d|30)|(?:02)-(?:0[1-9]|1\\\\d|2[0-8])))T(?:(?:[01]\\\\d|2[0-3]):[0-5]\\\\d(?::[0-5]\\\\d(?:\\\\.\\\\d+)?)?(?:Z))$"`
 	// Metadata value (object)
 	Value map[string]interface{} `json:"value"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _AssetMetadataResponseDto AssetMetadataResponseDto
@@ -137,6 +137,11 @@ func (o AssetMetadataResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["key"] = o.Key
 	toSerialize["updatedAt"] = o.UpdatedAt
 	toSerialize["value"] = o.Value
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -166,15 +171,22 @@ func (o *AssetMetadataResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varAssetMetadataResponseDto := _AssetMetadataResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varAssetMetadataResponseDto)
+	err = json.Unmarshal(data, &varAssetMetadataResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = AssetMetadataResponseDto(varAssetMetadataResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "key")
+		delete(additionalProperties, "updatedAt")
+		delete(additionalProperties, "value")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

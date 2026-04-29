@@ -23,7 +23,10 @@ type FoldersUpdate struct {
 	Enabled *bool `json:"enabled,omitempty"`
 	// Whether folders appear in web sidebar
 	SidebarWeb *bool `json:"sidebarWeb,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _FoldersUpdate FoldersUpdate
 
 // NewFoldersUpdate instantiates a new FoldersUpdate object
 // This constructor will assign default values to properties that have it defined,
@@ -122,7 +125,34 @@ func (o FoldersUpdate) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.SidebarWeb) {
 		toSerialize["sidebarWeb"] = o.SidebarWeb
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *FoldersUpdate) UnmarshalJSON(data []byte) (err error) {
+	varFoldersUpdate := _FoldersUpdate{}
+
+	err = json.Unmarshal(data, &varFoldersUpdate)
+
+	if err != nil {
+		return err
+	}
+
+	*o = FoldersUpdate(varFoldersUpdate)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "enabled")
+		delete(additionalProperties, "sidebarWeb")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableFoldersUpdate struct {

@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &SystemConfigLibraryWatchDto{}
 type SystemConfigLibraryWatchDto struct {
 	// Enabled
 	Enabled bool `json:"enabled"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SystemConfigLibraryWatchDto SystemConfigLibraryWatchDto
@@ -80,6 +80,11 @@ func (o SystemConfigLibraryWatchDto) MarshalJSON() ([]byte, error) {
 func (o SystemConfigLibraryWatchDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["enabled"] = o.Enabled
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *SystemConfigLibraryWatchDto) UnmarshalJSON(data []byte) (err error) {
 
 	varSystemConfigLibraryWatchDto := _SystemConfigLibraryWatchDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSystemConfigLibraryWatchDto)
+	err = json.Unmarshal(data, &varSystemConfigLibraryWatchDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SystemConfigLibraryWatchDto(varSystemConfigLibraryWatchDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "enabled")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

@@ -21,7 +21,10 @@ var _ MappedNullable = &CastUpdate{}
 type CastUpdate struct {
 	// Whether Google Cast is enabled
 	GCastEnabled *bool `json:"gCastEnabled,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _CastUpdate CastUpdate
 
 // NewCastUpdate instantiates a new CastUpdate object
 // This constructor will assign default values to properties that have it defined,
@@ -85,7 +88,33 @@ func (o CastUpdate) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.GCastEnabled) {
 		toSerialize["gCastEnabled"] = o.GCastEnabled
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *CastUpdate) UnmarshalJSON(data []byte) (err error) {
+	varCastUpdate := _CastUpdate{}
+
+	err = json.Unmarshal(data, &varCastUpdate)
+
+	if err != nil {
+		return err
+	}
+
+	*o = CastUpdate(varCastUpdate)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "gCastEnabled")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableCastUpdate struct {

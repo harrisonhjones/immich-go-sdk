@@ -21,7 +21,10 @@ var _ MappedNullable = &QueueUpdateDto{}
 type QueueUpdateDto struct {
 	// Whether to pause the queue
 	IsPaused *bool `json:"isPaused,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _QueueUpdateDto QueueUpdateDto
 
 // NewQueueUpdateDto instantiates a new QueueUpdateDto object
 // This constructor will assign default values to properties that have it defined,
@@ -85,7 +88,33 @@ func (o QueueUpdateDto) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.IsPaused) {
 		toSerialize["isPaused"] = o.IsPaused
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *QueueUpdateDto) UnmarshalJSON(data []byte) (err error) {
+	varQueueUpdateDto := _QueueUpdateDto{}
+
+	err = json.Unmarshal(data, &varQueueUpdateDto)
+
+	if err != nil {
+		return err
+	}
+
+	*o = QueueUpdateDto(varQueueUpdateDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "isPaused")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableQueueUpdateDto struct {

@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -33,6 +32,7 @@ type QueueStatisticsDto struct {
 	Paused int32 `json:"paused"`
 	// Number of waiting jobs
 	Waiting int32 `json:"waiting"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _QueueStatisticsDto QueueStatisticsDto
@@ -220,6 +220,11 @@ func (o QueueStatisticsDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["failed"] = o.Failed
 	toSerialize["paused"] = o.Paused
 	toSerialize["waiting"] = o.Waiting
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -252,15 +257,25 @@ func (o *QueueStatisticsDto) UnmarshalJSON(data []byte) (err error) {
 
 	varQueueStatisticsDto := _QueueStatisticsDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varQueueStatisticsDto)
+	err = json.Unmarshal(data, &varQueueStatisticsDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = QueueStatisticsDto(varQueueStatisticsDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "active")
+		delete(additionalProperties, "completed")
+		delete(additionalProperties, "delayed")
+		delete(additionalProperties, "failed")
+		delete(additionalProperties, "paused")
+		delete(additionalProperties, "waiting")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

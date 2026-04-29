@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &AlbumUserResponseDto{}
 type AlbumUserResponseDto struct {
 	Role AlbumUserRole `json:"role"`
 	User UserResponseDto `json:"user"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _AlbumUserResponseDto AlbumUserResponseDto
@@ -106,6 +106,11 @@ func (o AlbumUserResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["role"] = o.Role
 	toSerialize["user"] = o.User
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -134,15 +139,21 @@ func (o *AlbumUserResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varAlbumUserResponseDto := _AlbumUserResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varAlbumUserResponseDto)
+	err = json.Unmarshal(data, &varAlbumUserResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = AlbumUserResponseDto(varAlbumUserResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "role")
+		delete(additionalProperties, "user")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &StackCreateDto{}
 type StackCreateDto struct {
 	// Asset IDs (first becomes primary, min 2)
 	AssetIds []string `json:"assetIds"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _StackCreateDto StackCreateDto
@@ -80,6 +80,11 @@ func (o StackCreateDto) MarshalJSON() ([]byte, error) {
 func (o StackCreateDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["assetIds"] = o.AssetIds
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *StackCreateDto) UnmarshalJSON(data []byte) (err error) {
 
 	varStackCreateDto := _StackCreateDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varStackCreateDto)
+	err = json.Unmarshal(data, &varStackCreateDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = StackCreateDto(varStackCreateDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "assetIds")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

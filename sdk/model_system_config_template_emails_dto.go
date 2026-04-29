@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -27,6 +26,7 @@ type SystemConfigTemplateEmailsDto struct {
 	AlbumUpdateTemplate string `json:"albumUpdateTemplate"`
 	// Welcome template
 	WelcomeTemplate string `json:"welcomeTemplate"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SystemConfigTemplateEmailsDto SystemConfigTemplateEmailsDto
@@ -136,6 +136,11 @@ func (o SystemConfigTemplateEmailsDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["albumInviteTemplate"] = o.AlbumInviteTemplate
 	toSerialize["albumUpdateTemplate"] = o.AlbumUpdateTemplate
 	toSerialize["welcomeTemplate"] = o.WelcomeTemplate
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -165,15 +170,22 @@ func (o *SystemConfigTemplateEmailsDto) UnmarshalJSON(data []byte) (err error) {
 
 	varSystemConfigTemplateEmailsDto := _SystemConfigTemplateEmailsDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSystemConfigTemplateEmailsDto)
+	err = json.Unmarshal(data, &varSystemConfigTemplateEmailsDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SystemConfigTemplateEmailsDto(varSystemConfigTemplateEmailsDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "albumInviteTemplate")
+		delete(additionalProperties, "albumUpdateTemplate")
+		delete(additionalProperties, "welcomeTemplate")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

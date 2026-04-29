@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &PartnerUpdateDto{}
 type PartnerUpdateDto struct {
 	// Show partner assets in timeline
 	InTimeline bool `json:"inTimeline"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _PartnerUpdateDto PartnerUpdateDto
@@ -80,6 +80,11 @@ func (o PartnerUpdateDto) MarshalJSON() ([]byte, error) {
 func (o PartnerUpdateDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["inTimeline"] = o.InTimeline
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *PartnerUpdateDto) UnmarshalJSON(data []byte) (err error) {
 
 	varPartnerUpdateDto := _PartnerUpdateDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varPartnerUpdateDto)
+	err = json.Unmarshal(data, &varPartnerUpdateDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = PartnerUpdateDto(varPartnerUpdateDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "inTimeline")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

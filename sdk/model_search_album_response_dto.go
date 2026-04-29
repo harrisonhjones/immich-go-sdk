@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -27,6 +26,7 @@ type SearchAlbumResponseDto struct {
 	Items []AlbumResponseDto `json:"items"`
 	// Total number of matching albums
 	Total int32 `json:"total"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SearchAlbumResponseDto SearchAlbumResponseDto
@@ -162,6 +162,11 @@ func (o SearchAlbumResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["facets"] = o.Facets
 	toSerialize["items"] = o.Items
 	toSerialize["total"] = o.Total
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -192,15 +197,23 @@ func (o *SearchAlbumResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varSearchAlbumResponseDto := _SearchAlbumResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSearchAlbumResponseDto)
+	err = json.Unmarshal(data, &varSearchAlbumResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SearchAlbumResponseDto(varSearchAlbumResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "count")
+		delete(additionalProperties, "facets")
+		delete(additionalProperties, "items")
+		delete(additionalProperties, "total")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

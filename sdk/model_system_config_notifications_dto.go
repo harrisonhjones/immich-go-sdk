@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -22,6 +21,7 @@ var _ MappedNullable = &SystemConfigNotificationsDto{}
 // SystemConfigNotificationsDto struct for SystemConfigNotificationsDto
 type SystemConfigNotificationsDto struct {
 	Smtp SystemConfigSmtpDto `json:"smtp"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SystemConfigNotificationsDto SystemConfigNotificationsDto
@@ -79,6 +79,11 @@ func (o SystemConfigNotificationsDto) MarshalJSON() ([]byte, error) {
 func (o SystemConfigNotificationsDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["smtp"] = o.Smtp
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -106,15 +111,20 @@ func (o *SystemConfigNotificationsDto) UnmarshalJSON(data []byte) (err error) {
 
 	varSystemConfigNotificationsDto := _SystemConfigNotificationsDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSystemConfigNotificationsDto)
+	err = json.Unmarshal(data, &varSystemConfigNotificationsDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SystemConfigNotificationsDto(varSystemConfigNotificationsDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "smtp")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

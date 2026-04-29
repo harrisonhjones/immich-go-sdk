@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -25,6 +24,7 @@ type PurchaseResponse struct {
 	HideBuyButtonUntil string `json:"hideBuyButtonUntil"`
 	// Whether to show support badge
 	ShowSupportBadge bool `json:"showSupportBadge"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _PurchaseResponse PurchaseResponse
@@ -108,6 +108,11 @@ func (o PurchaseResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["hideBuyButtonUntil"] = o.HideBuyButtonUntil
 	toSerialize["showSupportBadge"] = o.ShowSupportBadge
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -136,15 +141,21 @@ func (o *PurchaseResponse) UnmarshalJSON(data []byte) (err error) {
 
 	varPurchaseResponse := _PurchaseResponse{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varPurchaseResponse)
+	err = json.Unmarshal(data, &varPurchaseResponse)
 
 	if err != nil {
 		return err
 	}
 
 	*o = PurchaseResponse(varPurchaseResponse)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "hideBuyButtonUntil")
+		delete(additionalProperties, "showSupportBadge")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

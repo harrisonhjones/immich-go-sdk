@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &ValidateAccessTokenResponseDto{}
 type ValidateAccessTokenResponseDto struct {
 	// Authentication status
 	AuthStatus bool `json:"authStatus"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _ValidateAccessTokenResponseDto ValidateAccessTokenResponseDto
@@ -80,6 +80,11 @@ func (o ValidateAccessTokenResponseDto) MarshalJSON() ([]byte, error) {
 func (o ValidateAccessTokenResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["authStatus"] = o.AuthStatus
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *ValidateAccessTokenResponseDto) UnmarshalJSON(data []byte) (err error) 
 
 	varValidateAccessTokenResponseDto := _ValidateAccessTokenResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varValidateAccessTokenResponseDto)
+	err = json.Unmarshal(data, &varValidateAccessTokenResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = ValidateAccessTokenResponseDto(varValidateAccessTokenResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "authStatus")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

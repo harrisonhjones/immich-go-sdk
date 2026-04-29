@@ -34,7 +34,10 @@ type UpdateAssetDto struct {
 	// Rating in range [1-5], or null for unrated
 	Rating NullableInt32 `json:"rating,omitempty"`
 	Visibility *AssetVisibility `json:"visibility,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _UpdateAssetDto UpdateAssetDto
 
 // NewUpdateAssetDto instantiates a new UpdateAssetDto object
 // This constructor will assign default values to properties that have it defined,
@@ -363,7 +366,40 @@ func (o UpdateAssetDto) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Visibility) {
 		toSerialize["visibility"] = o.Visibility
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *UpdateAssetDto) UnmarshalJSON(data []byte) (err error) {
+	varUpdateAssetDto := _UpdateAssetDto{}
+
+	err = json.Unmarshal(data, &varUpdateAssetDto)
+
+	if err != nil {
+		return err
+	}
+
+	*o = UpdateAssetDto(varUpdateAssetDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "dateTimeOriginal")
+		delete(additionalProperties, "description")
+		delete(additionalProperties, "isFavorite")
+		delete(additionalProperties, "latitude")
+		delete(additionalProperties, "livePhotoVideoId")
+		delete(additionalProperties, "longitude")
+		delete(additionalProperties, "rating")
+		delete(additionalProperties, "visibility")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableUpdateAssetDto struct {

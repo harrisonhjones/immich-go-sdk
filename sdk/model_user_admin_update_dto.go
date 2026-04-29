@@ -36,7 +36,10 @@ type UserAdminUpdateDto struct {
 	ShouldChangePassword *bool `json:"shouldChangePassword,omitempty"`
 	// Storage label
 	StorageLabel NullableString `json:"storageLabel,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _UserAdminUpdateDto UserAdminUpdateDto
 
 // NewUserAdminUpdateDto instantiates a new UserAdminUpdateDto object
 // This constructor will assign default values to properties that have it defined,
@@ -420,7 +423,41 @@ func (o UserAdminUpdateDto) ToMap() (map[string]interface{}, error) {
 	if o.StorageLabel.IsSet() {
 		toSerialize["storageLabel"] = o.StorageLabel.Get()
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *UserAdminUpdateDto) UnmarshalJSON(data []byte) (err error) {
+	varUserAdminUpdateDto := _UserAdminUpdateDto{}
+
+	err = json.Unmarshal(data, &varUserAdminUpdateDto)
+
+	if err != nil {
+		return err
+	}
+
+	*o = UserAdminUpdateDto(varUserAdminUpdateDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "avatarColor")
+		delete(additionalProperties, "email")
+		delete(additionalProperties, "isAdmin")
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "password")
+		delete(additionalProperties, "pinCode")
+		delete(additionalProperties, "quotaSizeInBytes")
+		delete(additionalProperties, "shouldChangePassword")
+		delete(additionalProperties, "storageLabel")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableUserAdminUpdateDto struct {

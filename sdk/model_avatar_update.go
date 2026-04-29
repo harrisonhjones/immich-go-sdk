@@ -20,7 +20,10 @@ var _ MappedNullable = &AvatarUpdate{}
 // AvatarUpdate struct for AvatarUpdate
 type AvatarUpdate struct {
 	Color *UserAvatarColor `json:"color,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _AvatarUpdate AvatarUpdate
 
 // NewAvatarUpdate instantiates a new AvatarUpdate object
 // This constructor will assign default values to properties that have it defined,
@@ -84,7 +87,33 @@ func (o AvatarUpdate) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Color) {
 		toSerialize["color"] = o.Color
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *AvatarUpdate) UnmarshalJSON(data []byte) (err error) {
+	varAvatarUpdate := _AvatarUpdate{}
+
+	err = json.Unmarshal(data, &varAvatarUpdate)
+
+	if err != nil {
+		return err
+	}
+
+	*o = AvatarUpdate(varAvatarUpdate)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "color")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableAvatarUpdate struct {

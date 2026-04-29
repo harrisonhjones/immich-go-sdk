@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -25,6 +24,7 @@ type DownloadResponseDto struct {
 	Archives []DownloadArchiveInfo `json:"archives"`
 	// Total size in bytes
 	TotalSize int32 `json:"totalSize"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _DownloadResponseDto DownloadResponseDto
@@ -108,6 +108,11 @@ func (o DownloadResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["archives"] = o.Archives
 	toSerialize["totalSize"] = o.TotalSize
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -136,15 +141,21 @@ func (o *DownloadResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varDownloadResponseDto := _DownloadResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varDownloadResponseDto)
+	err = json.Unmarshal(data, &varDownloadResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = DownloadResponseDto(varDownloadResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "archives")
+		delete(additionalProperties, "totalSize")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

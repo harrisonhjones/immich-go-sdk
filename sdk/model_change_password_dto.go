@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -27,6 +26,7 @@ type ChangePasswordDto struct {
 	NewPassword string `json:"newPassword"`
 	// Current password
 	Password string `json:"password"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _ChangePasswordDto ChangePasswordDto
@@ -149,6 +149,11 @@ func (o ChangePasswordDto) ToMap() (map[string]interface{}, error) {
 	}
 	toSerialize["newPassword"] = o.NewPassword
 	toSerialize["password"] = o.Password
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -177,15 +182,22 @@ func (o *ChangePasswordDto) UnmarshalJSON(data []byte) (err error) {
 
 	varChangePasswordDto := _ChangePasswordDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varChangePasswordDto)
+	err = json.Unmarshal(data, &varChangePasswordDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = ChangePasswordDto(varChangePasswordDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "invalidateSessions")
+		delete(additionalProperties, "newPassword")
+		delete(additionalProperties, "password")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -27,6 +26,7 @@ type EmailNotificationsResponse struct {
 	AlbumUpdate bool `json:"albumUpdate"`
 	// Whether email notifications are enabled
 	Enabled bool `json:"enabled"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _EmailNotificationsResponse EmailNotificationsResponse
@@ -136,6 +136,11 @@ func (o EmailNotificationsResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize["albumInvite"] = o.AlbumInvite
 	toSerialize["albumUpdate"] = o.AlbumUpdate
 	toSerialize["enabled"] = o.Enabled
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -165,15 +170,22 @@ func (o *EmailNotificationsResponse) UnmarshalJSON(data []byte) (err error) {
 
 	varEmailNotificationsResponse := _EmailNotificationsResponse{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varEmailNotificationsResponse)
+	err = json.Unmarshal(data, &varEmailNotificationsResponse)
 
 	if err != nil {
 		return err
 	}
 
 	*o = EmailNotificationsResponse(varEmailNotificationsResponse)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "albumInvite")
+		delete(additionalProperties, "albumUpdate")
+		delete(additionalProperties, "enabled")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

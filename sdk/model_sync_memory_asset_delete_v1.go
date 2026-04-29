@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -25,6 +24,7 @@ type SyncMemoryAssetDeleteV1 struct {
 	AssetId string `json:"assetId"`
 	// Memory ID
 	MemoryId string `json:"memoryId"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SyncMemoryAssetDeleteV1 SyncMemoryAssetDeleteV1
@@ -108,6 +108,11 @@ func (o SyncMemoryAssetDeleteV1) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["assetId"] = o.AssetId
 	toSerialize["memoryId"] = o.MemoryId
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -136,15 +141,21 @@ func (o *SyncMemoryAssetDeleteV1) UnmarshalJSON(data []byte) (err error) {
 
 	varSyncMemoryAssetDeleteV1 := _SyncMemoryAssetDeleteV1{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSyncMemoryAssetDeleteV1)
+	err = json.Unmarshal(data, &varSyncMemoryAssetDeleteV1)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SyncMemoryAssetDeleteV1(varSyncMemoryAssetDeleteV1)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "assetId")
+		delete(additionalProperties, "memoryId")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

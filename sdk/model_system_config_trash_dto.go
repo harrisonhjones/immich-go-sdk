@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -25,6 +24,7 @@ type SystemConfigTrashDto struct {
 	Days int32 `json:"days"`
 	// Enabled
 	Enabled bool `json:"enabled"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SystemConfigTrashDto SystemConfigTrashDto
@@ -108,6 +108,11 @@ func (o SystemConfigTrashDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["days"] = o.Days
 	toSerialize["enabled"] = o.Enabled
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -136,15 +141,21 @@ func (o *SystemConfigTrashDto) UnmarshalJSON(data []byte) (err error) {
 
 	varSystemConfigTrashDto := _SystemConfigTrashDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSystemConfigTrashDto)
+	err = json.Unmarshal(data, &varSystemConfigTrashDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SystemConfigTrashDto(varSystemConfigTrashDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "days")
+		delete(additionalProperties, "enabled")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

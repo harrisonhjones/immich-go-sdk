@@ -24,7 +24,10 @@ type PluginJsonSchema struct {
 	Properties *map[string]PluginJsonSchemaProperty `json:"properties,omitempty"`
 	Required []string `json:"required,omitempty"`
 	Type *PluginJsonSchemaType `json:"type,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _PluginJsonSchema PluginJsonSchema
 
 // NewPluginJsonSchema instantiates a new PluginJsonSchema object
 // This constructor will assign default values to properties that have it defined,
@@ -228,7 +231,37 @@ func (o PluginJsonSchema) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Type) {
 		toSerialize["type"] = o.Type
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *PluginJsonSchema) UnmarshalJSON(data []byte) (err error) {
+	varPluginJsonSchema := _PluginJsonSchema{}
+
+	err = json.Unmarshal(data, &varPluginJsonSchema)
+
+	if err != nil {
+		return err
+	}
+
+	*o = PluginJsonSchema(varPluginJsonSchema)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "additionalProperties")
+		delete(additionalProperties, "description")
+		delete(additionalProperties, "properties")
+		delete(additionalProperties, "required")
+		delete(additionalProperties, "type")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullablePluginJsonSchema struct {

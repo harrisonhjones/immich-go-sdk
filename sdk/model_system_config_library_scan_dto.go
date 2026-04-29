@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -25,6 +24,7 @@ type SystemConfigLibraryScanDto struct {
 	CronExpression string `json:"cronExpression" validate:"regexp=(((\\\\d+,)+\\\\d+|(\\\\d+(\\/|-)\\\\d+)|\\\\d+|\\\\*) ?){5,7}"`
 	// Enabled
 	Enabled bool `json:"enabled"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SystemConfigLibraryScanDto SystemConfigLibraryScanDto
@@ -108,6 +108,11 @@ func (o SystemConfigLibraryScanDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["cronExpression"] = o.CronExpression
 	toSerialize["enabled"] = o.Enabled
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -136,15 +141,21 @@ func (o *SystemConfigLibraryScanDto) UnmarshalJSON(data []byte) (err error) {
 
 	varSystemConfigLibraryScanDto := _SystemConfigLibraryScanDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSystemConfigLibraryScanDto)
+	err = json.Unmarshal(data, &varSystemConfigLibraryScanDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SystemConfigLibraryScanDto(varSystemConfigLibraryScanDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "cronExpression")
+		delete(additionalProperties, "enabled")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

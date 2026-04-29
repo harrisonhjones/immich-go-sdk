@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -25,6 +24,7 @@ type ActivityStatisticsResponseDto struct {
 	Comments int32 `json:"comments"`
 	// Number of likes
 	Likes int32 `json:"likes"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _ActivityStatisticsResponseDto ActivityStatisticsResponseDto
@@ -108,6 +108,11 @@ func (o ActivityStatisticsResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["comments"] = o.Comments
 	toSerialize["likes"] = o.Likes
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -136,15 +141,21 @@ func (o *ActivityStatisticsResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varActivityStatisticsResponseDto := _ActivityStatisticsResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varActivityStatisticsResponseDto)
+	err = json.Unmarshal(data, &varActivityStatisticsResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = ActivityStatisticsResponseDto(varActivityStatisticsResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "comments")
+		delete(additionalProperties, "likes")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

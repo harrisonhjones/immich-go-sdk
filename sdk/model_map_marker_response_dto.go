@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -33,6 +32,7 @@ type MapMarkerResponseDto struct {
 	Lon float64 `json:"lon"`
 	// State/Province name
 	State NullableString `json:"state"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _MapMarkerResponseDto MapMarkerResponseDto
@@ -226,6 +226,11 @@ func (o MapMarkerResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["lat"] = o.Lat
 	toSerialize["lon"] = o.Lon
 	toSerialize["state"] = o.State.Get()
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -258,15 +263,25 @@ func (o *MapMarkerResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varMapMarkerResponseDto := _MapMarkerResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varMapMarkerResponseDto)
+	err = json.Unmarshal(data, &varMapMarkerResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = MapMarkerResponseDto(varMapMarkerResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "city")
+		delete(additionalProperties, "country")
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "lat")
+		delete(additionalProperties, "lon")
+		delete(additionalProperties, "state")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

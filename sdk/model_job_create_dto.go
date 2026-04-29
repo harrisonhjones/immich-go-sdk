@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -22,6 +21,7 @@ var _ MappedNullable = &JobCreateDto{}
 // JobCreateDto struct for JobCreateDto
 type JobCreateDto struct {
 	Name ManualJobName `json:"name"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _JobCreateDto JobCreateDto
@@ -79,6 +79,11 @@ func (o JobCreateDto) MarshalJSON() ([]byte, error) {
 func (o JobCreateDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["name"] = o.Name
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -106,15 +111,20 @@ func (o *JobCreateDto) UnmarshalJSON(data []byte) (err error) {
 
 	varJobCreateDto := _JobCreateDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varJobCreateDto)
+	err = json.Unmarshal(data, &varJobCreateDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = JobCreateDto(varJobCreateDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "name")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

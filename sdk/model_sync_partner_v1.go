@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -27,6 +26,7 @@ type SyncPartnerV1 struct {
 	SharedById string `json:"sharedById"`
 	// Shared with ID
 	SharedWithId string `json:"sharedWithId"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SyncPartnerV1 SyncPartnerV1
@@ -136,6 +136,11 @@ func (o SyncPartnerV1) ToMap() (map[string]interface{}, error) {
 	toSerialize["inTimeline"] = o.InTimeline
 	toSerialize["sharedById"] = o.SharedById
 	toSerialize["sharedWithId"] = o.SharedWithId
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -165,15 +170,22 @@ func (o *SyncPartnerV1) UnmarshalJSON(data []byte) (err error) {
 
 	varSyncPartnerV1 := _SyncPartnerV1{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSyncPartnerV1)
+	err = json.Unmarshal(data, &varSyncPartnerV1)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SyncPartnerV1(varSyncPartnerV1)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "inTimeline")
+		delete(additionalProperties, "sharedById")
+		delete(additionalProperties, "sharedWithId")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -39,6 +38,7 @@ type SessionResponseDto struct {
 	IsPendingSyncReset bool `json:"isPendingSyncReset"`
 	// Last update date
 	UpdatedAt string `json:"updatedAt"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SessionResponseDto SessionResponseDto
@@ -315,6 +315,11 @@ func (o SessionResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["id"] = o.Id
 	toSerialize["isPendingSyncReset"] = o.IsPendingSyncReset
 	toSerialize["updatedAt"] = o.UpdatedAt
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -349,15 +354,28 @@ func (o *SessionResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varSessionResponseDto := _SessionResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSessionResponseDto)
+	err = json.Unmarshal(data, &varSessionResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SessionResponseDto(varSessionResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "appVersion")
+		delete(additionalProperties, "createdAt")
+		delete(additionalProperties, "current")
+		delete(additionalProperties, "deviceOS")
+		delete(additionalProperties, "deviceType")
+		delete(additionalProperties, "expiresAt")
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "isPendingSyncReset")
+		delete(additionalProperties, "updatedAt")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

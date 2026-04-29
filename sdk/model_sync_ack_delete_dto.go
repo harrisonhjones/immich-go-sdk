@@ -21,7 +21,10 @@ var _ MappedNullable = &SyncAckDeleteDto{}
 type SyncAckDeleteDto struct {
 	// Sync entity types to delete acks for
 	Types []SyncEntityType `json:"types,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _SyncAckDeleteDto SyncAckDeleteDto
 
 // NewSyncAckDeleteDto instantiates a new SyncAckDeleteDto object
 // This constructor will assign default values to properties that have it defined,
@@ -85,7 +88,33 @@ func (o SyncAckDeleteDto) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Types) {
 		toSerialize["types"] = o.Types
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *SyncAckDeleteDto) UnmarshalJSON(data []byte) (err error) {
+	varSyncAckDeleteDto := _SyncAckDeleteDto{}
+
+	err = json.Unmarshal(data, &varSyncAckDeleteDto)
+
+	if err != nil {
+		return err
+	}
+
+	*o = SyncAckDeleteDto(varSyncAckDeleteDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "types")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableSyncAckDeleteDto struct {

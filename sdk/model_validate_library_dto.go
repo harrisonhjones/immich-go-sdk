@@ -23,7 +23,10 @@ type ValidateLibraryDto struct {
 	ExclusionPatterns []string `json:"exclusionPatterns,omitempty"`
 	// Import paths to validate (max 128)
 	ImportPaths []string `json:"importPaths,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _ValidateLibraryDto ValidateLibraryDto
 
 // NewValidateLibraryDto instantiates a new ValidateLibraryDto object
 // This constructor will assign default values to properties that have it defined,
@@ -122,7 +125,34 @@ func (o ValidateLibraryDto) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.ImportPaths) {
 		toSerialize["importPaths"] = o.ImportPaths
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *ValidateLibraryDto) UnmarshalJSON(data []byte) (err error) {
+	varValidateLibraryDto := _ValidateLibraryDto{}
+
+	err = json.Unmarshal(data, &varValidateLibraryDto)
+
+	if err != nil {
+		return err
+	}
+
+	*o = ValidateLibraryDto(varValidateLibraryDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "exclusionPatterns")
+		delete(additionalProperties, "importPaths")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableValidateLibraryDto struct {

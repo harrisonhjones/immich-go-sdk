@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -22,6 +21,7 @@ var _ MappedNullable = &SystemConfigTemplatesDto{}
 // SystemConfigTemplatesDto struct for SystemConfigTemplatesDto
 type SystemConfigTemplatesDto struct {
 	Email SystemConfigTemplateEmailsDto `json:"email"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SystemConfigTemplatesDto SystemConfigTemplatesDto
@@ -79,6 +79,11 @@ func (o SystemConfigTemplatesDto) MarshalJSON() ([]byte, error) {
 func (o SystemConfigTemplatesDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["email"] = o.Email
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -106,15 +111,20 @@ func (o *SystemConfigTemplatesDto) UnmarshalJSON(data []byte) (err error) {
 
 	varSystemConfigTemplatesDto := _SystemConfigTemplatesDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSystemConfigTemplatesDto)
+	err = json.Unmarshal(data, &varSystemConfigTemplatesDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SystemConfigTemplatesDto(varSystemConfigTemplatesDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "email")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

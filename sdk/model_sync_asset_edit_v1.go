@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -30,6 +29,7 @@ type SyncAssetEditV1 struct {
 	Parameters map[string]interface{} `json:"parameters"`
 	// Edit sequence
 	Sequence int32 `json:"sequence"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SyncAssetEditV1 SyncAssetEditV1
@@ -191,6 +191,11 @@ func (o SyncAssetEditV1) ToMap() (map[string]interface{}, error) {
 	toSerialize["id"] = o.Id
 	toSerialize["parameters"] = o.Parameters
 	toSerialize["sequence"] = o.Sequence
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -222,15 +227,24 @@ func (o *SyncAssetEditV1) UnmarshalJSON(data []byte) (err error) {
 
 	varSyncAssetEditV1 := _SyncAssetEditV1{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSyncAssetEditV1)
+	err = json.Unmarshal(data, &varSyncAssetEditV1)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SyncAssetEditV1(varSyncAssetEditV1)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "action")
+		delete(additionalProperties, "assetId")
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "parameters")
+		delete(additionalProperties, "sequence")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

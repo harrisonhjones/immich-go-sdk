@@ -23,7 +23,10 @@ type SharedLinksUpdate struct {
 	Enabled *bool `json:"enabled,omitempty"`
 	// Whether shared links appear in web sidebar
 	SidebarWeb *bool `json:"sidebarWeb,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _SharedLinksUpdate SharedLinksUpdate
 
 // NewSharedLinksUpdate instantiates a new SharedLinksUpdate object
 // This constructor will assign default values to properties that have it defined,
@@ -122,7 +125,34 @@ func (o SharedLinksUpdate) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.SidebarWeb) {
 		toSerialize["sidebarWeb"] = o.SidebarWeb
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *SharedLinksUpdate) UnmarshalJSON(data []byte) (err error) {
+	varSharedLinksUpdate := _SharedLinksUpdate{}
+
+	err = json.Unmarshal(data, &varSharedLinksUpdate)
+
+	if err != nil {
+		return err
+	}
+
+	*o = SharedLinksUpdate(varSharedLinksUpdate)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "enabled")
+		delete(additionalProperties, "sidebarWeb")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableSharedLinksUpdate struct {

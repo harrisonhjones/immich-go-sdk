@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -29,6 +28,7 @@ type CreateLibraryDto struct {
 	Name *string `json:"name,omitempty"`
 	// Owner user ID
 	OwnerId string `json:"ownerId" validate:"regexp=^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _CreateLibraryDto CreateLibraryDto
@@ -191,6 +191,11 @@ func (o CreateLibraryDto) ToMap() (map[string]interface{}, error) {
 		toSerialize["name"] = o.Name
 	}
 	toSerialize["ownerId"] = o.OwnerId
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -218,15 +223,23 @@ func (o *CreateLibraryDto) UnmarshalJSON(data []byte) (err error) {
 
 	varCreateLibraryDto := _CreateLibraryDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varCreateLibraryDto)
+	err = json.Unmarshal(data, &varCreateLibraryDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = CreateLibraryDto(varCreateLibraryDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "exclusionPatterns")
+		delete(additionalProperties, "importPaths")
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "ownerId")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

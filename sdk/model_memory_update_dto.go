@@ -26,7 +26,10 @@ type MemoryUpdateDto struct {
 	MemoryAt *time.Time `json:"memoryAt,omitempty" validate:"regexp=^(?:(?:\\\\d\\\\d[2468][048]|\\\\d\\\\d[13579][26]|\\\\d\\\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\\\d|30)|(?:02)-(?:0[1-9]|1\\\\d|2[0-8])))T(?:(?:[01]\\\\d|2[0-3]):[0-5]\\\\d(?::[0-5]\\\\d(?:\\\\.\\\\d+)?)?(?:Z))$"`
 	// Date when memory was seen
 	SeenAt *time.Time `json:"seenAt,omitempty" validate:"regexp=^(?:(?:\\\\d\\\\d[2468][048]|\\\\d\\\\d[13579][26]|\\\\d\\\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\\\d|30)|(?:02)-(?:0[1-9]|1\\\\d|2[0-8])))T(?:(?:[01]\\\\d|2[0-3]):[0-5]\\\\d(?::[0-5]\\\\d(?:\\\\.\\\\d+)?)?(?:Z))$"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _MemoryUpdateDto MemoryUpdateDto
 
 // NewMemoryUpdateDto instantiates a new MemoryUpdateDto object
 // This constructor will assign default values to properties that have it defined,
@@ -160,7 +163,35 @@ func (o MemoryUpdateDto) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.SeenAt) {
 		toSerialize["seenAt"] = o.SeenAt
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *MemoryUpdateDto) UnmarshalJSON(data []byte) (err error) {
+	varMemoryUpdateDto := _MemoryUpdateDto{}
+
+	err = json.Unmarshal(data, &varMemoryUpdateDto)
+
+	if err != nil {
+		return err
+	}
+
+	*o = MemoryUpdateDto(varMemoryUpdateDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "isSaved")
+		delete(additionalProperties, "memoryAt")
+		delete(additionalProperties, "seenAt")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableMemoryUpdateDto struct {

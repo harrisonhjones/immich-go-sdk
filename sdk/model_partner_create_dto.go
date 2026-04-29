@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &PartnerCreateDto{}
 type PartnerCreateDto struct {
 	// User ID to share with
 	SharedWithId string `json:"sharedWithId" validate:"regexp=^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _PartnerCreateDto PartnerCreateDto
@@ -80,6 +80,11 @@ func (o PartnerCreateDto) MarshalJSON() ([]byte, error) {
 func (o PartnerCreateDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["sharedWithId"] = o.SharedWithId
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *PartnerCreateDto) UnmarshalJSON(data []byte) (err error) {
 
 	varPartnerCreateDto := _PartnerCreateDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varPartnerCreateDto)
+	err = json.Unmarshal(data, &varPartnerCreateDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = PartnerCreateDto(varPartnerCreateDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "sharedWithId")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

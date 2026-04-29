@@ -13,7 +13,6 @@ package immich
 import (
 	"encoding/json"
 	"time"
-	"bytes"
 	"fmt"
 )
 
@@ -34,6 +33,7 @@ type NotificationCreateDto struct {
 	Type *NotificationType `json:"type,omitempty"`
 	// User ID to send notification to
 	UserId string `json:"userId" validate:"regexp=^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _NotificationCreateDto NotificationCreateDto
@@ -312,6 +312,11 @@ func (o NotificationCreateDto) ToMap() (map[string]interface{}, error) {
 		toSerialize["type"] = o.Type
 	}
 	toSerialize["userId"] = o.UserId
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -340,15 +345,26 @@ func (o *NotificationCreateDto) UnmarshalJSON(data []byte) (err error) {
 
 	varNotificationCreateDto := _NotificationCreateDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varNotificationCreateDto)
+	err = json.Unmarshal(data, &varNotificationCreateDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = NotificationCreateDto(varNotificationCreateDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "data")
+		delete(additionalProperties, "description")
+		delete(additionalProperties, "level")
+		delete(additionalProperties, "readAt")
+		delete(additionalProperties, "title")
+		delete(additionalProperties, "type")
+		delete(additionalProperties, "userId")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

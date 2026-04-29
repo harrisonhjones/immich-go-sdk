@@ -21,7 +21,10 @@ var _ MappedNullable = &MaintenanceLoginDto{}
 type MaintenanceLoginDto struct {
 	// Maintenance token
 	Token *string `json:"token,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _MaintenanceLoginDto MaintenanceLoginDto
 
 // NewMaintenanceLoginDto instantiates a new MaintenanceLoginDto object
 // This constructor will assign default values to properties that have it defined,
@@ -85,7 +88,33 @@ func (o MaintenanceLoginDto) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Token) {
 		toSerialize["token"] = o.Token
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *MaintenanceLoginDto) UnmarshalJSON(data []byte) (err error) {
+	varMaintenanceLoginDto := _MaintenanceLoginDto{}
+
+	err = json.Unmarshal(data, &varMaintenanceLoginDto)
+
+	if err != nil {
+		return err
+	}
+
+	*o = MaintenanceLoginDto(varMaintenanceLoginDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "token")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableMaintenanceLoginDto struct {

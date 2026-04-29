@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &TemplateDto{}
 type TemplateDto struct {
 	// Template name
 	Template string `json:"template"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _TemplateDto TemplateDto
@@ -80,6 +80,11 @@ func (o TemplateDto) MarshalJSON() ([]byte, error) {
 func (o TemplateDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["template"] = o.Template
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *TemplateDto) UnmarshalJSON(data []byte) (err error) {
 
 	varTemplateDto := _TemplateDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varTemplateDto)
+	err = json.Unmarshal(data, &varTemplateDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = TemplateDto(varTemplateDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "template")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

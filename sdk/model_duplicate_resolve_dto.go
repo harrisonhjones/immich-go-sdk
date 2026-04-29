@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &DuplicateResolveDto{}
 type DuplicateResolveDto struct {
 	// List of duplicate groups to resolve
 	Groups []DuplicateResolveGroupDto `json:"groups"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _DuplicateResolveDto DuplicateResolveDto
@@ -80,6 +80,11 @@ func (o DuplicateResolveDto) MarshalJSON() ([]byte, error) {
 func (o DuplicateResolveDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["groups"] = o.Groups
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *DuplicateResolveDto) UnmarshalJSON(data []byte) (err error) {
 
 	varDuplicateResolveDto := _DuplicateResolveDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varDuplicateResolveDto)
+	err = json.Unmarshal(data, &varDuplicateResolveDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = DuplicateResolveDto(varDuplicateResolveDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "groups")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

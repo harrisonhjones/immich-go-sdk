@@ -25,7 +25,10 @@ type SessionCreateDto struct {
 	DeviceType *string `json:"deviceType,omitempty"`
 	// Session duration in seconds
 	Duration *int32 `json:"duration,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _SessionCreateDto SessionCreateDto
 
 // NewSessionCreateDto instantiates a new SessionCreateDto object
 // This constructor will assign default values to properties that have it defined,
@@ -159,7 +162,35 @@ func (o SessionCreateDto) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Duration) {
 		toSerialize["duration"] = o.Duration
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *SessionCreateDto) UnmarshalJSON(data []byte) (err error) {
+	varSessionCreateDto := _SessionCreateDto{}
+
+	err = json.Unmarshal(data, &varSessionCreateDto)
+
+	if err != nil {
+		return err
+	}
+
+	*o = SessionCreateDto(varSessionCreateDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "deviceOS")
+		delete(additionalProperties, "deviceType")
+		delete(additionalProperties, "duration")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableSessionCreateDto struct {

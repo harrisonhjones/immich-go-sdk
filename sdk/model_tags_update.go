@@ -23,7 +23,10 @@ type TagsUpdate struct {
 	Enabled *bool `json:"enabled,omitempty"`
 	// Whether tags appear in web sidebar
 	SidebarWeb *bool `json:"sidebarWeb,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _TagsUpdate TagsUpdate
 
 // NewTagsUpdate instantiates a new TagsUpdate object
 // This constructor will assign default values to properties that have it defined,
@@ -122,7 +125,34 @@ func (o TagsUpdate) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.SidebarWeb) {
 		toSerialize["sidebarWeb"] = o.SidebarWeb
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *TagsUpdate) UnmarshalJSON(data []byte) (err error) {
+	varTagsUpdate := _TagsUpdate{}
+
+	err = json.Unmarshal(data, &varTagsUpdate)
+
+	if err != nil {
+		return err
+	}
+
+	*o = TagsUpdate(varTagsUpdate)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "enabled")
+		delete(additionalProperties, "sidebarWeb")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableTagsUpdate struct {

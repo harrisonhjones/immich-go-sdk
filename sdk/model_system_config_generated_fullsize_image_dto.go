@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -28,6 +27,7 @@ type SystemConfigGeneratedFullsizeImageDto struct {
 	Progressive *bool `json:"progressive,omitempty"`
 	// Quality
 	Quality int32 `json:"quality"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SystemConfigGeneratedFullsizeImageDto SystemConfigGeneratedFullsizeImageDto
@@ -172,6 +172,11 @@ func (o SystemConfigGeneratedFullsizeImageDto) ToMap() (map[string]interface{}, 
 		toSerialize["progressive"] = o.Progressive
 	}
 	toSerialize["quality"] = o.Quality
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -201,15 +206,23 @@ func (o *SystemConfigGeneratedFullsizeImageDto) UnmarshalJSON(data []byte) (err 
 
 	varSystemConfigGeneratedFullsizeImageDto := _SystemConfigGeneratedFullsizeImageDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSystemConfigGeneratedFullsizeImageDto)
+	err = json.Unmarshal(data, &varSystemConfigGeneratedFullsizeImageDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SystemConfigGeneratedFullsizeImageDto(varSystemConfigGeneratedFullsizeImageDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "enabled")
+		delete(additionalProperties, "format")
+		delete(additionalProperties, "progressive")
+		delete(additionalProperties, "quality")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

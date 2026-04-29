@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -25,6 +24,7 @@ type QueueResponseDto struct {
 	IsPaused bool `json:"isPaused"`
 	Name QueueName `json:"name"`
 	Statistics QueueStatisticsDto `json:"statistics"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _QueueResponseDto QueueResponseDto
@@ -134,6 +134,11 @@ func (o QueueResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["isPaused"] = o.IsPaused
 	toSerialize["name"] = o.Name
 	toSerialize["statistics"] = o.Statistics
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -163,15 +168,22 @@ func (o *QueueResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varQueueResponseDto := _QueueResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varQueueResponseDto)
+	err = json.Unmarshal(data, &varQueueResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = QueueResponseDto(varQueueResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "isPaused")
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "statistics")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

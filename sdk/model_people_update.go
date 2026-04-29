@@ -23,7 +23,10 @@ type PeopleUpdate struct {
 	Enabled *bool `json:"enabled,omitempty"`
 	// Whether people appear in web sidebar
 	SidebarWeb *bool `json:"sidebarWeb,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _PeopleUpdate PeopleUpdate
 
 // NewPeopleUpdate instantiates a new PeopleUpdate object
 // This constructor will assign default values to properties that have it defined,
@@ -122,7 +125,34 @@ func (o PeopleUpdate) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.SidebarWeb) {
 		toSerialize["sidebarWeb"] = o.SidebarWeb
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *PeopleUpdate) UnmarshalJSON(data []byte) (err error) {
+	varPeopleUpdate := _PeopleUpdate{}
+
+	err = json.Unmarshal(data, &varPeopleUpdate)
+
+	if err != nil {
+		return err
+	}
+
+	*o = PeopleUpdate(varPeopleUpdate)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "enabled")
+		delete(additionalProperties, "sidebarWeb")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullablePeopleUpdate struct {

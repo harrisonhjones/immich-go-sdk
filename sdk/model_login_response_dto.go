@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -37,6 +36,7 @@ type LoginResponseDto struct {
 	UserEmail string "json:\"userEmail\" validate:\"regexp=^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$\""
 	// User ID
 	UserId string `json:"userId"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _LoginResponseDto LoginResponseDto
@@ -276,6 +276,11 @@ func (o LoginResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["shouldChangePassword"] = o.ShouldChangePassword
 	toSerialize["userEmail"] = o.UserEmail
 	toSerialize["userId"] = o.UserId
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -310,15 +315,27 @@ func (o *LoginResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varLoginResponseDto := _LoginResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varLoginResponseDto)
+	err = json.Unmarshal(data, &varLoginResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = LoginResponseDto(varLoginResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "accessToken")
+		delete(additionalProperties, "isAdmin")
+		delete(additionalProperties, "isOnboarded")
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "profileImagePath")
+		delete(additionalProperties, "shouldChangePassword")
+		delete(additionalProperties, "userEmail")
+		delete(additionalProperties, "userId")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

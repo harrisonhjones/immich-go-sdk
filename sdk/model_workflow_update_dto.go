@@ -30,7 +30,10 @@ type WorkflowUpdateDto struct {
 	// Workflow name
 	Name *string `json:"name,omitempty"`
 	TriggerType *PluginTriggerType `json:"triggerType,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _WorkflowUpdateDto WorkflowUpdateDto
 
 // NewWorkflowUpdateDto instantiates a new WorkflowUpdateDto object
 // This constructor will assign default values to properties that have it defined,
@@ -269,7 +272,38 @@ func (o WorkflowUpdateDto) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.TriggerType) {
 		toSerialize["triggerType"] = o.TriggerType
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *WorkflowUpdateDto) UnmarshalJSON(data []byte) (err error) {
+	varWorkflowUpdateDto := _WorkflowUpdateDto{}
+
+	err = json.Unmarshal(data, &varWorkflowUpdateDto)
+
+	if err != nil {
+		return err
+	}
+
+	*o = WorkflowUpdateDto(varWorkflowUpdateDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "actions")
+		delete(additionalProperties, "description")
+		delete(additionalProperties, "enabled")
+		delete(additionalProperties, "filters")
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "triggerType")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableWorkflowUpdateDto struct {

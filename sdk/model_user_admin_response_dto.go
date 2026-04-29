@@ -13,7 +13,6 @@ package immich
 import (
 	"encoding/json"
 	"time"
-	"bytes"
 	"fmt"
 )
 
@@ -53,6 +52,7 @@ type UserAdminResponseDto struct {
 	StorageLabel NullableString `json:"storageLabel"`
 	// Last update date
 	UpdatedAt time.Time `json:"updatedAt" validate:"regexp=^(?:(?:\\\\d\\\\d[2468][048]|\\\\d\\\\d[13579][26]|\\\\d\\\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\\\d|30)|(?:02)-(?:0[1-9]|1\\\\d|2[0-8])))T(?:(?:[01]\\\\d|2[0-3]):[0-5]\\\\d(?::[0-5]\\\\d(?:\\\\.\\\\d+)?)?(?:Z))$"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _UserAdminResponseDto UserAdminResponseDto
@@ -536,6 +536,11 @@ func (o UserAdminResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["status"] = o.Status
 	toSerialize["storageLabel"] = o.StorageLabel.Get()
 	toSerialize["updatedAt"] = o.UpdatedAt
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -579,15 +584,36 @@ func (o *UserAdminResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varUserAdminResponseDto := _UserAdminResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varUserAdminResponseDto)
+	err = json.Unmarshal(data, &varUserAdminResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = UserAdminResponseDto(varUserAdminResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "avatarColor")
+		delete(additionalProperties, "createdAt")
+		delete(additionalProperties, "deletedAt")
+		delete(additionalProperties, "email")
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "isAdmin")
+		delete(additionalProperties, "license")
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "oauthId")
+		delete(additionalProperties, "profileChangedAt")
+		delete(additionalProperties, "profileImagePath")
+		delete(additionalProperties, "quotaSizeInBytes")
+		delete(additionalProperties, "quotaUsageInBytes")
+		delete(additionalProperties, "shouldChangePassword")
+		delete(additionalProperties, "status")
+		delete(additionalProperties, "storageLabel")
+		delete(additionalProperties, "updatedAt")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

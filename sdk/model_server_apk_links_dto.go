@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -29,6 +28,7 @@ type ServerApkLinksDto struct {
 	Universal string `json:"universal"`
 	// APK download link for x86_64 architecture
 	X8664 string `json:"x86_64"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _ServerApkLinksDto ServerApkLinksDto
@@ -164,6 +164,11 @@ func (o ServerApkLinksDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["armeabiv7a"] = o.Armeabiv7a
 	toSerialize["universal"] = o.Universal
 	toSerialize["x86_64"] = o.X8664
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -194,15 +199,23 @@ func (o *ServerApkLinksDto) UnmarshalJSON(data []byte) (err error) {
 
 	varServerApkLinksDto := _ServerApkLinksDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varServerApkLinksDto)
+	err = json.Unmarshal(data, &varServerApkLinksDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = ServerApkLinksDto(varServerApkLinksDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "arm64v8a")
+		delete(additionalProperties, "armeabiv7a")
+		delete(additionalProperties, "universal")
+		delete(additionalProperties, "x86_64")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

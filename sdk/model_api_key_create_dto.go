@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -25,6 +24,7 @@ type ApiKeyCreateDto struct {
 	Name *string `json:"name,omitempty"`
 	// List of permissions
 	Permissions []Permission `json:"permissions"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _ApiKeyCreateDto ApiKeyCreateDto
@@ -117,6 +117,11 @@ func (o ApiKeyCreateDto) ToMap() (map[string]interface{}, error) {
 		toSerialize["name"] = o.Name
 	}
 	toSerialize["permissions"] = o.Permissions
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -144,15 +149,21 @@ func (o *ApiKeyCreateDto) UnmarshalJSON(data []byte) (err error) {
 
 	varApiKeyCreateDto := _ApiKeyCreateDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varApiKeyCreateDto)
+	err = json.Unmarshal(data, &varApiKeyCreateDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = ApiKeyCreateDto(varApiKeyCreateDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "permissions")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

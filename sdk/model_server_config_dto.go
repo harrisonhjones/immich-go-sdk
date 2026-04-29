@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -43,6 +42,7 @@ type ServerConfigDto struct {
 	TrashDays int32 `json:"trashDays"`
 	// Delay in days before deleted users are permanently removed
 	UserDeleteDelay int32 `json:"userDeleteDelay"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _ServerConfigDto ServerConfigDto
@@ -360,6 +360,11 @@ func (o ServerConfigDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["publicUsers"] = o.PublicUsers
 	toSerialize["trashDays"] = o.TrashDays
 	toSerialize["userDeleteDelay"] = o.UserDeleteDelay
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -397,15 +402,30 @@ func (o *ServerConfigDto) UnmarshalJSON(data []byte) (err error) {
 
 	varServerConfigDto := _ServerConfigDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varServerConfigDto)
+	err = json.Unmarshal(data, &varServerConfigDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = ServerConfigDto(varServerConfigDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "externalDomain")
+		delete(additionalProperties, "isInitialized")
+		delete(additionalProperties, "isOnboarded")
+		delete(additionalProperties, "loginPageMessage")
+		delete(additionalProperties, "maintenanceMode")
+		delete(additionalProperties, "mapDarkStyleUrl")
+		delete(additionalProperties, "mapLightStyleUrl")
+		delete(additionalProperties, "oauthButtonText")
+		delete(additionalProperties, "publicUsers")
+		delete(additionalProperties, "trashDays")
+		delete(additionalProperties, "userDeleteDelay")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

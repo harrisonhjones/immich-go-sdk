@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -24,6 +23,7 @@ type AssetJobsDto struct {
 	// Asset IDs
 	AssetIds []string `json:"assetIds"`
 	Name AssetJobName `json:"name"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _AssetJobsDto AssetJobsDto
@@ -107,6 +107,11 @@ func (o AssetJobsDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["assetIds"] = o.AssetIds
 	toSerialize["name"] = o.Name
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -135,15 +140,21 @@ func (o *AssetJobsDto) UnmarshalJSON(data []byte) (err error) {
 
 	varAssetJobsDto := _AssetJobsDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varAssetJobsDto)
+	err = json.Unmarshal(data, &varAssetJobsDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = AssetJobsDto(varAssetJobsDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "assetIds")
+		delete(additionalProperties, "name")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

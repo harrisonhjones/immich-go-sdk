@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -24,6 +23,7 @@ type WorkflowActionItemDto struct {
 	ActionConfig map[string]interface{} `json:"actionConfig,omitempty"`
 	// Plugin action ID
 	PluginActionId string `json:"pluginActionId" validate:"regexp=^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _WorkflowActionItemDto WorkflowActionItemDto
@@ -116,6 +116,11 @@ func (o WorkflowActionItemDto) ToMap() (map[string]interface{}, error) {
 		toSerialize["actionConfig"] = o.ActionConfig
 	}
 	toSerialize["pluginActionId"] = o.PluginActionId
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -143,15 +148,21 @@ func (o *WorkflowActionItemDto) UnmarshalJSON(data []byte) (err error) {
 
 	varWorkflowActionItemDto := _WorkflowActionItemDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varWorkflowActionItemDto)
+	err = json.Unmarshal(data, &varWorkflowActionItemDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = WorkflowActionItemDto(varWorkflowActionItemDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "actionConfig")
+		delete(additionalProperties, "pluginActionId")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

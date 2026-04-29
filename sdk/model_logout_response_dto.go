@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -25,6 +24,7 @@ type LogoutResponseDto struct {
 	RedirectUri string `json:"redirectUri"`
 	// Logout successful
 	Successful bool `json:"successful"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _LogoutResponseDto LogoutResponseDto
@@ -108,6 +108,11 @@ func (o LogoutResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["redirectUri"] = o.RedirectUri
 	toSerialize["successful"] = o.Successful
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -136,15 +141,21 @@ func (o *LogoutResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varLogoutResponseDto := _LogoutResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varLogoutResponseDto)
+	err = json.Unmarshal(data, &varLogoutResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = LogoutResponseDto(varLogoutResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "redirectUri")
+		delete(additionalProperties, "successful")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

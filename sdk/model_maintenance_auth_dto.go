@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &MaintenanceAuthDto{}
 type MaintenanceAuthDto struct {
 	// Maintenance username
 	Username string `json:"username"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _MaintenanceAuthDto MaintenanceAuthDto
@@ -80,6 +80,11 @@ func (o MaintenanceAuthDto) MarshalJSON() ([]byte, error) {
 func (o MaintenanceAuthDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["username"] = o.Username
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *MaintenanceAuthDto) UnmarshalJSON(data []byte) (err error) {
 
 	varMaintenanceAuthDto := _MaintenanceAuthDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varMaintenanceAuthDto)
+	err = json.Unmarshal(data, &varMaintenanceAuthDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = MaintenanceAuthDto(varMaintenanceAuthDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "username")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

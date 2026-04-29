@@ -21,7 +21,10 @@ var _ MappedNullable = &StackUpdateDto{}
 type StackUpdateDto struct {
 	// Primary asset ID
 	PrimaryAssetId *string `json:"primaryAssetId,omitempty" validate:"regexp=^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _StackUpdateDto StackUpdateDto
 
 // NewStackUpdateDto instantiates a new StackUpdateDto object
 // This constructor will assign default values to properties that have it defined,
@@ -85,7 +88,33 @@ func (o StackUpdateDto) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.PrimaryAssetId) {
 		toSerialize["primaryAssetId"] = o.PrimaryAssetId
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *StackUpdateDto) UnmarshalJSON(data []byte) (err error) {
+	varStackUpdateDto := _StackUpdateDto{}
+
+	err = json.Unmarshal(data, &varStackUpdateDto)
+
+	if err != nil {
+		return err
+	}
+
+	*o = StackUpdateDto(varStackUpdateDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "primaryAssetId")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableStackUpdateDto struct {

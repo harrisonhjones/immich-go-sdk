@@ -74,7 +74,10 @@ type StatisticsSearchDto struct {
 	// Filter by update date (before)
 	UpdatedBefore *time.Time `json:"updatedBefore,omitempty" validate:"regexp=^(?:(?:\\\\d\\\\d[2468][048]|\\\\d\\\\d[13579][26]|\\\\d\\\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\\\d|30)|(?:02)-(?:0[1-9]|1\\\\d|2[0-8])))T(?:(?:[01]\\\\d|2[0-3]):[0-5]\\\\d(?::[0-5]\\\\d(?:\\\\.\\\\d+)?)?(?:Z))$"`
 	Visibility *AssetVisibility `json:"visibility,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _StatisticsSearchDto StatisticsSearchDto
 
 // NewStatisticsSearchDto instantiates a new StatisticsSearchDto object
 // This constructor will assign default values to properties that have it defined,
@@ -1164,7 +1167,60 @@ func (o StatisticsSearchDto) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Visibility) {
 		toSerialize["visibility"] = o.Visibility
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *StatisticsSearchDto) UnmarshalJSON(data []byte) (err error) {
+	varStatisticsSearchDto := _StatisticsSearchDto{}
+
+	err = json.Unmarshal(data, &varStatisticsSearchDto)
+
+	if err != nil {
+		return err
+	}
+
+	*o = StatisticsSearchDto(varStatisticsSearchDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "albumIds")
+		delete(additionalProperties, "city")
+		delete(additionalProperties, "country")
+		delete(additionalProperties, "createdAfter")
+		delete(additionalProperties, "createdBefore")
+		delete(additionalProperties, "description")
+		delete(additionalProperties, "isEncoded")
+		delete(additionalProperties, "isFavorite")
+		delete(additionalProperties, "isMotion")
+		delete(additionalProperties, "isNotInAlbum")
+		delete(additionalProperties, "isOffline")
+		delete(additionalProperties, "lensModel")
+		delete(additionalProperties, "libraryId")
+		delete(additionalProperties, "make")
+		delete(additionalProperties, "model")
+		delete(additionalProperties, "ocr")
+		delete(additionalProperties, "personIds")
+		delete(additionalProperties, "rating")
+		delete(additionalProperties, "state")
+		delete(additionalProperties, "tagIds")
+		delete(additionalProperties, "takenAfter")
+		delete(additionalProperties, "takenBefore")
+		delete(additionalProperties, "trashedAfter")
+		delete(additionalProperties, "trashedBefore")
+		delete(additionalProperties, "type")
+		delete(additionalProperties, "updatedAfter")
+		delete(additionalProperties, "updatedBefore")
+		delete(additionalProperties, "visibility")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableStatisticsSearchDto struct {

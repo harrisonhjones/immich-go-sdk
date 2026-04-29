@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -22,6 +21,7 @@ var _ MappedNullable = &MaintenanceDetectInstallResponseDto{}
 // MaintenanceDetectInstallResponseDto struct for MaintenanceDetectInstallResponseDto
 type MaintenanceDetectInstallResponseDto struct {
 	Storage []MaintenanceDetectInstallStorageFolderDto `json:"storage"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _MaintenanceDetectInstallResponseDto MaintenanceDetectInstallResponseDto
@@ -79,6 +79,11 @@ func (o MaintenanceDetectInstallResponseDto) MarshalJSON() ([]byte, error) {
 func (o MaintenanceDetectInstallResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["storage"] = o.Storage
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -106,15 +111,20 @@ func (o *MaintenanceDetectInstallResponseDto) UnmarshalJSON(data []byte) (err er
 
 	varMaintenanceDetectInstallResponseDto := _MaintenanceDetectInstallResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varMaintenanceDetectInstallResponseDto)
+	err = json.Unmarshal(data, &varMaintenanceDetectInstallResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = MaintenanceDetectInstallResponseDto(varMaintenanceDetectInstallResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "storage")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

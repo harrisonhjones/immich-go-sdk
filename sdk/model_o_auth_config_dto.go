@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -27,6 +26,7 @@ type OAuthConfigDto struct {
 	RedirectUri string `json:"redirectUri"`
 	// OAuth state parameter
 	State *string `json:"state,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _OAuthConfigDto OAuthConfigDto
@@ -154,6 +154,11 @@ func (o OAuthConfigDto) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.State) {
 		toSerialize["state"] = o.State
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -181,15 +186,22 @@ func (o *OAuthConfigDto) UnmarshalJSON(data []byte) (err error) {
 
 	varOAuthConfigDto := _OAuthConfigDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varOAuthConfigDto)
+	err = json.Unmarshal(data, &varOAuthConfigDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = OAuthConfigDto(varOAuthConfigDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "codeChallenge")
+		delete(additionalProperties, "redirectUri")
+		delete(additionalProperties, "state")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

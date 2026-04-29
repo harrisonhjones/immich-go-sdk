@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &SyncUserDeleteV1{}
 type SyncUserDeleteV1 struct {
 	// User ID
 	UserId string `json:"userId"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SyncUserDeleteV1 SyncUserDeleteV1
@@ -80,6 +80,11 @@ func (o SyncUserDeleteV1) MarshalJSON() ([]byte, error) {
 func (o SyncUserDeleteV1) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["userId"] = o.UserId
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *SyncUserDeleteV1) UnmarshalJSON(data []byte) (err error) {
 
 	varSyncUserDeleteV1 := _SyncUserDeleteV1{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSyncUserDeleteV1)
+	err = json.Unmarshal(data, &varSyncUserDeleteV1)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SyncUserDeleteV1(varSyncUserDeleteV1)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "userId")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

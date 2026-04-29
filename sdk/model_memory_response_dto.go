@@ -13,7 +13,6 @@ package immich
 import (
 	"encoding/json"
 	"time"
-	"bytes"
 	"fmt"
 )
 
@@ -45,6 +44,7 @@ type MemoryResponseDto struct {
 	Type MemoryType `json:"type"`
 	// Last update date
 	UpdatedAt time.Time `json:"updatedAt" validate:"regexp=^(?:(?:\\\\d\\\\d[2468][048]|\\\\d\\\\d[13579][26]|\\\\d\\\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\\\d|30)|(?:02)-(?:0[1-9]|1\\\\d|2[0-8])))T(?:(?:[01]\\\\d|2[0-3]):[0-5]\\\\d(?::[0-5]\\\\d(?:\\\\.\\\\d+)?)?(?:Z))$"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _MemoryResponseDto MemoryResponseDto
@@ -450,6 +450,11 @@ func (o MemoryResponseDto) ToMap() (map[string]interface{}, error) {
 	}
 	toSerialize["type"] = o.Type
 	toSerialize["updatedAt"] = o.UpdatedAt
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -485,15 +490,32 @@ func (o *MemoryResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varMemoryResponseDto := _MemoryResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varMemoryResponseDto)
+	err = json.Unmarshal(data, &varMemoryResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = MemoryResponseDto(varMemoryResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "assets")
+		delete(additionalProperties, "createdAt")
+		delete(additionalProperties, "data")
+		delete(additionalProperties, "deletedAt")
+		delete(additionalProperties, "hideAt")
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "isSaved")
+		delete(additionalProperties, "memoryAt")
+		delete(additionalProperties, "ownerId")
+		delete(additionalProperties, "seenAt")
+		delete(additionalProperties, "showAt")
+		delete(additionalProperties, "type")
+		delete(additionalProperties, "updatedAt")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

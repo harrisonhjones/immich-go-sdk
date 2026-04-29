@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &SearchStatisticsResponseDto{}
 type SearchStatisticsResponseDto struct {
 	// Total number of matching assets
 	Total int32 `json:"total"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SearchStatisticsResponseDto SearchStatisticsResponseDto
@@ -80,6 +80,11 @@ func (o SearchStatisticsResponseDto) MarshalJSON() ([]byte, error) {
 func (o SearchStatisticsResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["total"] = o.Total
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *SearchStatisticsResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varSearchStatisticsResponseDto := _SearchStatisticsResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSearchStatisticsResponseDto)
+	err = json.Unmarshal(data, &varSearchStatisticsResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SearchStatisticsResponseDto(varSearchStatisticsResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "total")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

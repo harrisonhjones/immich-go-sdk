@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &RotateParameters{}
 type RotateParameters struct {
 	// Rotation angle in degrees
 	Angle float32 `json:"angle"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _RotateParameters RotateParameters
@@ -80,6 +80,11 @@ func (o RotateParameters) MarshalJSON() ([]byte, error) {
 func (o RotateParameters) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["angle"] = o.Angle
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *RotateParameters) UnmarshalJSON(data []byte) (err error) {
 
 	varRotateParameters := _RotateParameters{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varRotateParameters)
+	err = json.Unmarshal(data, &varRotateParameters)
 
 	if err != nil {
 		return err
 	}
 
 	*o = RotateParameters(varRotateParameters)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "angle")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

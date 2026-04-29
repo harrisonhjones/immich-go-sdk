@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &SystemConfigPasswordLoginDto{}
 type SystemConfigPasswordLoginDto struct {
 	// Enabled
 	Enabled bool `json:"enabled"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SystemConfigPasswordLoginDto SystemConfigPasswordLoginDto
@@ -80,6 +80,11 @@ func (o SystemConfigPasswordLoginDto) MarshalJSON() ([]byte, error) {
 func (o SystemConfigPasswordLoginDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["enabled"] = o.Enabled
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *SystemConfigPasswordLoginDto) UnmarshalJSON(data []byte) (err error) {
 
 	varSystemConfigPasswordLoginDto := _SystemConfigPasswordLoginDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSystemConfigPasswordLoginDto)
+	err = json.Unmarshal(data, &varSystemConfigPasswordLoginDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SystemConfigPasswordLoginDto(varSystemConfigPasswordLoginDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "enabled")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

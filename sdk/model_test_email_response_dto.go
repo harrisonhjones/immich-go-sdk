@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &TestEmailResponseDto{}
 type TestEmailResponseDto struct {
 	// Email message ID
 	MessageId string `json:"messageId"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _TestEmailResponseDto TestEmailResponseDto
@@ -80,6 +80,11 @@ func (o TestEmailResponseDto) MarshalJSON() ([]byte, error) {
 func (o TestEmailResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["messageId"] = o.MessageId
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *TestEmailResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varTestEmailResponseDto := _TestEmailResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varTestEmailResponseDto)
+	err = json.Unmarshal(data, &varTestEmailResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = TestEmailResponseDto(varTestEmailResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "messageId")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -24,6 +23,7 @@ type SearchFacetResponseDto struct {
 	Counts []SearchFacetCountResponseDto `json:"counts"`
 	// Facet field name
 	FieldName string `json:"fieldName"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SearchFacetResponseDto SearchFacetResponseDto
@@ -107,6 +107,11 @@ func (o SearchFacetResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["counts"] = o.Counts
 	toSerialize["fieldName"] = o.FieldName
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -135,15 +140,21 @@ func (o *SearchFacetResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varSearchFacetResponseDto := _SearchFacetResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSearchFacetResponseDto)
+	err = json.Unmarshal(data, &varSearchFacetResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SearchFacetResponseDto(varSearchFacetResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "counts")
+		delete(additionalProperties, "fieldName")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

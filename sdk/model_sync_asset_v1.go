@@ -13,7 +13,6 @@ package immich
 import (
 	"encoding/json"
 	"time"
-	"bytes"
 	"fmt"
 )
 
@@ -58,6 +57,7 @@ type SyncAssetV1 struct {
 	Visibility AssetVisibility `json:"visibility"`
 	// Asset width
 	Width NullableInt32 `json:"width"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SyncAssetV1 SyncAssetV1
@@ -605,6 +605,11 @@ func (o SyncAssetV1) ToMap() (map[string]interface{}, error) {
 	toSerialize["type"] = o.Type
 	toSerialize["visibility"] = o.Visibility
 	toSerialize["width"] = o.Width.Get()
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -650,15 +655,38 @@ func (o *SyncAssetV1) UnmarshalJSON(data []byte) (err error) {
 
 	varSyncAssetV1 := _SyncAssetV1{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSyncAssetV1)
+	err = json.Unmarshal(data, &varSyncAssetV1)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SyncAssetV1(varSyncAssetV1)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "checksum")
+		delete(additionalProperties, "deletedAt")
+		delete(additionalProperties, "duration")
+		delete(additionalProperties, "fileCreatedAt")
+		delete(additionalProperties, "fileModifiedAt")
+		delete(additionalProperties, "height")
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "isEdited")
+		delete(additionalProperties, "isFavorite")
+		delete(additionalProperties, "libraryId")
+		delete(additionalProperties, "livePhotoVideoId")
+		delete(additionalProperties, "localDateTime")
+		delete(additionalProperties, "originalFileName")
+		delete(additionalProperties, "ownerId")
+		delete(additionalProperties, "stackId")
+		delete(additionalProperties, "thumbhash")
+		delete(additionalProperties, "type")
+		delete(additionalProperties, "visibility")
+		delete(additionalProperties, "width")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

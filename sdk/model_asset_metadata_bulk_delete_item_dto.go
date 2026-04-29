@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -25,6 +24,7 @@ type AssetMetadataBulkDeleteItemDto struct {
 	AssetId string `json:"assetId" validate:"regexp=^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$"`
 	// Metadata key
 	Key string `json:"key"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _AssetMetadataBulkDeleteItemDto AssetMetadataBulkDeleteItemDto
@@ -108,6 +108,11 @@ func (o AssetMetadataBulkDeleteItemDto) ToMap() (map[string]interface{}, error) 
 	toSerialize := map[string]interface{}{}
 	toSerialize["assetId"] = o.AssetId
 	toSerialize["key"] = o.Key
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -136,15 +141,21 @@ func (o *AssetMetadataBulkDeleteItemDto) UnmarshalJSON(data []byte) (err error) 
 
 	varAssetMetadataBulkDeleteItemDto := _AssetMetadataBulkDeleteItemDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varAssetMetadataBulkDeleteItemDto)
+	err = json.Unmarshal(data, &varAssetMetadataBulkDeleteItemDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = AssetMetadataBulkDeleteItemDto(varAssetMetadataBulkDeleteItemDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "assetId")
+		delete(additionalProperties, "key")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

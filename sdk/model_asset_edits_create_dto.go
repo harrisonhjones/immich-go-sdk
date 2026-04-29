@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &AssetEditsCreateDto{}
 type AssetEditsCreateDto struct {
 	// List of edit actions to apply (crop, rotate, or mirror)
 	Edits []AssetEditActionItemDto `json:"edits"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _AssetEditsCreateDto AssetEditsCreateDto
@@ -80,6 +80,11 @@ func (o AssetEditsCreateDto) MarshalJSON() ([]byte, error) {
 func (o AssetEditsCreateDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["edits"] = o.Edits
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *AssetEditsCreateDto) UnmarshalJSON(data []byte) (err error) {
 
 	varAssetEditsCreateDto := _AssetEditsCreateDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varAssetEditsCreateDto)
+	err = json.Unmarshal(data, &varAssetEditsCreateDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = AssetEditsCreateDto(varAssetEditsCreateDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "edits")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

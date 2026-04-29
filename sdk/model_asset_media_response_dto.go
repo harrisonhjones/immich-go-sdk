@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -24,6 +23,7 @@ type AssetMediaResponseDto struct {
 	// Asset media ID
 	Id string `json:"id"`
 	Status AssetMediaStatus `json:"status"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _AssetMediaResponseDto AssetMediaResponseDto
@@ -107,6 +107,11 @@ func (o AssetMediaResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["id"] = o.Id
 	toSerialize["status"] = o.Status
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -135,15 +140,21 @@ func (o *AssetMediaResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varAssetMediaResponseDto := _AssetMediaResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varAssetMediaResponseDto)
+	err = json.Unmarshal(data, &varAssetMediaResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = AssetMediaResponseDto(varAssetMediaResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "status")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

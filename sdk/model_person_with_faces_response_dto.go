@@ -13,7 +13,6 @@ package immich
 import (
 	"encoding/json"
 	"time"
-	"bytes"
 	"fmt"
 )
 
@@ -39,6 +38,7 @@ type PersonWithFacesResponseDto struct {
 	ThumbnailPath string `json:"thumbnailPath"`
 	// Last update date
 	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _PersonWithFacesResponseDto PersonWithFacesResponseDto
@@ -333,6 +333,11 @@ func (o PersonWithFacesResponseDto) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.UpdatedAt) {
 		toSerialize["updatedAt"] = o.UpdatedAt
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -365,15 +370,28 @@ func (o *PersonWithFacesResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varPersonWithFacesResponseDto := _PersonWithFacesResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varPersonWithFacesResponseDto)
+	err = json.Unmarshal(data, &varPersonWithFacesResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = PersonWithFacesResponseDto(varPersonWithFacesResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "birthDate")
+		delete(additionalProperties, "color")
+		delete(additionalProperties, "faces")
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "isFavorite")
+		delete(additionalProperties, "isHidden")
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "thumbnailPath")
+		delete(additionalProperties, "updatedAt")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

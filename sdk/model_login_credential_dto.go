@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -25,6 +24,7 @@ type LoginCredentialDto struct {
 	Email string "json:\"email\" validate:\"regexp=^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$\""
 	// User password
 	Password string `json:"password"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _LoginCredentialDto LoginCredentialDto
@@ -108,6 +108,11 @@ func (o LoginCredentialDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["email"] = o.Email
 	toSerialize["password"] = o.Password
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -136,15 +141,21 @@ func (o *LoginCredentialDto) UnmarshalJSON(data []byte) (err error) {
 
 	varLoginCredentialDto := _LoginCredentialDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varLoginCredentialDto)
+	err = json.Unmarshal(data, &varLoginCredentialDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = LoginCredentialDto(varLoginCredentialDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "email")
+		delete(additionalProperties, "password")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -30,6 +29,7 @@ type WorkflowActionResponseDto struct {
 	PluginActionId string `json:"pluginActionId"`
 	// Workflow ID
 	WorkflowId string `json:"workflowId"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _WorkflowActionResponseDto WorkflowActionResponseDto
@@ -195,6 +195,11 @@ func (o WorkflowActionResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["order"] = o.Order
 	toSerialize["pluginActionId"] = o.PluginActionId
 	toSerialize["workflowId"] = o.WorkflowId
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -226,15 +231,24 @@ func (o *WorkflowActionResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varWorkflowActionResponseDto := _WorkflowActionResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varWorkflowActionResponseDto)
+	err = json.Unmarshal(data, &varWorkflowActionResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = WorkflowActionResponseDto(varWorkflowActionResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "actionConfig")
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "order")
+		delete(additionalProperties, "pluginActionId")
+		delete(additionalProperties, "workflowId")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

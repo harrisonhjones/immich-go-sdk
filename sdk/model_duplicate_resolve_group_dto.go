@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -26,6 +25,7 @@ type DuplicateResolveGroupDto struct {
 	KeepAssetIds []string `json:"keepAssetIds"`
 	// Asset IDs to trash or delete
 	TrashAssetIds []string `json:"trashAssetIds"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _DuplicateResolveGroupDto DuplicateResolveGroupDto
@@ -135,6 +135,11 @@ func (o DuplicateResolveGroupDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["duplicateId"] = o.DuplicateId
 	toSerialize["keepAssetIds"] = o.KeepAssetIds
 	toSerialize["trashAssetIds"] = o.TrashAssetIds
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -164,15 +169,22 @@ func (o *DuplicateResolveGroupDto) UnmarshalJSON(data []byte) (err error) {
 
 	varDuplicateResolveGroupDto := _DuplicateResolveGroupDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varDuplicateResolveGroupDto)
+	err = json.Unmarshal(data, &varDuplicateResolveGroupDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = DuplicateResolveGroupDto(varDuplicateResolveGroupDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "duplicateId")
+		delete(additionalProperties, "keepAssetIds")
+		delete(additionalProperties, "trashAssetIds")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

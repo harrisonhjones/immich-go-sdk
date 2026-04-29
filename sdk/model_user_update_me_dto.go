@@ -27,7 +27,10 @@ type UserUpdateMeDto struct {
 	// User password (deprecated, use change password endpoint)
 	// Deprecated
 	Password *string `json:"password,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _UserUpdateMeDto UserUpdateMeDto
 
 // NewUserUpdateMeDto instantiates a new UserUpdateMeDto object
 // This constructor will assign default values to properties that have it defined,
@@ -209,7 +212,36 @@ func (o UserUpdateMeDto) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Password) {
 		toSerialize["password"] = o.Password
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *UserUpdateMeDto) UnmarshalJSON(data []byte) (err error) {
+	varUserUpdateMeDto := _UserUpdateMeDto{}
+
+	err = json.Unmarshal(data, &varUserUpdateMeDto)
+
+	if err != nil {
+		return err
+	}
+
+	*o = UserUpdateMeDto(varUserUpdateMeDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "avatarColor")
+		delete(additionalProperties, "email")
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "password")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableUserUpdateMeDto struct {

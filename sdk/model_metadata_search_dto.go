@@ -101,7 +101,10 @@ type MetadataSearchDto struct {
 	WithPeople *bool `json:"withPeople,omitempty"`
 	// Include stacked assets
 	WithStacked *bool `json:"withStacked,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _MetadataSearchDto MetadataSearchDto
 
 // NewMetadataSearchDto instantiates a new MetadataSearchDto object
 // This constructor will assign default values to properties that have it defined,
@@ -1681,7 +1684,74 @@ func (o MetadataSearchDto) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.WithStacked) {
 		toSerialize["withStacked"] = o.WithStacked
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *MetadataSearchDto) UnmarshalJSON(data []byte) (err error) {
+	varMetadataSearchDto := _MetadataSearchDto{}
+
+	err = json.Unmarshal(data, &varMetadataSearchDto)
+
+	if err != nil {
+		return err
+	}
+
+	*o = MetadataSearchDto(varMetadataSearchDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "albumIds")
+		delete(additionalProperties, "checksum")
+		delete(additionalProperties, "city")
+		delete(additionalProperties, "country")
+		delete(additionalProperties, "createdAfter")
+		delete(additionalProperties, "createdBefore")
+		delete(additionalProperties, "description")
+		delete(additionalProperties, "encodedVideoPath")
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "isEncoded")
+		delete(additionalProperties, "isFavorite")
+		delete(additionalProperties, "isMotion")
+		delete(additionalProperties, "isNotInAlbum")
+		delete(additionalProperties, "isOffline")
+		delete(additionalProperties, "lensModel")
+		delete(additionalProperties, "libraryId")
+		delete(additionalProperties, "make")
+		delete(additionalProperties, "model")
+		delete(additionalProperties, "ocr")
+		delete(additionalProperties, "order")
+		delete(additionalProperties, "originalFileName")
+		delete(additionalProperties, "originalPath")
+		delete(additionalProperties, "page")
+		delete(additionalProperties, "personIds")
+		delete(additionalProperties, "previewPath")
+		delete(additionalProperties, "rating")
+		delete(additionalProperties, "size")
+		delete(additionalProperties, "state")
+		delete(additionalProperties, "tagIds")
+		delete(additionalProperties, "takenAfter")
+		delete(additionalProperties, "takenBefore")
+		delete(additionalProperties, "thumbnailPath")
+		delete(additionalProperties, "trashedAfter")
+		delete(additionalProperties, "trashedBefore")
+		delete(additionalProperties, "type")
+		delete(additionalProperties, "updatedAfter")
+		delete(additionalProperties, "updatedBefore")
+		delete(additionalProperties, "visibility")
+		delete(additionalProperties, "withDeleted")
+		delete(additionalProperties, "withExif")
+		delete(additionalProperties, "withPeople")
+		delete(additionalProperties, "withStacked")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableMetadataSearchDto struct {

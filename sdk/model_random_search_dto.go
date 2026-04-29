@@ -82,7 +82,10 @@ type RandomSearchDto struct {
 	WithPeople *bool `json:"withPeople,omitempty"`
 	// Include stacked assets
 	WithStacked *bool `json:"withStacked,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _RandomSearchDto RandomSearchDto
 
 // NewRandomSearchDto instantiates a new RandomSearchDto object
 // This constructor will assign default values to properties that have it defined,
@@ -1312,7 +1315,64 @@ func (o RandomSearchDto) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.WithStacked) {
 		toSerialize["withStacked"] = o.WithStacked
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *RandomSearchDto) UnmarshalJSON(data []byte) (err error) {
+	varRandomSearchDto := _RandomSearchDto{}
+
+	err = json.Unmarshal(data, &varRandomSearchDto)
+
+	if err != nil {
+		return err
+	}
+
+	*o = RandomSearchDto(varRandomSearchDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "albumIds")
+		delete(additionalProperties, "city")
+		delete(additionalProperties, "country")
+		delete(additionalProperties, "createdAfter")
+		delete(additionalProperties, "createdBefore")
+		delete(additionalProperties, "isEncoded")
+		delete(additionalProperties, "isFavorite")
+		delete(additionalProperties, "isMotion")
+		delete(additionalProperties, "isNotInAlbum")
+		delete(additionalProperties, "isOffline")
+		delete(additionalProperties, "lensModel")
+		delete(additionalProperties, "libraryId")
+		delete(additionalProperties, "make")
+		delete(additionalProperties, "model")
+		delete(additionalProperties, "ocr")
+		delete(additionalProperties, "personIds")
+		delete(additionalProperties, "rating")
+		delete(additionalProperties, "size")
+		delete(additionalProperties, "state")
+		delete(additionalProperties, "tagIds")
+		delete(additionalProperties, "takenAfter")
+		delete(additionalProperties, "takenBefore")
+		delete(additionalProperties, "trashedAfter")
+		delete(additionalProperties, "trashedBefore")
+		delete(additionalProperties, "type")
+		delete(additionalProperties, "updatedAfter")
+		delete(additionalProperties, "updatedBefore")
+		delete(additionalProperties, "visibility")
+		delete(additionalProperties, "withDeleted")
+		delete(additionalProperties, "withExif")
+		delete(additionalProperties, "withPeople")
+		delete(additionalProperties, "withStacked")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableRandomSearchDto struct {

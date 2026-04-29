@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -25,6 +24,7 @@ type AssetEditsResponseDto struct {
 	AssetId string `json:"assetId" validate:"regexp=^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$"`
 	// List of edit actions applied to the asset
 	Edits []AssetEditActionItemResponseDto `json:"edits"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _AssetEditsResponseDto AssetEditsResponseDto
@@ -108,6 +108,11 @@ func (o AssetEditsResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["assetId"] = o.AssetId
 	toSerialize["edits"] = o.Edits
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -136,15 +141,21 @@ func (o *AssetEditsResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varAssetEditsResponseDto := _AssetEditsResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varAssetEditsResponseDto)
+	err = json.Unmarshal(data, &varAssetEditsResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = AssetEditsResponseDto(varAssetEditsResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "assetId")
+		delete(additionalProperties, "edits")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

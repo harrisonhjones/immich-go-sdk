@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -25,6 +24,7 @@ type DuplicateDetectionConfig struct {
 	Enabled bool `json:"enabled"`
 	// Maximum distance threshold for duplicate detection
 	MaxDistance float64 `json:"maxDistance"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _DuplicateDetectionConfig DuplicateDetectionConfig
@@ -108,6 +108,11 @@ func (o DuplicateDetectionConfig) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["enabled"] = o.Enabled
 	toSerialize["maxDistance"] = o.MaxDistance
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -136,15 +141,21 @@ func (o *DuplicateDetectionConfig) UnmarshalJSON(data []byte) (err error) {
 
 	varDuplicateDetectionConfig := _DuplicateDetectionConfig{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varDuplicateDetectionConfig)
+	err = json.Unmarshal(data, &varDuplicateDetectionConfig)
 
 	if err != nil {
 		return err
 	}
 
 	*o = DuplicateDetectionConfig(varDuplicateDetectionConfig)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "enabled")
+		delete(additionalProperties, "maxDistance")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

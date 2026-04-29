@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -25,6 +24,7 @@ type SyncStreamDto struct {
 	Reset *bool `json:"reset,omitempty"`
 	// Sync request types
 	Types []SyncRequestType `json:"types"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SyncStreamDto SyncStreamDto
@@ -117,6 +117,11 @@ func (o SyncStreamDto) ToMap() (map[string]interface{}, error) {
 		toSerialize["reset"] = o.Reset
 	}
 	toSerialize["types"] = o.Types
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -144,15 +149,21 @@ func (o *SyncStreamDto) UnmarshalJSON(data []byte) (err error) {
 
 	varSyncStreamDto := _SyncStreamDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSyncStreamDto)
+	err = json.Unmarshal(data, &varSyncStreamDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SyncStreamDto(varSyncStreamDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "reset")
+		delete(additionalProperties, "types")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -24,6 +23,7 @@ type QueueCommandDto struct {
 	Command QueueCommand `json:"command"`
 	// Force the command execution (if applicable)
 	Force *bool `json:"force,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _QueueCommandDto QueueCommandDto
@@ -116,6 +116,11 @@ func (o QueueCommandDto) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Force) {
 		toSerialize["force"] = o.Force
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -143,15 +148,21 @@ func (o *QueueCommandDto) UnmarshalJSON(data []byte) (err error) {
 
 	varQueueCommandDto := _QueueCommandDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varQueueCommandDto)
+	err = json.Unmarshal(data, &varQueueCommandDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = QueueCommandDto(varQueueCommandDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "command")
+		delete(additionalProperties, "force")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -35,6 +34,7 @@ type ServerStorageResponseDto struct {
 	DiskUse string `json:"diskUse"`
 	// Used disk space in bytes
 	DiskUseRaw int32 `json:"diskUseRaw"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _ServerStorageResponseDto ServerStorageResponseDto
@@ -248,6 +248,11 @@ func (o ServerStorageResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["diskUsagePercentage"] = o.DiskUsagePercentage
 	toSerialize["diskUse"] = o.DiskUse
 	toSerialize["diskUseRaw"] = o.DiskUseRaw
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -281,15 +286,26 @@ func (o *ServerStorageResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varServerStorageResponseDto := _ServerStorageResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varServerStorageResponseDto)
+	err = json.Unmarshal(data, &varServerStorageResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = ServerStorageResponseDto(varServerStorageResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "diskAvailable")
+		delete(additionalProperties, "diskAvailableRaw")
+		delete(additionalProperties, "diskSize")
+		delete(additionalProperties, "diskSizeRaw")
+		delete(additionalProperties, "diskUsagePercentage")
+		delete(additionalProperties, "diskUse")
+		delete(additionalProperties, "diskUseRaw")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

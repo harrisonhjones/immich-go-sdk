@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -29,6 +28,7 @@ type AssetBulkUploadCheckResult struct {
 	// Whether existing asset is trashed
 	IsTrashed *bool `json:"isTrashed,omitempty"`
 	Reason *AssetRejectReason `json:"reason,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _AssetBulkUploadCheckResult AssetBulkUploadCheckResult
@@ -217,6 +217,11 @@ func (o AssetBulkUploadCheckResult) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Reason) {
 		toSerialize["reason"] = o.Reason
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -245,15 +250,24 @@ func (o *AssetBulkUploadCheckResult) UnmarshalJSON(data []byte) (err error) {
 
 	varAssetBulkUploadCheckResult := _AssetBulkUploadCheckResult{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varAssetBulkUploadCheckResult)
+	err = json.Unmarshal(data, &varAssetBulkUploadCheckResult)
 
 	if err != nil {
 		return err
 	}
 
 	*o = AssetBulkUploadCheckResult(varAssetBulkUploadCheckResult)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "action")
+		delete(additionalProperties, "assetId")
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "isTrashed")
+		delete(additionalProperties, "reason")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

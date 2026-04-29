@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -25,6 +24,7 @@ type MemoriesResponse struct {
 	Duration int32 `json:"duration"`
 	// Whether memories are enabled
 	Enabled bool `json:"enabled"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _MemoriesResponse MemoriesResponse
@@ -108,6 +108,11 @@ func (o MemoriesResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["duration"] = o.Duration
 	toSerialize["enabled"] = o.Enabled
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -136,15 +141,21 @@ func (o *MemoriesResponse) UnmarshalJSON(data []byte) (err error) {
 
 	varMemoriesResponse := _MemoriesResponse{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varMemoriesResponse)
+	err = json.Unmarshal(data, &varMemoriesResponse)
 
 	if err != nil {
 		return err
 	}
 
 	*o = MemoriesResponse(varMemoriesResponse)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "duration")
+		delete(additionalProperties, "enabled")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

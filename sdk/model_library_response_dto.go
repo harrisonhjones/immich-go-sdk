@@ -13,7 +13,6 @@ package immich
 import (
 	"encoding/json"
 	"time"
-	"bytes"
 	"fmt"
 )
 
@@ -40,6 +39,7 @@ type LibraryResponseDto struct {
 	RefreshedAt NullableTime `json:"refreshedAt" validate:"regexp=^(?:(?:\\\\d\\\\d[2468][048]|\\\\d\\\\d[13579][26]|\\\\d\\\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\\\d|30)|(?:02)-(?:0[1-9]|1\\\\d|2[0-8])))T(?:(?:[01]\\\\d|2[0-3]):[0-5]\\\\d(?::[0-5]\\\\d(?:\\\\.\\\\d+)?)?(?:Z))$"`
 	// Last update date
 	UpdatedAt time.Time `json:"updatedAt" validate:"regexp=^(?:(?:\\\\d\\\\d[2468][048]|\\\\d\\\\d[13579][26]|\\\\d\\\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\\\d|30)|(?:02)-(?:0[1-9]|1\\\\d|2[0-8])))T(?:(?:[01]\\\\d|2[0-3]):[0-5]\\\\d(?::[0-5]\\\\d(?:\\\\.\\\\d+)?)?(?:Z))$"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _LibraryResponseDto LibraryResponseDto
@@ -307,6 +307,11 @@ func (o LibraryResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["ownerId"] = o.OwnerId
 	toSerialize["refreshedAt"] = o.RefreshedAt.Get()
 	toSerialize["updatedAt"] = o.UpdatedAt
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -342,15 +347,28 @@ func (o *LibraryResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varLibraryResponseDto := _LibraryResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varLibraryResponseDto)
+	err = json.Unmarshal(data, &varLibraryResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = LibraryResponseDto(varLibraryResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "assetCount")
+		delete(additionalProperties, "createdAt")
+		delete(additionalProperties, "exclusionPatterns")
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "importPaths")
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "ownerId")
+		delete(additionalProperties, "refreshedAt")
+		delete(additionalProperties, "updatedAt")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

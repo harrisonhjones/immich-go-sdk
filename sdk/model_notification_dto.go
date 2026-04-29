@@ -13,7 +13,6 @@ package immich
 import (
 	"encoding/json"
 	"time"
-	"bytes"
 	"fmt"
 )
 
@@ -36,6 +35,7 @@ type NotificationDto struct {
 	// Notification title
 	Title string `json:"title"`
 	Type NotificationType `json:"type"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _NotificationDto NotificationDto
@@ -302,6 +302,11 @@ func (o NotificationDto) ToMap() (map[string]interface{}, error) {
 	}
 	toSerialize["title"] = o.Title
 	toSerialize["type"] = o.Type
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -333,15 +338,27 @@ func (o *NotificationDto) UnmarshalJSON(data []byte) (err error) {
 
 	varNotificationDto := _NotificationDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varNotificationDto)
+	err = json.Unmarshal(data, &varNotificationDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = NotificationDto(varNotificationDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "createdAt")
+		delete(additionalProperties, "data")
+		delete(additionalProperties, "description")
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "level")
+		delete(additionalProperties, "readAt")
+		delete(additionalProperties, "title")
+		delete(additionalProperties, "type")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

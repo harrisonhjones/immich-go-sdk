@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -31,6 +30,7 @@ type OcrConfig struct {
 	MinRecognitionScore float64 `json:"minRecognitionScore"`
 	// Name of the model to use
 	ModelName string `json:"modelName"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _OcrConfig OcrConfig
@@ -192,6 +192,11 @@ func (o OcrConfig) ToMap() (map[string]interface{}, error) {
 	toSerialize["minDetectionScore"] = o.MinDetectionScore
 	toSerialize["minRecognitionScore"] = o.MinRecognitionScore
 	toSerialize["modelName"] = o.ModelName
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -223,15 +228,24 @@ func (o *OcrConfig) UnmarshalJSON(data []byte) (err error) {
 
 	varOcrConfig := _OcrConfig{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varOcrConfig)
+	err = json.Unmarshal(data, &varOcrConfig)
 
 	if err != nil {
 		return err
 	}
 
 	*o = OcrConfig(varOcrConfig)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "enabled")
+		delete(additionalProperties, "maxResolution")
+		delete(additionalProperties, "minDetectionScore")
+		delete(additionalProperties, "minRecognitionScore")
+		delete(additionalProperties, "modelName")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

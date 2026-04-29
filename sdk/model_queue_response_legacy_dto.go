@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &QueueResponseLegacyDto{}
 type QueueResponseLegacyDto struct {
 	JobCounts QueueStatisticsDto `json:"jobCounts"`
 	QueueStatus QueueStatusLegacyDto `json:"queueStatus"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _QueueResponseLegacyDto QueueResponseLegacyDto
@@ -106,6 +106,11 @@ func (o QueueResponseLegacyDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["jobCounts"] = o.JobCounts
 	toSerialize["queueStatus"] = o.QueueStatus
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -134,15 +139,21 @@ func (o *QueueResponseLegacyDto) UnmarshalJSON(data []byte) (err error) {
 
 	varQueueResponseLegacyDto := _QueueResponseLegacyDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varQueueResponseLegacyDto)
+	err = json.Unmarshal(data, &varQueueResponseLegacyDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = QueueResponseLegacyDto(varQueueResponseLegacyDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "jobCounts")
+		delete(additionalProperties, "queueStatus")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

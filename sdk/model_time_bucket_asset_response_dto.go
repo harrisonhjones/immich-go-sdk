@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -57,6 +56,7 @@ type TimeBucketAssetResponseDto struct {
 	Thumbhash []*string `json:"thumbhash"`
 	// Array of visibility statuses for each asset (e.g., ARCHIVE, TIMELINE, HIDDEN, LOCKED)
 	Visibility []AssetVisibility `json:"visibility"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _TimeBucketAssetResponseDto TimeBucketAssetResponseDto
@@ -583,6 +583,11 @@ func (o TimeBucketAssetResponseDto) ToMap() (map[string]interface{}, error) {
 	}
 	toSerialize["thumbhash"] = o.Thumbhash
 	toSerialize["visibility"] = o.Visibility
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -624,15 +629,37 @@ func (o *TimeBucketAssetResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varTimeBucketAssetResponseDto := _TimeBucketAssetResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varTimeBucketAssetResponseDto)
+	err = json.Unmarshal(data, &varTimeBucketAssetResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = TimeBucketAssetResponseDto(varTimeBucketAssetResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "city")
+		delete(additionalProperties, "country")
+		delete(additionalProperties, "duration")
+		delete(additionalProperties, "fileCreatedAt")
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "isFavorite")
+		delete(additionalProperties, "isImage")
+		delete(additionalProperties, "isTrashed")
+		delete(additionalProperties, "latitude")
+		delete(additionalProperties, "livePhotoVideoId")
+		delete(additionalProperties, "localOffsetHours")
+		delete(additionalProperties, "longitude")
+		delete(additionalProperties, "ownerId")
+		delete(additionalProperties, "projectionType")
+		delete(additionalProperties, "ratio")
+		delete(additionalProperties, "stack")
+		delete(additionalProperties, "thumbhash")
+		delete(additionalProperties, "visibility")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

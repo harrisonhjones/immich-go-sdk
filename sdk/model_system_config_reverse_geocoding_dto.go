@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &SystemConfigReverseGeocodingDto{}
 type SystemConfigReverseGeocodingDto struct {
 	// Enabled
 	Enabled bool `json:"enabled"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SystemConfigReverseGeocodingDto SystemConfigReverseGeocodingDto
@@ -80,6 +80,11 @@ func (o SystemConfigReverseGeocodingDto) MarshalJSON() ([]byte, error) {
 func (o SystemConfigReverseGeocodingDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["enabled"] = o.Enabled
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *SystemConfigReverseGeocodingDto) UnmarshalJSON(data []byte) (err error)
 
 	varSystemConfigReverseGeocodingDto := _SystemConfigReverseGeocodingDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSystemConfigReverseGeocodingDto)
+	err = json.Unmarshal(data, &varSystemConfigReverseGeocodingDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SystemConfigReverseGeocodingDto(varSystemConfigReverseGeocodingDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "enabled")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -24,6 +23,7 @@ type WorkflowFilterItemDto struct {
 	FilterConfig map[string]interface{} `json:"filterConfig,omitempty"`
 	// Plugin filter ID
 	PluginFilterId string `json:"pluginFilterId" validate:"regexp=^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _WorkflowFilterItemDto WorkflowFilterItemDto
@@ -116,6 +116,11 @@ func (o WorkflowFilterItemDto) ToMap() (map[string]interface{}, error) {
 		toSerialize["filterConfig"] = o.FilterConfig
 	}
 	toSerialize["pluginFilterId"] = o.PluginFilterId
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -143,15 +148,21 @@ func (o *WorkflowFilterItemDto) UnmarshalJSON(data []byte) (err error) {
 
 	varWorkflowFilterItemDto := _WorkflowFilterItemDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varWorkflowFilterItemDto)
+	err = json.Unmarshal(data, &varWorkflowFilterItemDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = WorkflowFilterItemDto(varWorkflowFilterItemDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "filterConfig")
+		delete(additionalProperties, "pluginFilterId")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

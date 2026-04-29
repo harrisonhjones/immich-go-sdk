@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &JobSettingsDto{}
 type JobSettingsDto struct {
 	// Concurrency
 	Concurrency int32 `json:"concurrency"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _JobSettingsDto JobSettingsDto
@@ -80,6 +80,11 @@ func (o JobSettingsDto) MarshalJSON() ([]byte, error) {
 func (o JobSettingsDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["concurrency"] = o.Concurrency
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *JobSettingsDto) UnmarshalJSON(data []byte) (err error) {
 
 	varJobSettingsDto := _JobSettingsDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varJobSettingsDto)
+	err = json.Unmarshal(data, &varJobSettingsDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = JobSettingsDto(varJobSettingsDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "concurrency")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

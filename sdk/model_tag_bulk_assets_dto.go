@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -25,6 +24,7 @@ type TagBulkAssetsDto struct {
 	AssetIds []string `json:"assetIds"`
 	// Tag IDs
 	TagIds []string `json:"tagIds"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _TagBulkAssetsDto TagBulkAssetsDto
@@ -108,6 +108,11 @@ func (o TagBulkAssetsDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["assetIds"] = o.AssetIds
 	toSerialize["tagIds"] = o.TagIds
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -136,15 +141,21 @@ func (o *TagBulkAssetsDto) UnmarshalJSON(data []byte) (err error) {
 
 	varTagBulkAssetsDto := _TagBulkAssetsDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varTagBulkAssetsDto)
+	err = json.Unmarshal(data, &varTagBulkAssetsDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = TagBulkAssetsDto(varTagBulkAssetsDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "assetIds")
+		delete(additionalProperties, "tagIds")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

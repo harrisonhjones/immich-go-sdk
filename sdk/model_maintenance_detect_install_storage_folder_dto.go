@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -28,6 +27,7 @@ type MaintenanceDetectInstallStorageFolderDto struct {
 	Readable bool `json:"readable"`
 	// Whether the folder is writable
 	Writable bool `json:"writable"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _MaintenanceDetectInstallStorageFolderDto MaintenanceDetectInstallStorageFolderDto
@@ -163,6 +163,11 @@ func (o MaintenanceDetectInstallStorageFolderDto) ToMap() (map[string]interface{
 	toSerialize["folder"] = o.Folder
 	toSerialize["readable"] = o.Readable
 	toSerialize["writable"] = o.Writable
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -193,15 +198,23 @@ func (o *MaintenanceDetectInstallStorageFolderDto) UnmarshalJSON(data []byte) (e
 
 	varMaintenanceDetectInstallStorageFolderDto := _MaintenanceDetectInstallStorageFolderDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varMaintenanceDetectInstallStorageFolderDto)
+	err = json.Unmarshal(data, &varMaintenanceDetectInstallStorageFolderDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = MaintenanceDetectInstallStorageFolderDto(varMaintenanceDetectInstallStorageFolderDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "files")
+		delete(additionalProperties, "folder")
+		delete(additionalProperties, "readable")
+		delete(additionalProperties, "writable")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

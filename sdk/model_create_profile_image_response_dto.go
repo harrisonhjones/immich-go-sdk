@@ -13,7 +13,6 @@ package immich
 import (
 	"encoding/json"
 	"time"
-	"bytes"
 	"fmt"
 )
 
@@ -28,6 +27,7 @@ type CreateProfileImageResponseDto struct {
 	ProfileImagePath string `json:"profileImagePath"`
 	// User ID
 	UserId string `json:"userId"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _CreateProfileImageResponseDto CreateProfileImageResponseDto
@@ -137,6 +137,11 @@ func (o CreateProfileImageResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["profileChangedAt"] = o.ProfileChangedAt
 	toSerialize["profileImagePath"] = o.ProfileImagePath
 	toSerialize["userId"] = o.UserId
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -166,15 +171,22 @@ func (o *CreateProfileImageResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varCreateProfileImageResponseDto := _CreateProfileImageResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varCreateProfileImageResponseDto)
+	err = json.Unmarshal(data, &varCreateProfileImageResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = CreateProfileImageResponseDto(varCreateProfileImageResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "profileChangedAt")
+		delete(additionalProperties, "profileImagePath")
+		delete(additionalProperties, "userId")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &PluginTriggerResponseDto{}
 type PluginTriggerResponseDto struct {
 	ContextType PluginContextType `json:"contextType"`
 	Type PluginTriggerType `json:"type"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _PluginTriggerResponseDto PluginTriggerResponseDto
@@ -106,6 +106,11 @@ func (o PluginTriggerResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["contextType"] = o.ContextType
 	toSerialize["type"] = o.Type
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -134,15 +139,21 @@ func (o *PluginTriggerResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varPluginTriggerResponseDto := _PluginTriggerResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varPluginTriggerResponseDto)
+	err = json.Unmarshal(data, &varPluginTriggerResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = PluginTriggerResponseDto(varPluginTriggerResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "contextType")
+		delete(additionalProperties, "type")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

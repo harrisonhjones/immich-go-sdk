@@ -13,7 +13,6 @@ package immich
 import (
 	"encoding/json"
 	"time"
-	"bytes"
 	"fmt"
 )
 
@@ -72,6 +71,7 @@ type SyncAssetExifV1 struct {
 	State NullableString `json:"state"`
 	// Time zone
 	TimeZone NullableString `json:"timeZone"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SyncAssetExifV1 SyncAssetExifV1
@@ -801,6 +801,11 @@ func (o SyncAssetExifV1) ToMap() (map[string]interface{}, error) {
 	toSerialize["rating"] = o.Rating.Get()
 	toSerialize["state"] = o.State.Get()
 	toSerialize["timeZone"] = o.TimeZone.Get()
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -852,15 +857,44 @@ func (o *SyncAssetExifV1) UnmarshalJSON(data []byte) (err error) {
 
 	varSyncAssetExifV1 := _SyncAssetExifV1{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSyncAssetExifV1)
+	err = json.Unmarshal(data, &varSyncAssetExifV1)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SyncAssetExifV1(varSyncAssetExifV1)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "assetId")
+		delete(additionalProperties, "city")
+		delete(additionalProperties, "country")
+		delete(additionalProperties, "dateTimeOriginal")
+		delete(additionalProperties, "description")
+		delete(additionalProperties, "exifImageHeight")
+		delete(additionalProperties, "exifImageWidth")
+		delete(additionalProperties, "exposureTime")
+		delete(additionalProperties, "fNumber")
+		delete(additionalProperties, "fileSizeInByte")
+		delete(additionalProperties, "focalLength")
+		delete(additionalProperties, "fps")
+		delete(additionalProperties, "iso")
+		delete(additionalProperties, "latitude")
+		delete(additionalProperties, "lensModel")
+		delete(additionalProperties, "longitude")
+		delete(additionalProperties, "make")
+		delete(additionalProperties, "model")
+		delete(additionalProperties, "modifyDate")
+		delete(additionalProperties, "orientation")
+		delete(additionalProperties, "profileDescription")
+		delete(additionalProperties, "projectionType")
+		delete(additionalProperties, "rating")
+		delete(additionalProperties, "state")
+		delete(additionalProperties, "timeZone")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

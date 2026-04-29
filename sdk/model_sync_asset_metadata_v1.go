@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -27,6 +26,7 @@ type SyncAssetMetadataV1 struct {
 	Key string `json:"key"`
 	// Value
 	Value map[string]interface{} `json:"value"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SyncAssetMetadataV1 SyncAssetMetadataV1
@@ -136,6 +136,11 @@ func (o SyncAssetMetadataV1) ToMap() (map[string]interface{}, error) {
 	toSerialize["assetId"] = o.AssetId
 	toSerialize["key"] = o.Key
 	toSerialize["value"] = o.Value
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -165,15 +170,22 @@ func (o *SyncAssetMetadataV1) UnmarshalJSON(data []byte) (err error) {
 
 	varSyncAssetMetadataV1 := _SyncAssetMetadataV1{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSyncAssetMetadataV1)
+	err = json.Unmarshal(data, &varSyncAssetMetadataV1)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SyncAssetMetadataV1(varSyncAssetMetadataV1)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "assetId")
+		delete(additionalProperties, "key")
+		delete(additionalProperties, "value")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

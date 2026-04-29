@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -35,6 +34,7 @@ type PluginActionResponseDto struct {
 	SupportedContexts []PluginContextType `json:"supportedContexts"`
 	// Action title
 	Title string `json:"title"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _PluginActionResponseDto PluginActionResponseDto
@@ -250,6 +250,11 @@ func (o PluginActionResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["schema"] = o.Schema.Get()
 	toSerialize["supportedContexts"] = o.SupportedContexts
 	toSerialize["title"] = o.Title
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -283,15 +288,26 @@ func (o *PluginActionResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varPluginActionResponseDto := _PluginActionResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varPluginActionResponseDto)
+	err = json.Unmarshal(data, &varPluginActionResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = PluginActionResponseDto(varPluginActionResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "description")
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "methodName")
+		delete(additionalProperties, "pluginId")
+		delete(additionalProperties, "schema")
+		delete(additionalProperties, "supportedContexts")
+		delete(additionalProperties, "title")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

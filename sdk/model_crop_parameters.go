@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -29,6 +28,7 @@ type CropParameters struct {
 	X int32 `json:"x"`
 	// Top-Left Y coordinate of crop
 	Y int32 `json:"y"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _CropParameters CropParameters
@@ -164,6 +164,11 @@ func (o CropParameters) ToMap() (map[string]interface{}, error) {
 	toSerialize["width"] = o.Width
 	toSerialize["x"] = o.X
 	toSerialize["y"] = o.Y
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -194,15 +199,23 @@ func (o *CropParameters) UnmarshalJSON(data []byte) (err error) {
 
 	varCropParameters := _CropParameters{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varCropParameters)
+	err = json.Unmarshal(data, &varCropParameters)
 
 	if err != nil {
 		return err
 	}
 
 	*o = CropParameters(varCropParameters)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "height")
+		delete(additionalProperties, "width")
+		delete(additionalProperties, "x")
+		delete(additionalProperties, "y")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

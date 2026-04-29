@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &SystemConfigThemeDto{}
 type SystemConfigThemeDto struct {
 	// Custom CSS for theming
 	CustomCss string `json:"customCss"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SystemConfigThemeDto SystemConfigThemeDto
@@ -80,6 +80,11 @@ func (o SystemConfigThemeDto) MarshalJSON() ([]byte, error) {
 func (o SystemConfigThemeDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["customCss"] = o.CustomCss
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *SystemConfigThemeDto) UnmarshalJSON(data []byte) (err error) {
 
 	varSystemConfigThemeDto := _SystemConfigThemeDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSystemConfigThemeDto)
+	err = json.Unmarshal(data, &varSystemConfigThemeDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SystemConfigThemeDto(varSystemConfigThemeDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "customCss")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

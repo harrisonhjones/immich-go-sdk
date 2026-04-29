@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -27,6 +26,7 @@ type ServerVersionResponseDto struct {
 	Minor int32 `json:"minor"`
 	// Patch version number
 	Patch int32 `json:"patch"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _ServerVersionResponseDto ServerVersionResponseDto
@@ -136,6 +136,11 @@ func (o ServerVersionResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["major"] = o.Major
 	toSerialize["minor"] = o.Minor
 	toSerialize["patch"] = o.Patch
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -165,15 +170,22 @@ func (o *ServerVersionResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varServerVersionResponseDto := _ServerVersionResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varServerVersionResponseDto)
+	err = json.Unmarshal(data, &varServerVersionResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = ServerVersionResponseDto(varServerVersionResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "major")
+		delete(additionalProperties, "minor")
+		delete(additionalProperties, "patch")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

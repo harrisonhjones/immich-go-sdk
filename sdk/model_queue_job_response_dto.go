@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -28,6 +27,7 @@ type QueueJobResponseDto struct {
 	Name JobName `json:"name"`
 	// Job creation timestamp
 	Timestamp int32 `json:"timestamp"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _QueueJobResponseDto QueueJobResponseDto
@@ -172,6 +172,11 @@ func (o QueueJobResponseDto) ToMap() (map[string]interface{}, error) {
 	}
 	toSerialize["name"] = o.Name
 	toSerialize["timestamp"] = o.Timestamp
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -201,15 +206,23 @@ func (o *QueueJobResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varQueueJobResponseDto := _QueueJobResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varQueueJobResponseDto)
+	err = json.Unmarshal(data, &varQueueJobResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = QueueJobResponseDto(varQueueJobResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "data")
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "timestamp")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

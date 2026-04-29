@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -27,6 +26,7 @@ type AssetStatsResponseDto struct {
 	Total int32 `json:"total"`
 	// Number of videos
 	Videos int32 `json:"videos"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _AssetStatsResponseDto AssetStatsResponseDto
@@ -136,6 +136,11 @@ func (o AssetStatsResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["images"] = o.Images
 	toSerialize["total"] = o.Total
 	toSerialize["videos"] = o.Videos
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -165,15 +170,22 @@ func (o *AssetStatsResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varAssetStatsResponseDto := _AssetStatsResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varAssetStatsResponseDto)
+	err = json.Unmarshal(data, &varAssetStatsResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = AssetStatsResponseDto(varAssetStatsResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "images")
+		delete(additionalProperties, "total")
+		delete(additionalProperties, "videos")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

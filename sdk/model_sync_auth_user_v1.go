@@ -13,7 +13,6 @@ package immich
 import (
 	"encoding/json"
 	"time"
-	"bytes"
 	"fmt"
 )
 
@@ -47,6 +46,7 @@ type SyncAuthUserV1 struct {
 	QuotaUsageInBytes int32 `json:"quotaUsageInBytes"`
 	// User storage label
 	StorageLabel NullableString `json:"storageLabel"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SyncAuthUserV1 SyncAuthUserV1
@@ -443,6 +443,11 @@ func (o SyncAuthUserV1) ToMap() (map[string]interface{}, error) {
 	toSerialize["quotaSizeInBytes"] = o.QuotaSizeInBytes.Get()
 	toSerialize["quotaUsageInBytes"] = o.QuotaUsageInBytes
 	toSerialize["storageLabel"] = o.StorageLabel.Get()
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -481,15 +486,32 @@ func (o *SyncAuthUserV1) UnmarshalJSON(data []byte) (err error) {
 
 	varSyncAuthUserV1 := _SyncAuthUserV1{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSyncAuthUserV1)
+	err = json.Unmarshal(data, &varSyncAuthUserV1)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SyncAuthUserV1(varSyncAuthUserV1)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "avatarColor")
+		delete(additionalProperties, "deletedAt")
+		delete(additionalProperties, "email")
+		delete(additionalProperties, "hasProfileImage")
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "isAdmin")
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "oauthId")
+		delete(additionalProperties, "pinCode")
+		delete(additionalProperties, "profileChangedAt")
+		delete(additionalProperties, "quotaSizeInBytes")
+		delete(additionalProperties, "quotaUsageInBytes")
+		delete(additionalProperties, "storageLabel")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &SystemConfigNewVersionCheckDto{}
 type SystemConfigNewVersionCheckDto struct {
 	// Enabled
 	Enabled bool `json:"enabled"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SystemConfigNewVersionCheckDto SystemConfigNewVersionCheckDto
@@ -80,6 +80,11 @@ func (o SystemConfigNewVersionCheckDto) MarshalJSON() ([]byte, error) {
 func (o SystemConfigNewVersionCheckDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["enabled"] = o.Enabled
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *SystemConfigNewVersionCheckDto) UnmarshalJSON(data []byte) (err error) 
 
 	varSystemConfigNewVersionCheckDto := _SystemConfigNewVersionCheckDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSystemConfigNewVersionCheckDto)
+	err = json.Unmarshal(data, &varSystemConfigNewVersionCheckDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SystemConfigNewVersionCheckDto(varSystemConfigNewVersionCheckDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "enabled")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

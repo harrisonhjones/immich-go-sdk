@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &SyncAssetDeleteV1{}
 type SyncAssetDeleteV1 struct {
 	// Asset ID
 	AssetId string `json:"assetId"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SyncAssetDeleteV1 SyncAssetDeleteV1
@@ -80,6 +80,11 @@ func (o SyncAssetDeleteV1) MarshalJSON() ([]byte, error) {
 func (o SyncAssetDeleteV1) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["assetId"] = o.AssetId
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *SyncAssetDeleteV1) UnmarshalJSON(data []byte) (err error) {
 
 	varSyncAssetDeleteV1 := _SyncAssetDeleteV1{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSyncAssetDeleteV1)
+	err = json.Unmarshal(data, &varSyncAssetDeleteV1)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SyncAssetDeleteV1(varSyncAssetDeleteV1)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "assetId")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

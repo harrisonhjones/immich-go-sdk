@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &AssetMetadataBulkUpsertDto{}
 type AssetMetadataBulkUpsertDto struct {
 	// Metadata items to upsert
 	Items []AssetMetadataBulkUpsertItemDto `json:"items"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _AssetMetadataBulkUpsertDto AssetMetadataBulkUpsertDto
@@ -80,6 +80,11 @@ func (o AssetMetadataBulkUpsertDto) MarshalJSON() ([]byte, error) {
 func (o AssetMetadataBulkUpsertDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["items"] = o.Items
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *AssetMetadataBulkUpsertDto) UnmarshalJSON(data []byte) (err error) {
 
 	varAssetMetadataBulkUpsertDto := _AssetMetadataBulkUpsertDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varAssetMetadataBulkUpsertDto)
+	err = json.Unmarshal(data, &varAssetMetadataBulkUpsertDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = AssetMetadataBulkUpsertDto(varAssetMetadataBulkUpsertDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "items")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

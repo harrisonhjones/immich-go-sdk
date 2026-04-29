@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -25,6 +24,7 @@ type ReverseGeocodingStateResponseDto struct {
 	LastImportFileName NullableString `json:"lastImportFileName"`
 	// Last update timestamp
 	LastUpdate NullableString `json:"lastUpdate"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _ReverseGeocodingStateResponseDto ReverseGeocodingStateResponseDto
@@ -112,6 +112,11 @@ func (o ReverseGeocodingStateResponseDto) ToMap() (map[string]interface{}, error
 	toSerialize := map[string]interface{}{}
 	toSerialize["lastImportFileName"] = o.LastImportFileName.Get()
 	toSerialize["lastUpdate"] = o.LastUpdate.Get()
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -140,15 +145,21 @@ func (o *ReverseGeocodingStateResponseDto) UnmarshalJSON(data []byte) (err error
 
 	varReverseGeocodingStateResponseDto := _ReverseGeocodingStateResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varReverseGeocodingStateResponseDto)
+	err = json.Unmarshal(data, &varReverseGeocodingStateResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = ReverseGeocodingStateResponseDto(varReverseGeocodingStateResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "lastImportFileName")
+		delete(additionalProperties, "lastUpdate")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

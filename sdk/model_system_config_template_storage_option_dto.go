@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -37,6 +36,7 @@ type SystemConfigTemplateStorageOptionDto struct {
 	WeekOptions []string `json:"weekOptions"`
 	// Available year format options for storage template
 	YearOptions []string `json:"yearOptions"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SystemConfigTemplateStorageOptionDto SystemConfigTemplateStorageOptionDto
@@ -276,6 +276,11 @@ func (o SystemConfigTemplateStorageOptionDto) ToMap() (map[string]interface{}, e
 	toSerialize["secondOptions"] = o.SecondOptions
 	toSerialize["weekOptions"] = o.WeekOptions
 	toSerialize["yearOptions"] = o.YearOptions
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -310,15 +315,27 @@ func (o *SystemConfigTemplateStorageOptionDto) UnmarshalJSON(data []byte) (err e
 
 	varSystemConfigTemplateStorageOptionDto := _SystemConfigTemplateStorageOptionDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSystemConfigTemplateStorageOptionDto)
+	err = json.Unmarshal(data, &varSystemConfigTemplateStorageOptionDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SystemConfigTemplateStorageOptionDto(varSystemConfigTemplateStorageOptionDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "dayOptions")
+		delete(additionalProperties, "hourOptions")
+		delete(additionalProperties, "minuteOptions")
+		delete(additionalProperties, "monthOptions")
+		delete(additionalProperties, "presetOptions")
+		delete(additionalProperties, "secondOptions")
+		delete(additionalProperties, "weekOptions")
+		delete(additionalProperties, "yearOptions")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

@@ -86,7 +86,10 @@ type SmartSearchDto struct {
 	WithDeleted *bool `json:"withDeleted,omitempty"`
 	// Include EXIF data in response
 	WithExif *bool `json:"withExif,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _SmartSearchDto SmartSearchDto
 
 // NewSmartSearchDto instantiates a new SmartSearchDto object
 // This constructor will assign default values to properties that have it defined,
@@ -1386,7 +1389,66 @@ func (o SmartSearchDto) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.WithExif) {
 		toSerialize["withExif"] = o.WithExif
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *SmartSearchDto) UnmarshalJSON(data []byte) (err error) {
+	varSmartSearchDto := _SmartSearchDto{}
+
+	err = json.Unmarshal(data, &varSmartSearchDto)
+
+	if err != nil {
+		return err
+	}
+
+	*o = SmartSearchDto(varSmartSearchDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "albumIds")
+		delete(additionalProperties, "city")
+		delete(additionalProperties, "country")
+		delete(additionalProperties, "createdAfter")
+		delete(additionalProperties, "createdBefore")
+		delete(additionalProperties, "isEncoded")
+		delete(additionalProperties, "isFavorite")
+		delete(additionalProperties, "isMotion")
+		delete(additionalProperties, "isNotInAlbum")
+		delete(additionalProperties, "isOffline")
+		delete(additionalProperties, "language")
+		delete(additionalProperties, "lensModel")
+		delete(additionalProperties, "libraryId")
+		delete(additionalProperties, "make")
+		delete(additionalProperties, "model")
+		delete(additionalProperties, "ocr")
+		delete(additionalProperties, "page")
+		delete(additionalProperties, "personIds")
+		delete(additionalProperties, "query")
+		delete(additionalProperties, "queryAssetId")
+		delete(additionalProperties, "rating")
+		delete(additionalProperties, "size")
+		delete(additionalProperties, "state")
+		delete(additionalProperties, "tagIds")
+		delete(additionalProperties, "takenAfter")
+		delete(additionalProperties, "takenBefore")
+		delete(additionalProperties, "trashedAfter")
+		delete(additionalProperties, "trashedBefore")
+		delete(additionalProperties, "type")
+		delete(additionalProperties, "updatedAfter")
+		delete(additionalProperties, "updatedBefore")
+		delete(additionalProperties, "visibility")
+		delete(additionalProperties, "withDeleted")
+		delete(additionalProperties, "withExif")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableSmartSearchDto struct {

@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -33,6 +32,7 @@ type ServerStatsResponseDto struct {
 	UsageVideos int32 `json:"usageVideos"`
 	// Total number of videos
 	Videos int32 `json:"videos"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _ServerStatsResponseDto ServerStatsResponseDto
@@ -220,6 +220,11 @@ func (o ServerStatsResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["usagePhotos"] = o.UsagePhotos
 	toSerialize["usageVideos"] = o.UsageVideos
 	toSerialize["videos"] = o.Videos
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -252,15 +257,25 @@ func (o *ServerStatsResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varServerStatsResponseDto := _ServerStatsResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varServerStatsResponseDto)
+	err = json.Unmarshal(data, &varServerStatsResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = ServerStatsResponseDto(varServerStatsResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "photos")
+		delete(additionalProperties, "usage")
+		delete(additionalProperties, "usageByUser")
+		delete(additionalProperties, "usagePhotos")
+		delete(additionalProperties, "usageVideos")
+		delete(additionalProperties, "videos")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

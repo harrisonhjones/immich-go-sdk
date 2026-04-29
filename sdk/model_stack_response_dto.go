@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -26,6 +25,7 @@ type StackResponseDto struct {
 	Id string `json:"id"`
 	// Primary asset ID
 	PrimaryAssetId string `json:"primaryAssetId"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _StackResponseDto StackResponseDto
@@ -135,6 +135,11 @@ func (o StackResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["assets"] = o.Assets
 	toSerialize["id"] = o.Id
 	toSerialize["primaryAssetId"] = o.PrimaryAssetId
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -164,15 +169,22 @@ func (o *StackResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varStackResponseDto := _StackResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varStackResponseDto)
+	err = json.Unmarshal(data, &varStackResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = StackResponseDto(varStackResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "assets")
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "primaryAssetId")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

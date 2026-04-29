@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &TrashResponseDto{}
 type TrashResponseDto struct {
 	// Number of items in trash
 	Count int32 `json:"count"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _TrashResponseDto TrashResponseDto
@@ -80,6 +80,11 @@ func (o TrashResponseDto) MarshalJSON() ([]byte, error) {
 func (o TrashResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["count"] = o.Count
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *TrashResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varTrashResponseDto := _TrashResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varTrashResponseDto)
+	err = json.Unmarshal(data, &varTrashResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = TrashResponseDto(varTrashResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "count")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &SystemConfigUserDto{}
 type SystemConfigUserDto struct {
 	// Delete delay
 	DeleteDelay int32 `json:"deleteDelay"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SystemConfigUserDto SystemConfigUserDto
@@ -80,6 +80,11 @@ func (o SystemConfigUserDto) MarshalJSON() ([]byte, error) {
 func (o SystemConfigUserDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["deleteDelay"] = o.DeleteDelay
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *SystemConfigUserDto) UnmarshalJSON(data []byte) (err error) {
 
 	varSystemConfigUserDto := _SystemConfigUserDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSystemConfigUserDto)
+	err = json.Unmarshal(data, &varSystemConfigUserDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SystemConfigUserDto(varSystemConfigUserDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "deleteDelay")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

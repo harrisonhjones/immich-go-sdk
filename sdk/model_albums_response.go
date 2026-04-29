@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -22,6 +21,7 @@ var _ MappedNullable = &AlbumsResponse{}
 // AlbumsResponse struct for AlbumsResponse
 type AlbumsResponse struct {
 	DefaultAssetOrder AssetOrder `json:"defaultAssetOrder"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _AlbumsResponse AlbumsResponse
@@ -79,6 +79,11 @@ func (o AlbumsResponse) MarshalJSON() ([]byte, error) {
 func (o AlbumsResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["defaultAssetOrder"] = o.DefaultAssetOrder
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -106,15 +111,20 @@ func (o *AlbumsResponse) UnmarshalJSON(data []byte) (err error) {
 
 	varAlbumsResponse := _AlbumsResponse{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varAlbumsResponse)
+	err = json.Unmarshal(data, &varAlbumsResponse)
 
 	if err != nil {
 		return err
 	}
 
 	*o = AlbumsResponse(varAlbumsResponse)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "defaultAssetOrder")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

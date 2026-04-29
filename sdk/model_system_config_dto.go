@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -42,6 +41,7 @@ type SystemConfigDto struct {
 	Theme SystemConfigThemeDto `json:"theme"`
 	Trash SystemConfigTrashDto `json:"trash"`
 	User SystemConfigUserDto `json:"user"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SystemConfigDto SystemConfigDto
@@ -619,6 +619,11 @@ func (o SystemConfigDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["theme"] = o.Theme
 	toSerialize["trash"] = o.Trash
 	toSerialize["user"] = o.User
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -666,15 +671,40 @@ func (o *SystemConfigDto) UnmarshalJSON(data []byte) (err error) {
 
 	varSystemConfigDto := _SystemConfigDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSystemConfigDto)
+	err = json.Unmarshal(data, &varSystemConfigDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SystemConfigDto(varSystemConfigDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "backup")
+		delete(additionalProperties, "ffmpeg")
+		delete(additionalProperties, "image")
+		delete(additionalProperties, "job")
+		delete(additionalProperties, "library")
+		delete(additionalProperties, "logging")
+		delete(additionalProperties, "machineLearning")
+		delete(additionalProperties, "map")
+		delete(additionalProperties, "metadata")
+		delete(additionalProperties, "newVersionCheck")
+		delete(additionalProperties, "nightlyTasks")
+		delete(additionalProperties, "notifications")
+		delete(additionalProperties, "oauth")
+		delete(additionalProperties, "passwordLogin")
+		delete(additionalProperties, "reverseGeocoding")
+		delete(additionalProperties, "server")
+		delete(additionalProperties, "storageTemplate")
+		delete(additionalProperties, "templates")
+		delete(additionalProperties, "theme")
+		delete(additionalProperties, "trash")
+		delete(additionalProperties, "user")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

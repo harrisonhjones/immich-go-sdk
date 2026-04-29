@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &NotificationDeleteAllDto{}
 type NotificationDeleteAllDto struct {
 	// Notification IDs to delete
 	Ids []string `json:"ids"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _NotificationDeleteAllDto NotificationDeleteAllDto
@@ -80,6 +80,11 @@ func (o NotificationDeleteAllDto) MarshalJSON() ([]byte, error) {
 func (o NotificationDeleteAllDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["ids"] = o.Ids
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *NotificationDeleteAllDto) UnmarshalJSON(data []byte) (err error) {
 
 	varNotificationDeleteAllDto := _NotificationDeleteAllDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varNotificationDeleteAllDto)
+	err = json.Unmarshal(data, &varNotificationDeleteAllDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = NotificationDeleteAllDto(varNotificationDeleteAllDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "ids")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

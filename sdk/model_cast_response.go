@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &CastResponse{}
 type CastResponse struct {
 	// Whether Google Cast is enabled
 	GCastEnabled bool `json:"gCastEnabled"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _CastResponse CastResponse
@@ -80,6 +80,11 @@ func (o CastResponse) MarshalJSON() ([]byte, error) {
 func (o CastResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["gCastEnabled"] = o.GCastEnabled
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *CastResponse) UnmarshalJSON(data []byte) (err error) {
 
 	varCastResponse := _CastResponse{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varCastResponse)
+	err = json.Unmarshal(data, &varCastResponse)
 
 	if err != nil {
 		return err
 	}
 
 	*o = CastResponse(varCastResponse)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "gCastEnabled")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

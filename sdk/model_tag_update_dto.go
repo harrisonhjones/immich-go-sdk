@@ -21,7 +21,10 @@ var _ MappedNullable = &TagUpdateDto{}
 type TagUpdateDto struct {
 	// Tag color (hex)
 	Color NullableString `json:"color,omitempty" validate:"regexp=^#?([0-9A-Fa-f]{3}|[0-9A-Fa-f]{4}|[0-9A-Fa-f]{6}|[0-9A-Fa-f]{8})$"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _TagUpdateDto TagUpdateDto
 
 // NewTagUpdateDto instantiates a new TagUpdateDto object
 // This constructor will assign default values to properties that have it defined,
@@ -95,7 +98,33 @@ func (o TagUpdateDto) ToMap() (map[string]interface{}, error) {
 	if o.Color.IsSet() {
 		toSerialize["color"] = o.Color.Get()
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *TagUpdateDto) UnmarshalJSON(data []byte) (err error) {
+	varTagUpdateDto := _TagUpdateDto{}
+
+	err = json.Unmarshal(data, &varTagUpdateDto)
+
+	if err != nil {
+		return err
+	}
+
+	*o = TagUpdateDto(varTagUpdateDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "color")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableTagUpdateDto struct {

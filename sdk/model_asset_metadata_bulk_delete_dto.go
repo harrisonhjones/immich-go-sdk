@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &AssetMetadataBulkDeleteDto{}
 type AssetMetadataBulkDeleteDto struct {
 	// Metadata items to delete
 	Items []AssetMetadataBulkDeleteItemDto `json:"items"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _AssetMetadataBulkDeleteDto AssetMetadataBulkDeleteDto
@@ -80,6 +80,11 @@ func (o AssetMetadataBulkDeleteDto) MarshalJSON() ([]byte, error) {
 func (o AssetMetadataBulkDeleteDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["items"] = o.Items
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *AssetMetadataBulkDeleteDto) UnmarshalJSON(data []byte) (err error) {
 
 	varAssetMetadataBulkDeleteDto := _AssetMetadataBulkDeleteDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varAssetMetadataBulkDeleteDto)
+	err = json.Unmarshal(data, &varAssetMetadataBulkDeleteDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = AssetMetadataBulkDeleteDto(varAssetMetadataBulkDeleteDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "items")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

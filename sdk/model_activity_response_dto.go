@@ -13,7 +13,6 @@ package immich
 import (
 	"encoding/json"
 	"time"
-	"bytes"
 	"fmt"
 )
 
@@ -32,6 +31,7 @@ type ActivityResponseDto struct {
 	Id string `json:"id" validate:"regexp=^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$"`
 	Type ReactionType `json:"type"`
 	User UserResponseDto `json:"user"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _ActivityResponseDto ActivityResponseDto
@@ -240,6 +240,11 @@ func (o ActivityResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["id"] = o.Id
 	toSerialize["type"] = o.Type
 	toSerialize["user"] = o.User
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -271,15 +276,25 @@ func (o *ActivityResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varActivityResponseDto := _ActivityResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varActivityResponseDto)
+	err = json.Unmarshal(data, &varActivityResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = ActivityResponseDto(varActivityResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "assetId")
+		delete(additionalProperties, "comment")
+		delete(additionalProperties, "createdAt")
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "type")
+		delete(additionalProperties, "user")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -24,6 +23,7 @@ type SystemConfigLoggingDto struct {
 	// Enabled
 	Enabled bool `json:"enabled"`
 	Level LogLevel `json:"level"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SystemConfigLoggingDto SystemConfigLoggingDto
@@ -107,6 +107,11 @@ func (o SystemConfigLoggingDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["enabled"] = o.Enabled
 	toSerialize["level"] = o.Level
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -135,15 +140,21 @@ func (o *SystemConfigLoggingDto) UnmarshalJSON(data []byte) (err error) {
 
 	varSystemConfigLoggingDto := _SystemConfigLoggingDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSystemConfigLoggingDto)
+	err = json.Unmarshal(data, &varSystemConfigLoggingDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SystemConfigLoggingDto(varSystemConfigLoggingDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "enabled")
+		delete(additionalProperties, "level")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

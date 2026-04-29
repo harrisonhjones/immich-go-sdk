@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -28,6 +27,7 @@ type SystemConfigSmtpDto struct {
 	// Email address for replies
 	ReplyTo string `json:"replyTo"`
 	Transport SystemConfigSmtpTransportDto `json:"transport"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SystemConfigSmtpDto SystemConfigSmtpDto
@@ -163,6 +163,11 @@ func (o SystemConfigSmtpDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["from"] = o.From
 	toSerialize["replyTo"] = o.ReplyTo
 	toSerialize["transport"] = o.Transport
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -193,15 +198,23 @@ func (o *SystemConfigSmtpDto) UnmarshalJSON(data []byte) (err error) {
 
 	varSystemConfigSmtpDto := _SystemConfigSmtpDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSystemConfigSmtpDto)
+	err = json.Unmarshal(data, &varSystemConfigSmtpDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SystemConfigSmtpDto(varSystemConfigSmtpDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "enabled")
+		delete(additionalProperties, "from")
+		delete(additionalProperties, "replyTo")
+		delete(additionalProperties, "transport")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

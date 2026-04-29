@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &SystemConfigFacesDto{}
 type SystemConfigFacesDto struct {
 	// Import
 	Import bool `json:"import"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SystemConfigFacesDto SystemConfigFacesDto
@@ -80,6 +80,11 @@ func (o SystemConfigFacesDto) MarshalJSON() ([]byte, error) {
 func (o SystemConfigFacesDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["import"] = o.Import
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *SystemConfigFacesDto) UnmarshalJSON(data []byte) (err error) {
 
 	varSystemConfigFacesDto := _SystemConfigFacesDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSystemConfigFacesDto)
+	err = json.Unmarshal(data, &varSystemConfigFacesDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SystemConfigFacesDto(varSystemConfigFacesDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "import")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

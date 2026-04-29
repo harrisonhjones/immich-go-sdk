@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -27,6 +26,7 @@ type DatabaseBackupConfig struct {
 	Enabled bool `json:"enabled"`
 	// Keep last amount
 	KeepLastAmount int32 `json:"keepLastAmount"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _DatabaseBackupConfig DatabaseBackupConfig
@@ -136,6 +136,11 @@ func (o DatabaseBackupConfig) ToMap() (map[string]interface{}, error) {
 	toSerialize["cronExpression"] = o.CronExpression
 	toSerialize["enabled"] = o.Enabled
 	toSerialize["keepLastAmount"] = o.KeepLastAmount
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -165,15 +170,22 @@ func (o *DatabaseBackupConfig) UnmarshalJSON(data []byte) (err error) {
 
 	varDatabaseBackupConfig := _DatabaseBackupConfig{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varDatabaseBackupConfig)
+	err = json.Unmarshal(data, &varDatabaseBackupConfig)
 
 	if err != nil {
 		return err
 	}
 
 	*o = DatabaseBackupConfig(varDatabaseBackupConfig)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "cronExpression")
+		delete(additionalProperties, "enabled")
+		delete(additionalProperties, "keepLastAmount")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

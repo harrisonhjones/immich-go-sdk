@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -22,6 +21,7 @@ var _ MappedNullable = &SystemConfigMetadataDto{}
 // SystemConfigMetadataDto struct for SystemConfigMetadataDto
 type SystemConfigMetadataDto struct {
 	Faces SystemConfigFacesDto `json:"faces"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SystemConfigMetadataDto SystemConfigMetadataDto
@@ -79,6 +79,11 @@ func (o SystemConfigMetadataDto) MarshalJSON() ([]byte, error) {
 func (o SystemConfigMetadataDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["faces"] = o.Faces
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -106,15 +111,20 @@ func (o *SystemConfigMetadataDto) UnmarshalJSON(data []byte) (err error) {
 
 	varSystemConfigMetadataDto := _SystemConfigMetadataDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSystemConfigMetadataDto)
+	err = json.Unmarshal(data, &varSystemConfigMetadataDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SystemConfigMetadataDto(varSystemConfigMetadataDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "faces")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

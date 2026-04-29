@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -24,6 +23,7 @@ type SearchExploreItem struct {
 	Data AssetResponseDto `json:"data"`
 	// Explore value
 	Value string `json:"value"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SearchExploreItem SearchExploreItem
@@ -107,6 +107,11 @@ func (o SearchExploreItem) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["data"] = o.Data
 	toSerialize["value"] = o.Value
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -135,15 +140,21 @@ func (o *SearchExploreItem) UnmarshalJSON(data []byte) (err error) {
 
 	varSearchExploreItem := _SearchExploreItem{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSearchExploreItem)
+	err = json.Unmarshal(data, &varSearchExploreItem)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SearchExploreItem(varSearchExploreItem)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "data")
+		delete(additionalProperties, "value")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

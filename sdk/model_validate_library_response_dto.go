@@ -21,7 +21,10 @@ var _ MappedNullable = &ValidateLibraryResponseDto{}
 type ValidateLibraryResponseDto struct {
 	// Validation results for import paths
 	ImportPaths []ValidateLibraryImportPathResponseDto `json:"importPaths,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _ValidateLibraryResponseDto ValidateLibraryResponseDto
 
 // NewValidateLibraryResponseDto instantiates a new ValidateLibraryResponseDto object
 // This constructor will assign default values to properties that have it defined,
@@ -85,7 +88,33 @@ func (o ValidateLibraryResponseDto) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.ImportPaths) {
 		toSerialize["importPaths"] = o.ImportPaths
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *ValidateLibraryResponseDto) UnmarshalJSON(data []byte) (err error) {
+	varValidateLibraryResponseDto := _ValidateLibraryResponseDto{}
+
+	err = json.Unmarshal(data, &varValidateLibraryResponseDto)
+
+	if err != nil {
+		return err
+	}
+
+	*o = ValidateLibraryResponseDto(varValidateLibraryResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "importPaths")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableValidateLibraryResponseDto struct {

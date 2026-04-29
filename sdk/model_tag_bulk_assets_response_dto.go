@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &TagBulkAssetsResponseDto{}
 type TagBulkAssetsResponseDto struct {
 	// Number of assets tagged
 	Count int32 `json:"count"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _TagBulkAssetsResponseDto TagBulkAssetsResponseDto
@@ -80,6 +80,11 @@ func (o TagBulkAssetsResponseDto) MarshalJSON() ([]byte, error) {
 func (o TagBulkAssetsResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["count"] = o.Count
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *TagBulkAssetsResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varTagBulkAssetsResponseDto := _TagBulkAssetsResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varTagBulkAssetsResponseDto)
+	err = json.Unmarshal(data, &varTagBulkAssetsResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = TagBulkAssetsResponseDto(varTagBulkAssetsResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "count")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

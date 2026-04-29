@@ -13,7 +13,6 @@ package immich
 import (
 	"encoding/json"
 	"time"
-	"bytes"
 	"fmt"
 )
 
@@ -47,6 +46,7 @@ type SharedLinkResponseDto struct {
 	Type SharedLinkType `json:"type"`
 	// Owner user ID
 	UserId string `json:"userId"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SharedLinkResponseDto SharedLinkResponseDto
@@ -459,6 +459,11 @@ func (o SharedLinkResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["slug"] = o.Slug.Get()
 	toSerialize["type"] = o.Type
 	toSerialize["userId"] = o.UserId
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -498,15 +503,33 @@ func (o *SharedLinkResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varSharedLinkResponseDto := _SharedLinkResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSharedLinkResponseDto)
+	err = json.Unmarshal(data, &varSharedLinkResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SharedLinkResponseDto(varSharedLinkResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "album")
+		delete(additionalProperties, "allowDownload")
+		delete(additionalProperties, "allowUpload")
+		delete(additionalProperties, "assets")
+		delete(additionalProperties, "createdAt")
+		delete(additionalProperties, "description")
+		delete(additionalProperties, "expiresAt")
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "key")
+		delete(additionalProperties, "password")
+		delete(additionalProperties, "showMetadata")
+		delete(additionalProperties, "slug")
+		delete(additionalProperties, "type")
+		delete(additionalProperties, "userId")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

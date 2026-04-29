@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -38,6 +37,7 @@ type WorkflowResponseDto struct {
 	// Owner user ID
 	OwnerId string `json:"ownerId"`
 	TriggerType PluginTriggerType `json:"triggerType"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _WorkflowResponseDto WorkflowResponseDto
@@ -305,6 +305,11 @@ func (o WorkflowResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["name"] = o.Name.Get()
 	toSerialize["ownerId"] = o.OwnerId
 	toSerialize["triggerType"] = o.TriggerType
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -340,15 +345,28 @@ func (o *WorkflowResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varWorkflowResponseDto := _WorkflowResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varWorkflowResponseDto)
+	err = json.Unmarshal(data, &varWorkflowResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = WorkflowResponseDto(varWorkflowResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "actions")
+		delete(additionalProperties, "createdAt")
+		delete(additionalProperties, "description")
+		delete(additionalProperties, "enabled")
+		delete(additionalProperties, "filters")
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "ownerId")
+		delete(additionalProperties, "triggerType")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -25,6 +24,7 @@ type TagsResponse struct {
 	Enabled bool `json:"enabled"`
 	// Whether tags appear in web sidebar
 	SidebarWeb bool `json:"sidebarWeb"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _TagsResponse TagsResponse
@@ -108,6 +108,11 @@ func (o TagsResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["enabled"] = o.Enabled
 	toSerialize["sidebarWeb"] = o.SidebarWeb
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -136,15 +141,21 @@ func (o *TagsResponse) UnmarshalJSON(data []byte) (err error) {
 
 	varTagsResponse := _TagsResponse{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varTagsResponse)
+	err = json.Unmarshal(data, &varTagsResponse)
 
 	if err != nil {
 		return err
 	}
 
 	*o = TagsResponse(varTagsResponse)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "enabled")
+		delete(additionalProperties, "sidebarWeb")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

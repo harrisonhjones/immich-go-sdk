@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -27,6 +26,7 @@ type SystemConfigStorageTemplateDto struct {
 	HashVerificationEnabled bool `json:"hashVerificationEnabled"`
 	// Template
 	Template string `json:"template"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SystemConfigStorageTemplateDto SystemConfigStorageTemplateDto
@@ -136,6 +136,11 @@ func (o SystemConfigStorageTemplateDto) ToMap() (map[string]interface{}, error) 
 	toSerialize["enabled"] = o.Enabled
 	toSerialize["hashVerificationEnabled"] = o.HashVerificationEnabled
 	toSerialize["template"] = o.Template
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -165,15 +170,22 @@ func (o *SystemConfigStorageTemplateDto) UnmarshalJSON(data []byte) (err error) 
 
 	varSystemConfigStorageTemplateDto := _SystemConfigStorageTemplateDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSystemConfigStorageTemplateDto)
+	err = json.Unmarshal(data, &varSystemConfigStorageTemplateDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SystemConfigStorageTemplateDto(varSystemConfigStorageTemplateDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "enabled")
+		delete(additionalProperties, "hashVerificationEnabled")
+		delete(additionalProperties, "template")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

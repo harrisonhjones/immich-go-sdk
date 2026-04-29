@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &DatabaseBackupDeleteDto{}
 type DatabaseBackupDeleteDto struct {
 	// Backup filenames to delete
 	Backups []string `json:"backups"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _DatabaseBackupDeleteDto DatabaseBackupDeleteDto
@@ -80,6 +80,11 @@ func (o DatabaseBackupDeleteDto) MarshalJSON() ([]byte, error) {
 func (o DatabaseBackupDeleteDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["backups"] = o.Backups
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *DatabaseBackupDeleteDto) UnmarshalJSON(data []byte) (err error) {
 
 	varDatabaseBackupDeleteDto := _DatabaseBackupDeleteDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varDatabaseBackupDeleteDto)
+	err = json.Unmarshal(data, &varDatabaseBackupDeleteDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = DatabaseBackupDeleteDto(varDatabaseBackupDeleteDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "backups")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

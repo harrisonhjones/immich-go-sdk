@@ -21,7 +21,10 @@ var _ MappedNullable = &QueueDeleteDto{}
 type QueueDeleteDto struct {
 	// If true, will also remove failed jobs from the queue.
 	Failed *bool `json:"failed,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _QueueDeleteDto QueueDeleteDto
 
 // NewQueueDeleteDto instantiates a new QueueDeleteDto object
 // This constructor will assign default values to properties that have it defined,
@@ -85,7 +88,33 @@ func (o QueueDeleteDto) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Failed) {
 		toSerialize["failed"] = o.Failed
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *QueueDeleteDto) UnmarshalJSON(data []byte) (err error) {
+	varQueueDeleteDto := _QueueDeleteDto{}
+
+	err = json.Unmarshal(data, &varQueueDeleteDto)
+
+	if err != nil {
+		return err
+	}
+
+	*o = QueueDeleteDto(varQueueDeleteDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "failed")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableQueueDeleteDto struct {

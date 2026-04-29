@@ -20,7 +20,10 @@ var _ MappedNullable = &AlbumsUpdate{}
 // AlbumsUpdate Album preferences
 type AlbumsUpdate struct {
 	DefaultAssetOrder *AssetOrder `json:"defaultAssetOrder,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _AlbumsUpdate AlbumsUpdate
 
 // NewAlbumsUpdate instantiates a new AlbumsUpdate object
 // This constructor will assign default values to properties that have it defined,
@@ -84,7 +87,33 @@ func (o AlbumsUpdate) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.DefaultAssetOrder) {
 		toSerialize["defaultAssetOrder"] = o.DefaultAssetOrder
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *AlbumsUpdate) UnmarshalJSON(data []byte) (err error) {
+	varAlbumsUpdate := _AlbumsUpdate{}
+
+	err = json.Unmarshal(data, &varAlbumsUpdate)
+
+	if err != nil {
+		return err
+	}
+
+	*o = AlbumsUpdate(varAlbumsUpdate)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "defaultAssetOrder")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableAlbumsUpdate struct {

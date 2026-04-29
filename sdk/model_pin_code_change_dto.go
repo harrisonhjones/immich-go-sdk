@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -27,6 +26,7 @@ type PinCodeChangeDto struct {
 	Password *string `json:"password,omitempty"`
 	// New PIN code (4-6 digits)
 	PinCode *string `json:"pinCode,omitempty" validate:"regexp=^\\\\d{6}$"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _PinCodeChangeDto PinCodeChangeDto
@@ -154,6 +154,11 @@ func (o PinCodeChangeDto) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.PinCode) {
 		toSerialize["pinCode"] = o.PinCode
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -181,15 +186,22 @@ func (o *PinCodeChangeDto) UnmarshalJSON(data []byte) (err error) {
 
 	varPinCodeChangeDto := _PinCodeChangeDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varPinCodeChangeDto)
+	err = json.Unmarshal(data, &varPinCodeChangeDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = PinCodeChangeDto(varPinCodeChangeDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "newPinCode")
+		delete(additionalProperties, "password")
+		delete(additionalProperties, "pinCode")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

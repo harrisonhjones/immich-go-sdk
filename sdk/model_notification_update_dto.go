@@ -22,7 +22,10 @@ var _ MappedNullable = &NotificationUpdateDto{}
 type NotificationUpdateDto struct {
 	// Date when notification was read
 	ReadAt NullableTime `json:"readAt,omitempty" validate:"regexp=^(?:(?:\\\\d\\\\d[2468][048]|\\\\d\\\\d[13579][26]|\\\\d\\\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\\\d|30)|(?:02)-(?:0[1-9]|1\\\\d|2[0-8])))T(?:(?:[01]\\\\d|2[0-3]):[0-5]\\\\d(?::[0-5]\\\\d(?:\\\\.\\\\d+)?)?(?:Z))$"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _NotificationUpdateDto NotificationUpdateDto
 
 // NewNotificationUpdateDto instantiates a new NotificationUpdateDto object
 // This constructor will assign default values to properties that have it defined,
@@ -96,7 +99,33 @@ func (o NotificationUpdateDto) ToMap() (map[string]interface{}, error) {
 	if o.ReadAt.IsSet() {
 		toSerialize["readAt"] = o.ReadAt.Get()
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
+}
+
+func (o *NotificationUpdateDto) UnmarshalJSON(data []byte) (err error) {
+	varNotificationUpdateDto := _NotificationUpdateDto{}
+
+	err = json.Unmarshal(data, &varNotificationUpdateDto)
+
+	if err != nil {
+		return err
+	}
+
+	*o = NotificationUpdateDto(varNotificationUpdateDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "readAt")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableNotificationUpdateDto struct {

@@ -13,7 +13,6 @@ package immich
 import (
 	"encoding/json"
 	"time"
-	"bytes"
 	"fmt"
 )
 
@@ -52,6 +51,7 @@ type AlbumResponseDto struct {
 	StartDate *time.Time `json:"startDate,omitempty"`
 	// Last update date
 	UpdatedAt time.Time `json:"updatedAt"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _AlbumResponseDto AlbumResponseDto
@@ -546,6 +546,11 @@ func (o AlbumResponseDto) ToMap() (map[string]interface{}, error) {
 		toSerialize["startDate"] = o.StartDate
 	}
 	toSerialize["updatedAt"] = o.UpdatedAt
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -583,15 +588,35 @@ func (o *AlbumResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varAlbumResponseDto := _AlbumResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varAlbumResponseDto)
+	err = json.Unmarshal(data, &varAlbumResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = AlbumResponseDto(varAlbumResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "albumName")
+		delete(additionalProperties, "albumThumbnailAssetId")
+		delete(additionalProperties, "albumUsers")
+		delete(additionalProperties, "assetCount")
+		delete(additionalProperties, "contributorCounts")
+		delete(additionalProperties, "createdAt")
+		delete(additionalProperties, "description")
+		delete(additionalProperties, "endDate")
+		delete(additionalProperties, "hasSharedLink")
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "isActivityEnabled")
+		delete(additionalProperties, "lastModifiedAssetTimestamp")
+		delete(additionalProperties, "order")
+		delete(additionalProperties, "shared")
+		delete(additionalProperties, "startDate")
+		delete(additionalProperties, "updatedAt")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

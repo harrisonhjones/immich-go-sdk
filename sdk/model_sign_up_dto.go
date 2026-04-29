@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -27,6 +26,7 @@ type SignUpDto struct {
 	Name string `json:"name"`
 	// User password
 	Password string `json:"password"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SignUpDto SignUpDto
@@ -136,6 +136,11 @@ func (o SignUpDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["email"] = o.Email
 	toSerialize["name"] = o.Name
 	toSerialize["password"] = o.Password
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -165,15 +170,22 @@ func (o *SignUpDto) UnmarshalJSON(data []byte) (err error) {
 
 	varSignUpDto := _SignUpDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSignUpDto)
+	err = json.Unmarshal(data, &varSignUpDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SignUpDto(varSignUpDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "email")
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "password")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

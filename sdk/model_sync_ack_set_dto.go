@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &SyncAckSetDto{}
 type SyncAckSetDto struct {
 	// Acknowledgment IDs (max 1000)
 	Acks []string `json:"acks"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SyncAckSetDto SyncAckSetDto
@@ -80,6 +80,11 @@ func (o SyncAckSetDto) MarshalJSON() ([]byte, error) {
 func (o SyncAckSetDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["acks"] = o.Acks
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -107,15 +112,20 @@ func (o *SyncAckSetDto) UnmarshalJSON(data []byte) (err error) {
 
 	varSyncAckSetDto := _SyncAckSetDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSyncAckSetDto)
+	err = json.Unmarshal(data, &varSyncAckSetDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SyncAckSetDto(varSyncAckSetDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "acks")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

@@ -13,7 +13,6 @@ package immich
 import (
 	"encoding/json"
 	"time"
-	"bytes"
 	"fmt"
 )
 
@@ -35,6 +34,7 @@ type SyncUserV1 struct {
 	Name string `json:"name"`
 	// User profile changed at
 	ProfileChangedAt time.Time `json:"profileChangedAt" validate:"regexp=^(?:(?:\\\\d\\\\d[2468][048]|\\\\d\\\\d[13579][26]|\\\\d\\\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\\\d|30)|(?:02)-(?:0[1-9]|1\\\\d|2[0-8])))T(?:(?:[01]\\\\d|2[0-3]):[0-5]\\\\d(?::[0-5]\\\\d(?:\\\\.\\\\d+)?)?(?:Z))$"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SyncUserV1 SyncUserV1
@@ -269,6 +269,11 @@ func (o SyncUserV1) ToMap() (map[string]interface{}, error) {
 	toSerialize["id"] = o.Id
 	toSerialize["name"] = o.Name
 	toSerialize["profileChangedAt"] = o.ProfileChangedAt
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -301,15 +306,26 @@ func (o *SyncUserV1) UnmarshalJSON(data []byte) (err error) {
 
 	varSyncUserV1 := _SyncUserV1{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSyncUserV1)
+	err = json.Unmarshal(data, &varSyncUserV1)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SyncUserV1(varSyncUserV1)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "avatarColor")
+		delete(additionalProperties, "deletedAt")
+		delete(additionalProperties, "email")
+		delete(additionalProperties, "hasProfileImage")
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "profileChangedAt")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -26,6 +25,7 @@ type AssetIdsResponseDto struct {
 	Error *AssetIdErrorReason `json:"error,omitempty"`
 	// Whether operation succeeded
 	Success bool `json:"success"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _AssetIdsResponseDto AssetIdsResponseDto
@@ -144,6 +144,11 @@ func (o AssetIdsResponseDto) ToMap() (map[string]interface{}, error) {
 		toSerialize["error"] = o.Error
 	}
 	toSerialize["success"] = o.Success
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -172,15 +177,22 @@ func (o *AssetIdsResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varAssetIdsResponseDto := _AssetIdsResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varAssetIdsResponseDto)
+	err = json.Unmarshal(data, &varAssetIdsResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = AssetIdsResponseDto(varAssetIdsResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "assetId")
+		delete(additionalProperties, "error")
+		delete(additionalProperties, "success")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

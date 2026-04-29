@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -63,6 +62,7 @@ type ServerAboutResponseDto struct {
 	Version string `json:"version"`
 	// URL to version information
 	VersionUrl string `json:"versionUrl"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _ServerAboutResponseDto ServerAboutResponseDto
@@ -802,6 +802,11 @@ func (o ServerAboutResponseDto) ToMap() (map[string]interface{}, error) {
 	}
 	toSerialize["version"] = o.Version
 	toSerialize["versionUrl"] = o.VersionUrl
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -831,15 +836,40 @@ func (o *ServerAboutResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varServerAboutResponseDto := _ServerAboutResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varServerAboutResponseDto)
+	err = json.Unmarshal(data, &varServerAboutResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = ServerAboutResponseDto(varServerAboutResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "build")
+		delete(additionalProperties, "buildImage")
+		delete(additionalProperties, "buildImageUrl")
+		delete(additionalProperties, "buildUrl")
+		delete(additionalProperties, "exiftool")
+		delete(additionalProperties, "ffmpeg")
+		delete(additionalProperties, "imagemagick")
+		delete(additionalProperties, "libvips")
+		delete(additionalProperties, "licensed")
+		delete(additionalProperties, "nodejs")
+		delete(additionalProperties, "repository")
+		delete(additionalProperties, "repositoryUrl")
+		delete(additionalProperties, "sourceCommit")
+		delete(additionalProperties, "sourceRef")
+		delete(additionalProperties, "sourceUrl")
+		delete(additionalProperties, "thirdPartyBugFeatureUrl")
+		delete(additionalProperties, "thirdPartyDocumentationUrl")
+		delete(additionalProperties, "thirdPartySourceUrl")
+		delete(additionalProperties, "thirdPartySupportUrl")
+		delete(additionalProperties, "version")
+		delete(additionalProperties, "versionUrl")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

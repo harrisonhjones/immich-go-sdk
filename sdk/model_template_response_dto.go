@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -25,6 +24,7 @@ type TemplateResponseDto struct {
 	Html string `json:"html"`
 	// Template name
 	Name string `json:"name"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _TemplateResponseDto TemplateResponseDto
@@ -108,6 +108,11 @@ func (o TemplateResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["html"] = o.Html
 	toSerialize["name"] = o.Name
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -136,15 +141,21 @@ func (o *TemplateResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varTemplateResponseDto := _TemplateResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varTemplateResponseDto)
+	err = json.Unmarshal(data, &varTemplateResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = TemplateResponseDto(varTemplateResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "html")
+		delete(additionalProperties, "name")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

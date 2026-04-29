@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -26,6 +25,7 @@ type SyncUserMetadataV1 struct {
 	UserId string `json:"userId"`
 	// User metadata value
 	Value map[string]interface{} `json:"value"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SyncUserMetadataV1 SyncUserMetadataV1
@@ -135,6 +135,11 @@ func (o SyncUserMetadataV1) ToMap() (map[string]interface{}, error) {
 	toSerialize["key"] = o.Key
 	toSerialize["userId"] = o.UserId
 	toSerialize["value"] = o.Value
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -164,15 +169,22 @@ func (o *SyncUserMetadataV1) UnmarshalJSON(data []byte) (err error) {
 
 	varSyncUserMetadataV1 := _SyncUserMetadataV1{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSyncUserMetadataV1)
+	err = json.Unmarshal(data, &varSyncUserMetadataV1)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SyncUserMetadataV1(varSyncUserMetadataV1)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "key")
+		delete(additionalProperties, "userId")
+		delete(additionalProperties, "value")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

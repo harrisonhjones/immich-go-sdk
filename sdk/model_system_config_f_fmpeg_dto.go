@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -57,6 +56,7 @@ type SystemConfigFFmpegDto struct {
 	Transcode TranscodePolicy `json:"transcode"`
 	// Two pass
 	TwoPass bool `json:"twoPass"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SystemConfigFFmpegDto SystemConfigFFmpegDto
@@ -634,6 +634,11 @@ func (o SystemConfigFFmpegDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["tonemap"] = o.Tonemap
 	toSerialize["transcode"] = o.Transcode
 	toSerialize["twoPass"] = o.TwoPass
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -681,15 +686,40 @@ func (o *SystemConfigFFmpegDto) UnmarshalJSON(data []byte) (err error) {
 
 	varSystemConfigFFmpegDto := _SystemConfigFFmpegDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSystemConfigFFmpegDto)
+	err = json.Unmarshal(data, &varSystemConfigFFmpegDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SystemConfigFFmpegDto(varSystemConfigFFmpegDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "accel")
+		delete(additionalProperties, "accelDecode")
+		delete(additionalProperties, "acceptedAudioCodecs")
+		delete(additionalProperties, "acceptedContainers")
+		delete(additionalProperties, "acceptedVideoCodecs")
+		delete(additionalProperties, "bframes")
+		delete(additionalProperties, "cqMode")
+		delete(additionalProperties, "crf")
+		delete(additionalProperties, "gopSize")
+		delete(additionalProperties, "maxBitrate")
+		delete(additionalProperties, "preferredHwDevice")
+		delete(additionalProperties, "preset")
+		delete(additionalProperties, "refs")
+		delete(additionalProperties, "targetAudioCodec")
+		delete(additionalProperties, "targetResolution")
+		delete(additionalProperties, "targetVideoCodec")
+		delete(additionalProperties, "temporalAQ")
+		delete(additionalProperties, "threads")
+		delete(additionalProperties, "tonemap")
+		delete(additionalProperties, "transcode")
+		delete(additionalProperties, "twoPass")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

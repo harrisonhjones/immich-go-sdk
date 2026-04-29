@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -30,6 +29,7 @@ type SystemConfigMachineLearningDto struct {
 	Ocr OcrConfig `json:"ocr"`
 	// ML service URLs
 	Urls []string `json:"urls"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SystemConfigMachineLearningDto SystemConfigMachineLearningDto
@@ -243,6 +243,11 @@ func (o SystemConfigMachineLearningDto) ToMap() (map[string]interface{}, error) 
 	toSerialize["facialRecognition"] = o.FacialRecognition
 	toSerialize["ocr"] = o.Ocr
 	toSerialize["urls"] = o.Urls
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -276,15 +281,26 @@ func (o *SystemConfigMachineLearningDto) UnmarshalJSON(data []byte) (err error) 
 
 	varSystemConfigMachineLearningDto := _SystemConfigMachineLearningDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSystemConfigMachineLearningDto)
+	err = json.Unmarshal(data, &varSystemConfigMachineLearningDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SystemConfigMachineLearningDto(varSystemConfigMachineLearningDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "availabilityChecks")
+		delete(additionalProperties, "clip")
+		delete(additionalProperties, "duplicateDetection")
+		delete(additionalProperties, "enabled")
+		delete(additionalProperties, "facialRecognition")
+		delete(additionalProperties, "ocr")
+		delete(additionalProperties, "urls")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

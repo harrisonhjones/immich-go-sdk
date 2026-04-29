@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -23,6 +22,7 @@ var _ MappedNullable = &SearchResponseDto{}
 type SearchResponseDto struct {
 	Albums SearchAlbumResponseDto `json:"albums"`
 	Assets SearchAssetResponseDto `json:"assets"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SearchResponseDto SearchResponseDto
@@ -106,6 +106,11 @@ func (o SearchResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["albums"] = o.Albums
 	toSerialize["assets"] = o.Assets
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -134,15 +139,21 @@ func (o *SearchResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varSearchResponseDto := _SearchResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSearchResponseDto)
+	err = json.Unmarshal(data, &varSearchResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SearchResponseDto(varSearchResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "albums")
+		delete(additionalProperties, "assets")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

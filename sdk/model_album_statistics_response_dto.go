@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -27,6 +26,7 @@ type AlbumStatisticsResponseDto struct {
 	Owned int32 `json:"owned"`
 	// Number of shared albums
 	Shared int32 `json:"shared"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _AlbumStatisticsResponseDto AlbumStatisticsResponseDto
@@ -136,6 +136,11 @@ func (o AlbumStatisticsResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["notShared"] = o.NotShared
 	toSerialize["owned"] = o.Owned
 	toSerialize["shared"] = o.Shared
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -165,15 +170,22 @@ func (o *AlbumStatisticsResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varAlbumStatisticsResponseDto := _AlbumStatisticsResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varAlbumStatisticsResponseDto)
+	err = json.Unmarshal(data, &varAlbumStatisticsResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = AlbumStatisticsResponseDto(varAlbumStatisticsResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "notShared")
+		delete(additionalProperties, "owned")
+		delete(additionalProperties, "shared")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

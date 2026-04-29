@@ -13,7 +13,6 @@ package immich
 import (
 	"encoding/json"
 	"time"
-	"bytes"
 	"fmt"
 )
 
@@ -46,6 +45,7 @@ type SyncAssetFaceV2 struct {
 	PersonId NullableString `json:"personId"`
 	// Source type
 	SourceType string `json:"sourceType"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SyncAssetFaceV2 SyncAssetFaceV2
@@ -393,6 +393,11 @@ func (o SyncAssetFaceV2) ToMap() (map[string]interface{}, error) {
 	toSerialize["isVisible"] = o.IsVisible
 	toSerialize["personId"] = o.PersonId.Get()
 	toSerialize["sourceType"] = o.SourceType
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -431,15 +436,31 @@ func (o *SyncAssetFaceV2) UnmarshalJSON(data []byte) (err error) {
 
 	varSyncAssetFaceV2 := _SyncAssetFaceV2{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSyncAssetFaceV2)
+	err = json.Unmarshal(data, &varSyncAssetFaceV2)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SyncAssetFaceV2(varSyncAssetFaceV2)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "assetId")
+		delete(additionalProperties, "boundingBoxX1")
+		delete(additionalProperties, "boundingBoxX2")
+		delete(additionalProperties, "boundingBoxY1")
+		delete(additionalProperties, "boundingBoxY2")
+		delete(additionalProperties, "deletedAt")
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "imageHeight")
+		delete(additionalProperties, "imageWidth")
+		delete(additionalProperties, "isVisible")
+		delete(additionalProperties, "personId")
+		delete(additionalProperties, "sourceType")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

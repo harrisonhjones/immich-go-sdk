@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -22,6 +21,7 @@ var _ MappedNullable = &MirrorParameters{}
 // MirrorParameters struct for MirrorParameters
 type MirrorParameters struct {
 	Axis MirrorAxis `json:"axis"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _MirrorParameters MirrorParameters
@@ -79,6 +79,11 @@ func (o MirrorParameters) MarshalJSON() ([]byte, error) {
 func (o MirrorParameters) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["axis"] = o.Axis
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -106,15 +111,20 @@ func (o *MirrorParameters) UnmarshalJSON(data []byte) (err error) {
 
 	varMirrorParameters := _MirrorParameters{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varMirrorParameters)
+	err = json.Unmarshal(data, &varMirrorParameters)
 
 	if err != nil {
 		return err
 	}
 
 	*o = MirrorParameters(varMirrorParameters)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "axis")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

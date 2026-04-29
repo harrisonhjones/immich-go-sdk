@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -25,6 +24,7 @@ type DownloadResponse struct {
 	ArchiveSize int32 `json:"archiveSize"`
 	// Whether to include embedded videos in downloads
 	IncludeEmbeddedVideos bool `json:"includeEmbeddedVideos"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _DownloadResponse DownloadResponse
@@ -108,6 +108,11 @@ func (o DownloadResponse) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["archiveSize"] = o.ArchiveSize
 	toSerialize["includeEmbeddedVideos"] = o.IncludeEmbeddedVideos
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -136,15 +141,21 @@ func (o *DownloadResponse) UnmarshalJSON(data []byte) (err error) {
 
 	varDownloadResponse := _DownloadResponse{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varDownloadResponse)
+	err = json.Unmarshal(data, &varDownloadResponse)
 
 	if err != nil {
 		return err
 	}
 
 	*o = DownloadResponse(varDownloadResponse)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "archiveSize")
+		delete(additionalProperties, "includeEmbeddedVideos")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

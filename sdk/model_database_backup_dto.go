@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -27,6 +26,7 @@ type DatabaseBackupDto struct {
 	Filesize int32 `json:"filesize"`
 	// Backup timezone
 	Timezone string `json:"timezone"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _DatabaseBackupDto DatabaseBackupDto
@@ -136,6 +136,11 @@ func (o DatabaseBackupDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["filename"] = o.Filename
 	toSerialize["filesize"] = o.Filesize
 	toSerialize["timezone"] = o.Timezone
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -165,15 +170,22 @@ func (o *DatabaseBackupDto) UnmarshalJSON(data []byte) (err error) {
 
 	varDatabaseBackupDto := _DatabaseBackupDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varDatabaseBackupDto)
+	err = json.Unmarshal(data, &varDatabaseBackupDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = DatabaseBackupDto(varDatabaseBackupDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "filename")
+		delete(additionalProperties, "filesize")
+		delete(additionalProperties, "timezone")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

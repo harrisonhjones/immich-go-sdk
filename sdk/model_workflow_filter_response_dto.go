@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -30,6 +29,7 @@ type WorkflowFilterResponseDto struct {
 	PluginFilterId string `json:"pluginFilterId"`
 	// Workflow ID
 	WorkflowId string `json:"workflowId"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _WorkflowFilterResponseDto WorkflowFilterResponseDto
@@ -195,6 +195,11 @@ func (o WorkflowFilterResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["order"] = o.Order
 	toSerialize["pluginFilterId"] = o.PluginFilterId
 	toSerialize["workflowId"] = o.WorkflowId
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -226,15 +231,24 @@ func (o *WorkflowFilterResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varWorkflowFilterResponseDto := _WorkflowFilterResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varWorkflowFilterResponseDto)
+	err = json.Unmarshal(data, &varWorkflowFilterResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = WorkflowFilterResponseDto(varWorkflowFilterResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "filterConfig")
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "order")
+		delete(additionalProperties, "pluginFilterId")
+		delete(additionalProperties, "workflowId")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

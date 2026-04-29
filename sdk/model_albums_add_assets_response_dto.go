@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -24,6 +23,7 @@ type AlbumsAddAssetsResponseDto struct {
 	Error *BulkIdErrorReason `json:"error,omitempty"`
 	// Operation success
 	Success bool `json:"success"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _AlbumsAddAssetsResponseDto AlbumsAddAssetsResponseDto
@@ -116,6 +116,11 @@ func (o AlbumsAddAssetsResponseDto) ToMap() (map[string]interface{}, error) {
 		toSerialize["error"] = o.Error
 	}
 	toSerialize["success"] = o.Success
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -143,15 +148,21 @@ func (o *AlbumsAddAssetsResponseDto) UnmarshalJSON(data []byte) (err error) {
 
 	varAlbumsAddAssetsResponseDto := _AlbumsAddAssetsResponseDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varAlbumsAddAssetsResponseDto)
+	err = json.Unmarshal(data, &varAlbumsAddAssetsResponseDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = AlbumsAddAssetsResponseDto(varAlbumsAddAssetsResponseDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "error")
+		delete(additionalProperties, "success")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }

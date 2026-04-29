@@ -12,7 +12,6 @@ package immich
 
 import (
 	"encoding/json"
-	"bytes"
 	"fmt"
 )
 
@@ -22,6 +21,7 @@ var _ MappedNullable = &SystemConfigBackupsDto{}
 // SystemConfigBackupsDto struct for SystemConfigBackupsDto
 type SystemConfigBackupsDto struct {
 	Database DatabaseBackupConfig `json:"database"`
+	AdditionalProperties map[string]interface{}
 }
 
 type _SystemConfigBackupsDto SystemConfigBackupsDto
@@ -79,6 +79,11 @@ func (o SystemConfigBackupsDto) MarshalJSON() ([]byte, error) {
 func (o SystemConfigBackupsDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["database"] = o.Database
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return toSerialize, nil
 }
 
@@ -106,15 +111,20 @@ func (o *SystemConfigBackupsDto) UnmarshalJSON(data []byte) (err error) {
 
 	varSystemConfigBackupsDto := _SystemConfigBackupsDto{}
 
-	decoder := json.NewDecoder(bytes.NewReader(data))
-	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varSystemConfigBackupsDto)
+	err = json.Unmarshal(data, &varSystemConfigBackupsDto)
 
 	if err != nil {
 		return err
 	}
 
 	*o = SystemConfigBackupsDto(varSystemConfigBackupsDto)
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(data, &additionalProperties); err == nil {
+		delete(additionalProperties, "database")
+		o.AdditionalProperties = additionalProperties
+	}
 
 	return err
 }
