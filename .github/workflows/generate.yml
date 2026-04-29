@@ -89,6 +89,10 @@ jobs:
 
           rm -f sdk/api_deprecated.go
 
+          # go.mod and go.sum are defined at the root of the project instead
+          rm -f sdk/go.mod
+          rm -f sdk/go.sum
+
           # Remove unused git_push.sh utility
           rm -f sdk/git_push.sh
 
