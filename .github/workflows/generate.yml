@@ -69,7 +69,7 @@ jobs:
               --additional-properties=generateInterfaces=true \
               --additional-properties=hideGenerationTimestamp=true \
               --additional-properties=enumClassPrefix=true \
-              --additional-properties=withGoMod=true
+              --additional-properties=disallowAdditionalPropertiesIfNotPresent=false
 
           # The generator runs as root inside Docker; fix ownership so subsequent
           # steps can modify the files.
@@ -88,10 +88,6 @@ jobs:
           # primary API services (PartnersAPIService, JobsAPIService, etc.).
 
           rm -f sdk/api_deprecated.go
-
-          # go.mod and go.sum are defined at the root of the project instead
-          rm -f sdk/go.mod
-          rm -f sdk/go.sum
 
           # Remove unused git_push.sh utility
           rm -f sdk/git_push.sh
