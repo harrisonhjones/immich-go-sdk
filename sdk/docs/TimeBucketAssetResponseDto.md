@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **City** | **[]string** | Array of city names extracted from EXIF GPS data | 
 **Country** | **[]string** | Array of country names extracted from EXIF GPS data | 
-**Duration** | **[]string** | Array of video/gif durations in hh:mm:ss.SSS format (null for static images) | 
+**Duration** | **[]int32** | Array of video/gif durations in milliseconds (null for static images) | 
 **FileCreatedAt** | **[]string** | Array of file creation timestamps in UTC | 
 **Id** | **[]string** | Array of asset IDs in the time bucket | 
 **IsFavorite** | **[]bool** | Array indicating whether each asset is favorited | 
@@ -27,7 +27,7 @@ Name | Type | Description | Notes
 
 ### NewTimeBucketAssetResponseDto
 
-`func NewTimeBucketAssetResponseDto(city []*string, country []*string, duration []*string, fileCreatedAt []string, id []string, isFavorite []bool, isImage []bool, isTrashed []bool, livePhotoVideoId []*string, localOffsetHours []float32, ownerId []string, projectionType []*string, ratio []float32, thumbhash []*string, visibility []AssetVisibility, ) *TimeBucketAssetResponseDto`
+`func NewTimeBucketAssetResponseDto(city []*string, country []*string, duration []*int32, fileCreatedAt []string, id []string, isFavorite []bool, isImage []bool, isTrashed []bool, livePhotoVideoId []*string, localOffsetHours []float32, ownerId []string, projectionType []*string, ratio []float32, thumbhash []*string, visibility []AssetVisibility, ) *TimeBucketAssetResponseDto`
 
 NewTimeBucketAssetResponseDto instantiates a new TimeBucketAssetResponseDto object
 This constructor will assign default values to properties that have it defined,
@@ -84,20 +84,20 @@ SetCountry sets Country field to given value.
 
 ### GetDuration
 
-`func (o *TimeBucketAssetResponseDto) GetDuration() []*string`
+`func (o *TimeBucketAssetResponseDto) GetDuration() []*int32`
 
 GetDuration returns the Duration field if non-nil, zero value otherwise.
 
 ### GetDurationOk
 
-`func (o *TimeBucketAssetResponseDto) GetDurationOk() (*[]*string, bool)`
+`func (o *TimeBucketAssetResponseDto) GetDurationOk() (*[]*int32, bool)`
 
 GetDurationOk returns a tuple with the Duration field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDuration
 
-`func (o *TimeBucketAssetResponseDto) SetDuration(v []*string)`
+`func (o *TimeBucketAssetResponseDto) SetDuration(v []*int32)`
 
 SetDuration sets Duration field to given value.
 

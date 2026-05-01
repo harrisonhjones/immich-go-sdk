@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **Checksum** | **string** | Base64 encoded SHA1 hash | 
 **CreatedAt** | **time.Time** | The UTC timestamp when the asset was originally uploaded to Immich. | 
 **DuplicateId** | Pointer to **NullableString** | Duplicate group ID | [optional] 
-**Duration** | **NullableString** | Video/gif duration in hh:mm:ss.SSS format (null for static images) | 
+**Duration** | **NullableInt32** | Video/gif duration in milliseconds (null for static images) | 
 **ExifInfo** | Pointer to [**ExifResponseDto**](ExifResponseDto.md) |  | [optional] 
 **FileCreatedAt** | **time.Time** | The actual UTC timestamp when the file was created/captured, preserving timezone information. This is the authoritative timestamp for chronological sorting within timeline groups. Combined with timezone data, this can be used to determine the exact moment the photo was taken. | 
 **FileModifiedAt** | **time.Time** | The UTC timestamp when the file was last modified on the filesystem. This reflects the last time the physical file was changed, which may be different from when the photo was originally taken. | 
@@ -42,7 +42,7 @@ Name | Type | Description | Notes
 
 ### NewAssetResponseDto
 
-`func NewAssetResponseDto(checksum string, createdAt time.Time, duration NullableString, fileCreatedAt time.Time, fileModifiedAt time.Time, hasMetadata bool, height NullableInt32, id string, isArchived bool, isEdited bool, isFavorite bool, isOffline bool, isTrashed bool, localDateTime time.Time, originalFileName string, originalPath string, ownerId string, thumbhash NullableString, type_ AssetTypeEnum, updatedAt time.Time, visibility AssetVisibility, width NullableInt32, ) *AssetResponseDto`
+`func NewAssetResponseDto(checksum string, createdAt time.Time, duration NullableInt32, fileCreatedAt time.Time, fileModifiedAt time.Time, hasMetadata bool, height NullableInt32, id string, isArchived bool, isEdited bool, isFavorite bool, isOffline bool, isTrashed bool, localDateTime time.Time, originalFileName string, originalPath string, ownerId string, thumbhash NullableString, type_ AssetTypeEnum, updatedAt time.Time, visibility AssetVisibility, width NullableInt32, ) *AssetResponseDto`
 
 NewAssetResponseDto instantiates a new AssetResponseDto object
 This constructor will assign default values to properties that have it defined,
@@ -134,20 +134,20 @@ HasDuplicateId returns a boolean if a field has been set.
 UnsetDuplicateId ensures that no value is present for DuplicateId, not even an explicit nil
 ### GetDuration
 
-`func (o *AssetResponseDto) GetDuration() string`
+`func (o *AssetResponseDto) GetDuration() int32`
 
 GetDuration returns the Duration field if non-nil, zero value otherwise.
 
 ### GetDurationOk
 
-`func (o *AssetResponseDto) GetDurationOk() (*string, bool)`
+`func (o *AssetResponseDto) GetDurationOk() (*int32, bool)`
 
 GetDurationOk returns a tuple with the Duration field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDuration
 
-`func (o *AssetResponseDto) SetDuration(v string)`
+`func (o *AssetResponseDto) SetDuration(v int32)`
 
 SetDuration sets Duration field to given value.
 

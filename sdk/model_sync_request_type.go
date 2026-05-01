@@ -25,8 +25,10 @@ const (
 	SYNCREQUESTTYPE_ALBUM_USERS_V1 SyncRequestType = "AlbumUsersV1"
 	SYNCREQUESTTYPE_ALBUM_TO_ASSETS_V1 SyncRequestType = "AlbumToAssetsV1"
 	SYNCREQUESTTYPE_ALBUM_ASSETS_V1 SyncRequestType = "AlbumAssetsV1"
+	SYNCREQUESTTYPE_ALBUM_ASSETS_V2 SyncRequestType = "AlbumAssetsV2"
 	SYNCREQUESTTYPE_ALBUM_ASSET_EXIFS_V1 SyncRequestType = "AlbumAssetExifsV1"
 	SYNCREQUESTTYPE_ASSETS_V1 SyncRequestType = "AssetsV1"
+	SYNCREQUESTTYPE_ASSETS_V2 SyncRequestType = "AssetsV2"
 	SYNCREQUESTTYPE_ASSET_EXIFS_V1 SyncRequestType = "AssetExifsV1"
 	SYNCREQUESTTYPE_ASSET_EDITS_V1 SyncRequestType = "AssetEditsV1"
 	SYNCREQUESTTYPE_ASSET_METADATA_V1 SyncRequestType = "AssetMetadataV1"
@@ -35,6 +37,7 @@ const (
 	SYNCREQUESTTYPE_MEMORY_TO_ASSETS_V1 SyncRequestType = "MemoryToAssetsV1"
 	SYNCREQUESTTYPE_PARTNERS_V1 SyncRequestType = "PartnersV1"
 	SYNCREQUESTTYPE_PARTNER_ASSETS_V1 SyncRequestType = "PartnerAssetsV1"
+	SYNCREQUESTTYPE_PARTNER_ASSETS_V2 SyncRequestType = "PartnerAssetsV2"
 	SYNCREQUESTTYPE_PARTNER_ASSET_EXIFS_V1 SyncRequestType = "PartnerAssetExifsV1"
 	SYNCREQUESTTYPE_PARTNER_STACKS_V1 SyncRequestType = "PartnerStacksV1"
 	SYNCREQUESTTYPE_STACKS_V1 SyncRequestType = "StacksV1"
@@ -52,8 +55,10 @@ var AllowedSyncRequestTypeEnumValues = []SyncRequestType{
 	"AlbumUsersV1",
 	"AlbumToAssetsV1",
 	"AlbumAssetsV1",
+	"AlbumAssetsV2",
 	"AlbumAssetExifsV1",
 	"AssetsV1",
+	"AssetsV2",
 	"AssetExifsV1",
 	"AssetEditsV1",
 	"AssetMetadataV1",
@@ -62,6 +67,7 @@ var AllowedSyncRequestTypeEnumValues = []SyncRequestType{
 	"MemoryToAssetsV1",
 	"PartnersV1",
 	"PartnerAssetsV1",
+	"PartnerAssetsV2",
 	"PartnerAssetExifsV1",
 	"PartnerStacksV1",
 	"StacksV1",

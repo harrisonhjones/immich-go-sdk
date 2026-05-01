@@ -24,6 +24,7 @@ const (
 	SYNCENTITYTYPE_USER_V1 SyncEntityType = "UserV1"
 	SYNCENTITYTYPE_USER_DELETE_V1 SyncEntityType = "UserDeleteV1"
 	SYNCENTITYTYPE_ASSET_V1 SyncEntityType = "AssetV1"
+	SYNCENTITYTYPE_ASSET_V2 SyncEntityType = "AssetV2"
 	SYNCENTITYTYPE_ASSET_DELETE_V1 SyncEntityType = "AssetDeleteV1"
 	SYNCENTITYTYPE_ASSET_EXIF_V1 SyncEntityType = "AssetExifV1"
 	SYNCENTITYTYPE_ASSET_EDIT_V1 SyncEntityType = "AssetEditV1"
@@ -33,7 +34,9 @@ const (
 	SYNCENTITYTYPE_PARTNER_V1 SyncEntityType = "PartnerV1"
 	SYNCENTITYTYPE_PARTNER_DELETE_V1 SyncEntityType = "PartnerDeleteV1"
 	SYNCENTITYTYPE_PARTNER_ASSET_V1 SyncEntityType = "PartnerAssetV1"
+	SYNCENTITYTYPE_PARTNER_ASSET_V2 SyncEntityType = "PartnerAssetV2"
 	SYNCENTITYTYPE_PARTNER_ASSET_BACKFILL_V1 SyncEntityType = "PartnerAssetBackfillV1"
+	SYNCENTITYTYPE_PARTNER_ASSET_BACKFILL_V2 SyncEntityType = "PartnerAssetBackfillV2"
 	SYNCENTITYTYPE_PARTNER_ASSET_DELETE_V1 SyncEntityType = "PartnerAssetDeleteV1"
 	SYNCENTITYTYPE_PARTNER_ASSET_EXIF_V1 SyncEntityType = "PartnerAssetExifV1"
 	SYNCENTITYTYPE_PARTNER_ASSET_EXIF_BACKFILL_V1 SyncEntityType = "PartnerAssetExifBackfillV1"
@@ -47,8 +50,11 @@ const (
 	SYNCENTITYTYPE_ALBUM_USER_BACKFILL_V1 SyncEntityType = "AlbumUserBackfillV1"
 	SYNCENTITYTYPE_ALBUM_USER_DELETE_V1 SyncEntityType = "AlbumUserDeleteV1"
 	SYNCENTITYTYPE_ALBUM_ASSET_CREATE_V1 SyncEntityType = "AlbumAssetCreateV1"
+	SYNCENTITYTYPE_ALBUM_ASSET_CREATE_V2 SyncEntityType = "AlbumAssetCreateV2"
 	SYNCENTITYTYPE_ALBUM_ASSET_UPDATE_V1 SyncEntityType = "AlbumAssetUpdateV1"
+	SYNCENTITYTYPE_ALBUM_ASSET_UPDATE_V2 SyncEntityType = "AlbumAssetUpdateV2"
 	SYNCENTITYTYPE_ALBUM_ASSET_BACKFILL_V1 SyncEntityType = "AlbumAssetBackfillV1"
+	SYNCENTITYTYPE_ALBUM_ASSET_BACKFILL_V2 SyncEntityType = "AlbumAssetBackfillV2"
 	SYNCENTITYTYPE_ALBUM_ASSET_EXIF_CREATE_V1 SyncEntityType = "AlbumAssetExifCreateV1"
 	SYNCENTITYTYPE_ALBUM_ASSET_EXIF_UPDATE_V1 SyncEntityType = "AlbumAssetExifUpdateV1"
 	SYNCENTITYTYPE_ALBUM_ASSET_EXIF_BACKFILL_V1 SyncEntityType = "AlbumAssetExifBackfillV1"
@@ -79,6 +85,7 @@ var AllowedSyncEntityTypeEnumValues = []SyncEntityType{
 	"UserV1",
 	"UserDeleteV1",
 	"AssetV1",
+	"AssetV2",
 	"AssetDeleteV1",
 	"AssetExifV1",
 	"AssetEditV1",
@@ -88,7 +95,9 @@ var AllowedSyncEntityTypeEnumValues = []SyncEntityType{
 	"PartnerV1",
 	"PartnerDeleteV1",
 	"PartnerAssetV1",
+	"PartnerAssetV2",
 	"PartnerAssetBackfillV1",
+	"PartnerAssetBackfillV2",
 	"PartnerAssetDeleteV1",
 	"PartnerAssetExifV1",
 	"PartnerAssetExifBackfillV1",
@@ -102,8 +111,11 @@ var AllowedSyncEntityTypeEnumValues = []SyncEntityType{
 	"AlbumUserBackfillV1",
 	"AlbumUserDeleteV1",
 	"AlbumAssetCreateV1",
+	"AlbumAssetCreateV2",
 	"AlbumAssetUpdateV1",
+	"AlbumAssetUpdateV2",
 	"AlbumAssetBackfillV1",
+	"AlbumAssetBackfillV2",
 	"AlbumAssetExifCreateV1",
 	"AlbumAssetExifUpdateV1",
 	"AlbumAssetExifBackfillV1",

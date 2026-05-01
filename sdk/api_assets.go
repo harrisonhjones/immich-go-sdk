@@ -2799,7 +2799,7 @@ type ApiUploadAssetRequest struct {
 	key *string
 	slug *string
 	xImmichChecksum *string
-	duration *string
+	duration *int32
 	filename *string
 	isFavorite *bool
 	livePhotoVideoId *string
@@ -2842,8 +2842,8 @@ func (r ApiUploadAssetRequest) XImmichChecksum(xImmichChecksum string) ApiUpload
 	return r
 }
 
-// Duration (for videos)
-func (r ApiUploadAssetRequest) Duration(duration string) ApiUploadAssetRequest {
+// Duration in milliseconds (for videos)
+func (r ApiUploadAssetRequest) Duration(duration int32) ApiUploadAssetRequest {
 	r.duration = &duration
 	return r
 }

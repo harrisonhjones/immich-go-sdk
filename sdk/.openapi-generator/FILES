@@ -329,6 +329,7 @@ docs/SyncAssetFaceV2.md
 docs/SyncAssetMetadataDeleteV1.md
 docs/SyncAssetMetadataV1.md
 docs/SyncAssetV1.md
+docs/SyncAssetV2.md
 docs/SyncAuthUserV1.md
 docs/SyncEntityType.md
 docs/SyncMemoryAssetDeleteV1.md
@@ -697,6 +698,7 @@ model_sync_asset_face_v2.go
 model_sync_asset_metadata_delete_v1.go
 model_sync_asset_metadata_v1.go
 model_sync_asset_v1.go
+model_sync_asset_v2.go
 model_sync_auth_user_v1.go
 model_sync_entity_type.go
 model_sync_memory_asset_delete_v1.go

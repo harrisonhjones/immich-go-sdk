@@ -27,8 +27,8 @@ type AssetResponseDto struct {
 	CreatedAt time.Time `json:"createdAt"`
 	// Duplicate group ID
 	DuplicateId NullableString `json:"duplicateId,omitempty"`
-	// Video/gif duration in hh:mm:ss.SSS format (null for static images)
-	Duration NullableString `json:"duration"`
+	// Video/gif duration in milliseconds (null for static images)
+	Duration NullableInt32 `json:"duration"`
 	ExifInfo *ExifResponseDto `json:"exifInfo,omitempty"`
 	// The actual UTC timestamp when the file was created/captured, preserving timezone information. This is the authoritative timestamp for chronological sorting within timeline groups. Combined with timezone data, this can be used to determine the exact moment the photo was taken.
 	FileCreatedAt time.Time `json:"fileCreatedAt"`
@@ -88,7 +88,7 @@ type _AssetResponseDto AssetResponseDto
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewAssetResponseDto(checksum string, createdAt time.Time, duration NullableString, fileCreatedAt time.Time, fileModifiedAt time.Time, hasMetadata bool, height NullableInt32, id string, isArchived bool, isEdited bool, isFavorite bool, isOffline bool, isTrashed bool, localDateTime time.Time, originalFileName string, originalPath string, ownerId string, thumbhash NullableString, type_ AssetTypeEnum, updatedAt time.Time, visibility AssetVisibility, width NullableInt32) *AssetResponseDto {
+func NewAssetResponseDto(checksum string, createdAt time.Time, duration NullableInt32, fileCreatedAt time.Time, fileModifiedAt time.Time, hasMetadata bool, height NullableInt32, id string, isArchived bool, isEdited bool, isFavorite bool, isOffline bool, isTrashed bool, localDateTime time.Time, originalFileName string, originalPath string, ownerId string, thumbhash NullableString, type_ AssetTypeEnum, updatedAt time.Time, visibility AssetVisibility, width NullableInt32) *AssetResponseDto {
 	this := AssetResponseDto{}
 	this.Checksum = checksum
 	this.CreatedAt = createdAt
@@ -214,10 +214,10 @@ func (o *AssetResponseDto) UnsetDuplicateId() {
 }
 
 // GetDuration returns the Duration field value
-// If the value is explicit nil, the zero value for string will be returned
-func (o *AssetResponseDto) GetDuration() string {
+// If the value is explicit nil, the zero value for int32 will be returned
+func (o *AssetResponseDto) GetDuration() int32 {
 	if o == nil || o.Duration.Get() == nil {
-		var ret string
+		var ret int32
 		return ret
 	}
 
@@ -227,7 +227,7 @@ func (o *AssetResponseDto) GetDuration() string {
 // GetDurationOk returns a tuple with the Duration field value
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *AssetResponseDto) GetDurationOk() (*string, bool) {
+func (o *AssetResponseDto) GetDurationOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -235,7 +235,7 @@ func (o *AssetResponseDto) GetDurationOk() (*string, bool) {
 }
 
 // SetDuration sets field value
-func (o *AssetResponseDto) SetDuration(v string) {
+func (o *AssetResponseDto) SetDuration(v int32) {
 	o.Duration.Set(&v)
 }
 

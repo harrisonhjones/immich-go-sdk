@@ -13,9 +13,13 @@
 
 * `ALBUM_ASSETS_V1` (value: `"AlbumAssetsV1"`)
 
+* `ALBUM_ASSETS_V2` (value: `"AlbumAssetsV2"`)
+
 * `ALBUM_ASSET_EXIFS_V1` (value: `"AlbumAssetExifsV1"`)
 
 * `ASSETS_V1` (value: `"AssetsV1"`)
+
+* `ASSETS_V2` (value: `"AssetsV2"`)
 
 * `ASSET_EXIFS_V1` (value: `"AssetExifsV1"`)
 
@@ -32,6 +36,8 @@
 * `PARTNERS_V1` (value: `"PartnersV1"`)
 
 * `PARTNER_ASSETS_V1` (value: `"PartnerAssetsV1"`)
+
+* `PARTNER_ASSETS_V2` (value: `"PartnerAssetsV2"`)
 
 * `PARTNER_ASSET_EXIFS_V1` (value: `"PartnerAssetExifsV1"`)
 

@@ -11,6 +11,8 @@
 
 * `ASSET_V1` (value: `"AssetV1"`)
 
+* `ASSET_V2` (value: `"AssetV2"`)
+
 * `ASSET_DELETE_V1` (value: `"AssetDeleteV1"`)
 
 * `ASSET_EXIF_V1` (value: `"AssetExifV1"`)
@@ -29,7 +31,11 @@
 
 * `PARTNER_ASSET_V1` (value: `"PartnerAssetV1"`)
 
+* `PARTNER_ASSET_V2` (value: `"PartnerAssetV2"`)
+
 * `PARTNER_ASSET_BACKFILL_V1` (value: `"PartnerAssetBackfillV1"`)
+
+* `PARTNER_ASSET_BACKFILL_V2` (value: `"PartnerAssetBackfillV2"`)
 
 * `PARTNER_ASSET_DELETE_V1` (value: `"PartnerAssetDeleteV1"`)
 
@@ -57,9 +63,15 @@
 
 * `ALBUM_ASSET_CREATE_V1` (value: `"AlbumAssetCreateV1"`)
 
+* `ALBUM_ASSET_CREATE_V2` (value: `"AlbumAssetCreateV2"`)
+
 * `ALBUM_ASSET_UPDATE_V1` (value: `"AlbumAssetUpdateV1"`)
 
+* `ALBUM_ASSET_UPDATE_V2` (value: `"AlbumAssetUpdateV2"`)
+
 * `ALBUM_ASSET_BACKFILL_V1` (value: `"AlbumAssetBackfillV1"`)
+
+* `ALBUM_ASSET_BACKFILL_V2` (value: `"AlbumAssetBackfillV2"`)
 
 * `ALBUM_ASSET_EXIF_CREATE_V1` (value: `"AlbumAssetExifCreateV1"`)
 

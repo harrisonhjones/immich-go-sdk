@@ -1441,7 +1441,7 @@ func main() {
 	key := "key_example" // string |  (optional)
 	slug := "slug_example" // string |  (optional)
 	xImmichChecksum := "xImmichChecksum_example" // string | sha1 checksum that can be used for duplicate detection before the file is uploaded (optional)
-	duration := "duration_example" // string | Duration (for videos) (optional)
+	duration := int32(56) // int32 | Duration in milliseconds (for videos) (optional)
 	filename := "filename_example" // string | Filename (optional)
 	isFavorite := true // bool | Mark as favorite (optional)
 	livePhotoVideoId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | Live photo video ID (optional)
@@ -1478,7 +1478,7 @@ Name | Type | Description  | Notes
  **key** | **string** |  | 
  **slug** | **string** |  | 
  **xImmichChecksum** | **string** | sha1 checksum that can be used for duplicate detection before the file is uploaded | 
- **duration** | **string** | Duration (for videos) | 
+ **duration** | **int32** | Duration in milliseconds (for videos) | 
  **filename** | **string** | Filename | 
  **isFavorite** | **bool** | Mark as favorite | 
  **livePhotoVideoId** | **string** | Live photo video ID | 

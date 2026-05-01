@@ -10463,9 +10463,9 @@ components:
     AssetFaceWithoutPersonResponseDto:
       description: Asset face without person
       example:
-        boundingBoxX2: 2147483647
+        boundingBoxX2: -2147483648
         imageWidth: 2147483647
-        boundingBoxX1: -2147483648
+        boundingBoxX1: 2147483647
         boundingBoxY2: -2147483648
         sourceType: machine-learning
         id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -10594,8 +10594,10 @@ components:
           format: binary
           type: string
         duration:
-          description: Duration (for videos)
-          type: string
+          description: Duration in milliseconds (for videos)
+          maximum: 2147483647
+          minimum: 0
+          type: integer
         fileCreatedAt:
           description: File creation date
           example: 2024-01-01T00:00:00Z
@@ -10947,7 +10949,7 @@ components:
         fileModifiedAt: 2000-01-23T04:56:07.000+00:00
         ownerId: ownerId
         type: IMAGE
-        duration: duration
+        duration: 171976544
         createdAt: 2000-01-23T04:56:07.000+00:00
         isTrashed: true
         resized: true
@@ -10964,17 +10966,17 @@ components:
           id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
           email: email
         unassignedFaces:
-        - boundingBoxX2: 2147483647
+        - boundingBoxX2: -2147483648
           imageWidth: 2147483647
-          boundingBoxX1: -2147483648
+          boundingBoxX1: 2147483647
           boundingBoxY2: -2147483648
           sourceType: machine-learning
           id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
           boundingBoxY1: -2147483648
           imageHeight: 2147483647
-        - boundingBoxX2: 2147483647
+        - boundingBoxX2: -2147483648
           imageWidth: 2147483647
-          boundingBoxX1: -2147483648
+          boundingBoxX1: 2147483647
           boundingBoxY2: -2147483648
           sourceType: machine-learning
           id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -10990,17 +10992,17 @@ components:
           thumbnailPath: thumbnailPath
           id: id
           faces:
-          - boundingBoxX2: 2147483647
+          - boundingBoxX2: -2147483648
             imageWidth: 2147483647
-            boundingBoxX1: -2147483648
+            boundingBoxX1: 2147483647
             boundingBoxY2: -2147483648
             sourceType: machine-learning
             id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
             boundingBoxY1: -2147483648
             imageHeight: 2147483647
-          - boundingBoxX2: 2147483647
+          - boundingBoxX2: -2147483648
             imageWidth: 2147483647
-            boundingBoxX1: -2147483648
+            boundingBoxX1: 2147483647
             boundingBoxY2: -2147483648
             sourceType: machine-learning
             id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -11015,17 +11017,17 @@ components:
           thumbnailPath: thumbnailPath
           id: id
           faces:
-          - boundingBoxX2: 2147483647
+          - boundingBoxX2: -2147483648
             imageWidth: 2147483647
-            boundingBoxX1: -2147483648
+            boundingBoxX1: 2147483647
             boundingBoxY2: -2147483648
             sourceType: machine-learning
             id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
             boundingBoxY1: -2147483648
             imageHeight: 2147483647
-          - boundingBoxX2: 2147483647
+          - boundingBoxX2: -2147483648
             imageWidth: 2147483647
-            boundingBoxX1: -2147483648
+            boundingBoxX1: 2147483647
             boundingBoxY2: -2147483648
             sourceType: machine-learning
             id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -11055,25 +11057,25 @@ components:
           country: country
           orientation: orientation
           exposureTime: exposureTime
-          iso: -2147483648
+          iso: 2147483647
           modifyDate: 2000-01-23T04:56:07.000+00:00
           city: city
           fileSizeInByte: 2147483647
-          latitude: 7.061401241503109
+          latitude: 9.301444243932576
           projectionType: projectionType
           rating: -2147483648
           description: description
           timeZone: timeZone
           exifImageHeight: 2147483647
           dateTimeOriginal: 2000-01-23T04:56:07.000+00:00
-          fNumber: 1.4658129805029452
+          fNumber: 5.962133916683182
           lensModel: lensModel
           model: model
           state: state
           make: make
           exifImageWidth: 2147483647
-          focalLength: 5.637376656633329
-          longitude: 9.301444243932576
+          focalLength: 2.3021358869347655
+          longitude: 3.616076749251911
         width: 2147483647
         isOffline: true
         originalPath: originalPath
@@ -11093,10 +11095,11 @@ components:
           nullable: true
           type: string
         duration:
-          description: Video/gif duration in hh:mm:ss.SSS format (null for static
-            images)
+          description: Video/gif duration in milliseconds (null for static images)
+          maximum: 2147483647
+          minimum: 0
           nullable: true
-          type: string
+          type: integer
         exifInfo:
           $ref: "#/components/schemas/ExifResponseDto"
         fileCreatedAt:
@@ -11942,7 +11945,7 @@ components:
           fileModifiedAt: 2000-01-23T04:56:07.000+00:00
           ownerId: ownerId
           type: IMAGE
-          duration: duration
+          duration: 171976544
           createdAt: 2000-01-23T04:56:07.000+00:00
           isTrashed: true
           resized: true
@@ -11959,17 +11962,17 @@ components:
             id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
             email: email
           unassignedFaces:
-          - boundingBoxX2: 2147483647
+          - boundingBoxX2: -2147483648
             imageWidth: 2147483647
-            boundingBoxX1: -2147483648
+            boundingBoxX1: 2147483647
             boundingBoxY2: -2147483648
             sourceType: machine-learning
             id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
             boundingBoxY1: -2147483648
             imageHeight: 2147483647
-          - boundingBoxX2: 2147483647
+          - boundingBoxX2: -2147483648
             imageWidth: 2147483647
-            boundingBoxX1: -2147483648
+            boundingBoxX1: 2147483647
             boundingBoxY2: -2147483648
             sourceType: machine-learning
             id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -11985,17 +11988,17 @@ components:
             thumbnailPath: thumbnailPath
             id: id
             faces:
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
               boundingBoxY1: -2147483648
               imageHeight: 2147483647
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -12010,17 +12013,17 @@ components:
             thumbnailPath: thumbnailPath
             id: id
             faces:
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
               boundingBoxY1: -2147483648
               imageHeight: 2147483647
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -12050,25 +12053,25 @@ components:
             country: country
             orientation: orientation
             exposureTime: exposureTime
-            iso: -2147483648
+            iso: 2147483647
             modifyDate: 2000-01-23T04:56:07.000+00:00
             city: city
             fileSizeInByte: 2147483647
-            latitude: 7.061401241503109
+            latitude: 9.301444243932576
             projectionType: projectionType
             rating: -2147483648
             description: description
             timeZone: timeZone
             exifImageHeight: 2147483647
             dateTimeOriginal: 2000-01-23T04:56:07.000+00:00
-            fNumber: 1.4658129805029452
+            fNumber: 5.962133916683182
             lensModel: lensModel
             model: model
             state: state
             make: make
             exifImageWidth: 2147483647
-            focalLength: 5.637376656633329
-            longitude: 9.301444243932576
+            focalLength: 2.3021358869347655
+            longitude: 3.616076749251911
           width: 2147483647
           isOffline: true
           originalPath: originalPath
@@ -12083,7 +12086,7 @@ components:
           fileModifiedAt: 2000-01-23T04:56:07.000+00:00
           ownerId: ownerId
           type: IMAGE
-          duration: duration
+          duration: 171976544
           createdAt: 2000-01-23T04:56:07.000+00:00
           isTrashed: true
           resized: true
@@ -12100,17 +12103,17 @@ components:
             id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
             email: email
           unassignedFaces:
-          - boundingBoxX2: 2147483647
+          - boundingBoxX2: -2147483648
             imageWidth: 2147483647
-            boundingBoxX1: -2147483648
+            boundingBoxX1: 2147483647
             boundingBoxY2: -2147483648
             sourceType: machine-learning
             id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
             boundingBoxY1: -2147483648
             imageHeight: 2147483647
-          - boundingBoxX2: 2147483647
+          - boundingBoxX2: -2147483648
             imageWidth: 2147483647
-            boundingBoxX1: -2147483648
+            boundingBoxX1: 2147483647
             boundingBoxY2: -2147483648
             sourceType: machine-learning
             id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -12126,17 +12129,17 @@ components:
             thumbnailPath: thumbnailPath
             id: id
             faces:
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
               boundingBoxY1: -2147483648
               imageHeight: 2147483647
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -12151,17 +12154,17 @@ components:
             thumbnailPath: thumbnailPath
             id: id
             faces:
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
               boundingBoxY1: -2147483648
               imageHeight: 2147483647
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -12191,25 +12194,25 @@ components:
             country: country
             orientation: orientation
             exposureTime: exposureTime
-            iso: -2147483648
+            iso: 2147483647
             modifyDate: 2000-01-23T04:56:07.000+00:00
             city: city
             fileSizeInByte: 2147483647
-            latitude: 7.061401241503109
+            latitude: 9.301444243932576
             projectionType: projectionType
             rating: -2147483648
             description: description
             timeZone: timeZone
             exifImageHeight: 2147483647
             dateTimeOriginal: 2000-01-23T04:56:07.000+00:00
-            fNumber: 1.4658129805029452
+            fNumber: 5.962133916683182
             lensModel: lensModel
             model: model
             state: state
             make: make
             exifImageWidth: 2147483647
-            focalLength: 5.637376656633329
-            longitude: 9.301444243932576
+            focalLength: 2.3021358869347655
+            longitude: 3.616076749251911
           width: 2147483647
           isOffline: true
           originalPath: originalPath
@@ -12282,25 +12285,25 @@ components:
         country: country
         orientation: orientation
         exposureTime: exposureTime
-        iso: -2147483648
+        iso: 2147483647
         modifyDate: 2000-01-23T04:56:07.000+00:00
         city: city
         fileSizeInByte: 2147483647
-        latitude: 7.061401241503109
+        latitude: 9.301444243932576
         projectionType: projectionType
         rating: -2147483648
         description: description
         timeZone: timeZone
         exifImageHeight: 2147483647
         dateTimeOriginal: 2000-01-23T04:56:07.000+00:00
-        fNumber: 1.4658129805029452
+        fNumber: 5.962133916683182
         lensModel: lensModel
         model: model
         state: state
         make: make
         exifImageWidth: 2147483647
-        focalLength: 5.637376656633329
-        longitude: 9.301444243932576
+        focalLength: 2.3021358869347655
+        longitude: 3.616076749251911
       properties:
         city:
           description: City name
@@ -13110,7 +13113,7 @@ components:
           fileModifiedAt: 2000-01-23T04:56:07.000+00:00
           ownerId: ownerId
           type: IMAGE
-          duration: duration
+          duration: 171976544
           createdAt: 2000-01-23T04:56:07.000+00:00
           isTrashed: true
           resized: true
@@ -13127,17 +13130,17 @@ components:
             id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
             email: email
           unassignedFaces:
-          - boundingBoxX2: 2147483647
+          - boundingBoxX2: -2147483648
             imageWidth: 2147483647
-            boundingBoxX1: -2147483648
+            boundingBoxX1: 2147483647
             boundingBoxY2: -2147483648
             sourceType: machine-learning
             id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
             boundingBoxY1: -2147483648
             imageHeight: 2147483647
-          - boundingBoxX2: 2147483647
+          - boundingBoxX2: -2147483648
             imageWidth: 2147483647
-            boundingBoxX1: -2147483648
+            boundingBoxX1: 2147483647
             boundingBoxY2: -2147483648
             sourceType: machine-learning
             id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -13153,17 +13156,17 @@ components:
             thumbnailPath: thumbnailPath
             id: id
             faces:
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
               boundingBoxY1: -2147483648
               imageHeight: 2147483647
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -13178,17 +13181,17 @@ components:
             thumbnailPath: thumbnailPath
             id: id
             faces:
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
               boundingBoxY1: -2147483648
               imageHeight: 2147483647
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -13218,25 +13221,25 @@ components:
             country: country
             orientation: orientation
             exposureTime: exposureTime
-            iso: -2147483648
+            iso: 2147483647
             modifyDate: 2000-01-23T04:56:07.000+00:00
             city: city
             fileSizeInByte: 2147483647
-            latitude: 7.061401241503109
+            latitude: 9.301444243932576
             projectionType: projectionType
             rating: -2147483648
             description: description
             timeZone: timeZone
             exifImageHeight: 2147483647
             dateTimeOriginal: 2000-01-23T04:56:07.000+00:00
-            fNumber: 1.4658129805029452
+            fNumber: 5.962133916683182
             lensModel: lensModel
             model: model
             state: state
             make: make
             exifImageWidth: 2147483647
-            focalLength: 5.637376656633329
-            longitude: 9.301444243932576
+            focalLength: 2.3021358869347655
+            longitude: 3.616076749251911
           width: 2147483647
           isOffline: true
           originalPath: originalPath
@@ -13251,7 +13254,7 @@ components:
           fileModifiedAt: 2000-01-23T04:56:07.000+00:00
           ownerId: ownerId
           type: IMAGE
-          duration: duration
+          duration: 171976544
           createdAt: 2000-01-23T04:56:07.000+00:00
           isTrashed: true
           resized: true
@@ -13268,17 +13271,17 @@ components:
             id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
             email: email
           unassignedFaces:
-          - boundingBoxX2: 2147483647
+          - boundingBoxX2: -2147483648
             imageWidth: 2147483647
-            boundingBoxX1: -2147483648
+            boundingBoxX1: 2147483647
             boundingBoxY2: -2147483648
             sourceType: machine-learning
             id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
             boundingBoxY1: -2147483648
             imageHeight: 2147483647
-          - boundingBoxX2: 2147483647
+          - boundingBoxX2: -2147483648
             imageWidth: 2147483647
-            boundingBoxX1: -2147483648
+            boundingBoxX1: 2147483647
             boundingBoxY2: -2147483648
             sourceType: machine-learning
             id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -13294,17 +13297,17 @@ components:
             thumbnailPath: thumbnailPath
             id: id
             faces:
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
               boundingBoxY1: -2147483648
               imageHeight: 2147483647
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -13319,17 +13322,17 @@ components:
             thumbnailPath: thumbnailPath
             id: id
             faces:
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
               boundingBoxY1: -2147483648
               imageHeight: 2147483647
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -13359,25 +13362,25 @@ components:
             country: country
             orientation: orientation
             exposureTime: exposureTime
-            iso: -2147483648
+            iso: 2147483647
             modifyDate: 2000-01-23T04:56:07.000+00:00
             city: city
             fileSizeInByte: 2147483647
-            latitude: 7.061401241503109
+            latitude: 9.301444243932576
             projectionType: projectionType
             rating: -2147483648
             description: description
             timeZone: timeZone
             exifImageHeight: 2147483647
             dateTimeOriginal: 2000-01-23T04:56:07.000+00:00
-            fNumber: 1.4658129805029452
+            fNumber: 5.962133916683182
             lensModel: lensModel
             model: model
             state: state
             make: make
             exifImageWidth: 2147483647
-            focalLength: 5.637376656633329
-            longitude: 9.301444243932576
+            focalLength: 2.3021358869347655
+            longitude: 3.616076749251911
           width: 2147483647
           isOffline: true
           originalPath: originalPath
@@ -14655,17 +14658,17 @@ components:
         thumbnailPath: thumbnailPath
         id: id
         faces:
-        - boundingBoxX2: 2147483647
+        - boundingBoxX2: -2147483648
           imageWidth: 2147483647
-          boundingBoxX1: -2147483648
+          boundingBoxX1: 2147483647
           boundingBoxY2: -2147483648
           sourceType: machine-learning
           id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
           boundingBoxY1: -2147483648
           imageHeight: 2147483647
-        - boundingBoxX2: 2147483647
+        - boundingBoxX2: -2147483648
           imageWidth: 2147483647
-          boundingBoxX1: -2147483648
+          boundingBoxX1: 2147483647
           boundingBoxY2: -2147483648
           sourceType: machine-learning
           id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -15975,7 +15978,7 @@ components:
           fileModifiedAt: 2000-01-23T04:56:07.000+00:00
           ownerId: ownerId
           type: IMAGE
-          duration: duration
+          duration: 171976544
           createdAt: 2000-01-23T04:56:07.000+00:00
           isTrashed: true
           resized: true
@@ -15992,17 +15995,17 @@ components:
             id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
             email: email
           unassignedFaces:
-          - boundingBoxX2: 2147483647
+          - boundingBoxX2: -2147483648
             imageWidth: 2147483647
-            boundingBoxX1: -2147483648
+            boundingBoxX1: 2147483647
             boundingBoxY2: -2147483648
             sourceType: machine-learning
             id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
             boundingBoxY1: -2147483648
             imageHeight: 2147483647
-          - boundingBoxX2: 2147483647
+          - boundingBoxX2: -2147483648
             imageWidth: 2147483647
-            boundingBoxX1: -2147483648
+            boundingBoxX1: 2147483647
             boundingBoxY2: -2147483648
             sourceType: machine-learning
             id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -16018,17 +16021,17 @@ components:
             thumbnailPath: thumbnailPath
             id: id
             faces:
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
               boundingBoxY1: -2147483648
               imageHeight: 2147483647
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -16043,17 +16046,17 @@ components:
             thumbnailPath: thumbnailPath
             id: id
             faces:
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
               boundingBoxY1: -2147483648
               imageHeight: 2147483647
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -16083,25 +16086,25 @@ components:
             country: country
             orientation: orientation
             exposureTime: exposureTime
-            iso: -2147483648
+            iso: 2147483647
             modifyDate: 2000-01-23T04:56:07.000+00:00
             city: city
             fileSizeInByte: 2147483647
-            latitude: 7.061401241503109
+            latitude: 9.301444243932576
             projectionType: projectionType
             rating: -2147483648
             description: description
             timeZone: timeZone
             exifImageHeight: 2147483647
             dateTimeOriginal: 2000-01-23T04:56:07.000+00:00
-            fNumber: 1.4658129805029452
+            fNumber: 5.962133916683182
             lensModel: lensModel
             model: model
             state: state
             make: make
             exifImageWidth: 2147483647
-            focalLength: 5.637376656633329
-            longitude: 9.301444243932576
+            focalLength: 2.3021358869347655
+            longitude: 3.616076749251911
           width: 2147483647
           isOffline: true
           originalPath: originalPath
@@ -16116,7 +16119,7 @@ components:
           fileModifiedAt: 2000-01-23T04:56:07.000+00:00
           ownerId: ownerId
           type: IMAGE
-          duration: duration
+          duration: 171976544
           createdAt: 2000-01-23T04:56:07.000+00:00
           isTrashed: true
           resized: true
@@ -16133,17 +16136,17 @@ components:
             id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
             email: email
           unassignedFaces:
-          - boundingBoxX2: 2147483647
+          - boundingBoxX2: -2147483648
             imageWidth: 2147483647
-            boundingBoxX1: -2147483648
+            boundingBoxX1: 2147483647
             boundingBoxY2: -2147483648
             sourceType: machine-learning
             id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
             boundingBoxY1: -2147483648
             imageHeight: 2147483647
-          - boundingBoxX2: 2147483647
+          - boundingBoxX2: -2147483648
             imageWidth: 2147483647
-            boundingBoxX1: -2147483648
+            boundingBoxX1: 2147483647
             boundingBoxY2: -2147483648
             sourceType: machine-learning
             id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -16159,17 +16162,17 @@ components:
             thumbnailPath: thumbnailPath
             id: id
             faces:
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
               boundingBoxY1: -2147483648
               imageHeight: 2147483647
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -16184,17 +16187,17 @@ components:
             thumbnailPath: thumbnailPath
             id: id
             faces:
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
               boundingBoxY1: -2147483648
               imageHeight: 2147483647
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -16224,25 +16227,25 @@ components:
             country: country
             orientation: orientation
             exposureTime: exposureTime
-            iso: -2147483648
+            iso: 2147483647
             modifyDate: 2000-01-23T04:56:07.000+00:00
             city: city
             fileSizeInByte: 2147483647
-            latitude: 7.061401241503109
+            latitude: 9.301444243932576
             projectionType: projectionType
             rating: -2147483648
             description: description
             timeZone: timeZone
             exifImageHeight: 2147483647
             dateTimeOriginal: 2000-01-23T04:56:07.000+00:00
-            fNumber: 1.4658129805029452
+            fNumber: 5.962133916683182
             lensModel: lensModel
             model: model
             state: state
             make: make
             exifImageWidth: 2147483647
-            focalLength: 5.637376656633329
-            longitude: 9.301444243932576
+            focalLength: 2.3021358869347655
+            longitude: 3.616076749251911
           width: 2147483647
           isOffline: true
           originalPath: originalPath
@@ -16303,7 +16306,7 @@ components:
           fileModifiedAt: 2000-01-23T04:56:07.000+00:00
           ownerId: ownerId
           type: IMAGE
-          duration: duration
+          duration: 171976544
           createdAt: 2000-01-23T04:56:07.000+00:00
           isTrashed: true
           resized: true
@@ -16320,17 +16323,17 @@ components:
             id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
             email: email
           unassignedFaces:
-          - boundingBoxX2: 2147483647
+          - boundingBoxX2: -2147483648
             imageWidth: 2147483647
-            boundingBoxX1: -2147483648
+            boundingBoxX1: 2147483647
             boundingBoxY2: -2147483648
             sourceType: machine-learning
             id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
             boundingBoxY1: -2147483648
             imageHeight: 2147483647
-          - boundingBoxX2: 2147483647
+          - boundingBoxX2: -2147483648
             imageWidth: 2147483647
-            boundingBoxX1: -2147483648
+            boundingBoxX1: 2147483647
             boundingBoxY2: -2147483648
             sourceType: machine-learning
             id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -16346,17 +16349,17 @@ components:
             thumbnailPath: thumbnailPath
             id: id
             faces:
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
               boundingBoxY1: -2147483648
               imageHeight: 2147483647
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -16371,17 +16374,17 @@ components:
             thumbnailPath: thumbnailPath
             id: id
             faces:
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
               boundingBoxY1: -2147483648
               imageHeight: 2147483647
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -16411,25 +16414,25 @@ components:
             country: country
             orientation: orientation
             exposureTime: exposureTime
-            iso: -2147483648
+            iso: 2147483647
             modifyDate: 2000-01-23T04:56:07.000+00:00
             city: city
             fileSizeInByte: 2147483647
-            latitude: 7.061401241503109
+            latitude: 9.301444243932576
             projectionType: projectionType
             rating: -2147483648
             description: description
             timeZone: timeZone
             exifImageHeight: 2147483647
             dateTimeOriginal: 2000-01-23T04:56:07.000+00:00
-            fNumber: 1.4658129805029452
+            fNumber: 5.962133916683182
             lensModel: lensModel
             model: model
             state: state
             make: make
             exifImageWidth: 2147483647
-            focalLength: 5.637376656633329
-            longitude: 9.301444243932576
+            focalLength: 2.3021358869347655
+            longitude: 3.616076749251911
           width: 2147483647
           isOffline: true
           originalPath: originalPath
@@ -16460,7 +16463,7 @@ components:
             fileModifiedAt: 2000-01-23T04:56:07.000+00:00
             ownerId: ownerId
             type: IMAGE
-            duration: duration
+            duration: 171976544
             createdAt: 2000-01-23T04:56:07.000+00:00
             isTrashed: true
             resized: true
@@ -16477,17 +16480,17 @@ components:
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
               email: email
             unassignedFaces:
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
               boundingBoxY1: -2147483648
               imageHeight: 2147483647
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -16503,17 +16506,17 @@ components:
               thumbnailPath: thumbnailPath
               id: id
               faces:
-              - boundingBoxX2: 2147483647
+              - boundingBoxX2: -2147483648
                 imageWidth: 2147483647
-                boundingBoxX1: -2147483648
+                boundingBoxX1: 2147483647
                 boundingBoxY2: -2147483648
                 sourceType: machine-learning
                 id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
                 boundingBoxY1: -2147483648
                 imageHeight: 2147483647
-              - boundingBoxX2: 2147483647
+              - boundingBoxX2: -2147483648
                 imageWidth: 2147483647
-                boundingBoxX1: -2147483648
+                boundingBoxX1: 2147483647
                 boundingBoxY2: -2147483648
                 sourceType: machine-learning
                 id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -16528,17 +16531,17 @@ components:
               thumbnailPath: thumbnailPath
               id: id
               faces:
-              - boundingBoxX2: 2147483647
+              - boundingBoxX2: -2147483648
                 imageWidth: 2147483647
-                boundingBoxX1: -2147483648
+                boundingBoxX1: 2147483647
                 boundingBoxY2: -2147483648
                 sourceType: machine-learning
                 id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
                 boundingBoxY1: -2147483648
                 imageHeight: 2147483647
-              - boundingBoxX2: 2147483647
+              - boundingBoxX2: -2147483648
                 imageWidth: 2147483647
-                boundingBoxX1: -2147483648
+                boundingBoxX1: 2147483647
                 boundingBoxY2: -2147483648
                 sourceType: machine-learning
                 id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -16568,25 +16571,25 @@ components:
               country: country
               orientation: orientation
               exposureTime: exposureTime
-              iso: -2147483648
+              iso: 2147483647
               modifyDate: 2000-01-23T04:56:07.000+00:00
               city: city
               fileSizeInByte: 2147483647
-              latitude: 7.061401241503109
+              latitude: 9.301444243932576
               projectionType: projectionType
               rating: -2147483648
               description: description
               timeZone: timeZone
               exifImageHeight: 2147483647
               dateTimeOriginal: 2000-01-23T04:56:07.000+00:00
-              fNumber: 1.4658129805029452
+              fNumber: 5.962133916683182
               lensModel: lensModel
               model: model
               state: state
               make: make
               exifImageWidth: 2147483647
-              focalLength: 5.637376656633329
-              longitude: 9.301444243932576
+              focalLength: 2.3021358869347655
+              longitude: 3.616076749251911
             width: 2147483647
             isOffline: true
             originalPath: originalPath
@@ -16603,7 +16606,7 @@ components:
             fileModifiedAt: 2000-01-23T04:56:07.000+00:00
             ownerId: ownerId
             type: IMAGE
-            duration: duration
+            duration: 171976544
             createdAt: 2000-01-23T04:56:07.000+00:00
             isTrashed: true
             resized: true
@@ -16620,17 +16623,17 @@ components:
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
               email: email
             unassignedFaces:
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
               boundingBoxY1: -2147483648
               imageHeight: 2147483647
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -16646,17 +16649,17 @@ components:
               thumbnailPath: thumbnailPath
               id: id
               faces:
-              - boundingBoxX2: 2147483647
+              - boundingBoxX2: -2147483648
                 imageWidth: 2147483647
-                boundingBoxX1: -2147483648
+                boundingBoxX1: 2147483647
                 boundingBoxY2: -2147483648
                 sourceType: machine-learning
                 id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
                 boundingBoxY1: -2147483648
                 imageHeight: 2147483647
-              - boundingBoxX2: 2147483647
+              - boundingBoxX2: -2147483648
                 imageWidth: 2147483647
-                boundingBoxX1: -2147483648
+                boundingBoxX1: 2147483647
                 boundingBoxY2: -2147483648
                 sourceType: machine-learning
                 id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -16671,17 +16674,17 @@ components:
               thumbnailPath: thumbnailPath
               id: id
               faces:
-              - boundingBoxX2: 2147483647
+              - boundingBoxX2: -2147483648
                 imageWidth: 2147483647
-                boundingBoxX1: -2147483648
+                boundingBoxX1: 2147483647
                 boundingBoxY2: -2147483648
                 sourceType: machine-learning
                 id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
                 boundingBoxY1: -2147483648
                 imageHeight: 2147483647
-              - boundingBoxX2: 2147483647
+              - boundingBoxX2: -2147483648
                 imageWidth: 2147483647
-                boundingBoxX1: -2147483648
+                boundingBoxX1: 2147483647
                 boundingBoxY2: -2147483648
                 sourceType: machine-learning
                 id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -16711,25 +16714,25 @@ components:
               country: country
               orientation: orientation
               exposureTime: exposureTime
-              iso: -2147483648
+              iso: 2147483647
               modifyDate: 2000-01-23T04:56:07.000+00:00
               city: city
               fileSizeInByte: 2147483647
-              latitude: 7.061401241503109
+              latitude: 9.301444243932576
               projectionType: projectionType
               rating: -2147483648
               description: description
               timeZone: timeZone
               exifImageHeight: 2147483647
               dateTimeOriginal: 2000-01-23T04:56:07.000+00:00
-              fNumber: 1.4658129805029452
+              fNumber: 5.962133916683182
               lensModel: lensModel
               model: model
               state: state
               make: make
               exifImageWidth: 2147483647
-              focalLength: 5.637376656633329
-              longitude: 9.301444243932576
+              focalLength: 2.3021358869347655
+              longitude: 3.616076749251911
             width: 2147483647
             isOffline: true
             originalPath: originalPath
@@ -16890,7 +16893,7 @@ components:
             fileModifiedAt: 2000-01-23T04:56:07.000+00:00
             ownerId: ownerId
             type: IMAGE
-            duration: duration
+            duration: 171976544
             createdAt: 2000-01-23T04:56:07.000+00:00
             isTrashed: true
             resized: true
@@ -16907,17 +16910,17 @@ components:
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
               email: email
             unassignedFaces:
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
               boundingBoxY1: -2147483648
               imageHeight: 2147483647
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -16933,17 +16936,17 @@ components:
               thumbnailPath: thumbnailPath
               id: id
               faces:
-              - boundingBoxX2: 2147483647
+              - boundingBoxX2: -2147483648
                 imageWidth: 2147483647
-                boundingBoxX1: -2147483648
+                boundingBoxX1: 2147483647
                 boundingBoxY2: -2147483648
                 sourceType: machine-learning
                 id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
                 boundingBoxY1: -2147483648
                 imageHeight: 2147483647
-              - boundingBoxX2: 2147483647
+              - boundingBoxX2: -2147483648
                 imageWidth: 2147483647
-                boundingBoxX1: -2147483648
+                boundingBoxX1: 2147483647
                 boundingBoxY2: -2147483648
                 sourceType: machine-learning
                 id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -16958,17 +16961,17 @@ components:
               thumbnailPath: thumbnailPath
               id: id
               faces:
-              - boundingBoxX2: 2147483647
+              - boundingBoxX2: -2147483648
                 imageWidth: 2147483647
-                boundingBoxX1: -2147483648
+                boundingBoxX1: 2147483647
                 boundingBoxY2: -2147483648
                 sourceType: machine-learning
                 id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
                 boundingBoxY1: -2147483648
                 imageHeight: 2147483647
-              - boundingBoxX2: 2147483647
+              - boundingBoxX2: -2147483648
                 imageWidth: 2147483647
-                boundingBoxX1: -2147483648
+                boundingBoxX1: 2147483647
                 boundingBoxY2: -2147483648
                 sourceType: machine-learning
                 id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -16998,25 +17001,25 @@ components:
               country: country
               orientation: orientation
               exposureTime: exposureTime
-              iso: -2147483648
+              iso: 2147483647
               modifyDate: 2000-01-23T04:56:07.000+00:00
               city: city
               fileSizeInByte: 2147483647
-              latitude: 7.061401241503109
+              latitude: 9.301444243932576
               projectionType: projectionType
               rating: -2147483648
               description: description
               timeZone: timeZone
               exifImageHeight: 2147483647
               dateTimeOriginal: 2000-01-23T04:56:07.000+00:00
-              fNumber: 1.4658129805029452
+              fNumber: 5.962133916683182
               lensModel: lensModel
               model: model
               state: state
               make: make
               exifImageWidth: 2147483647
-              focalLength: 5.637376656633329
-              longitude: 9.301444243932576
+              focalLength: 2.3021358869347655
+              longitude: 3.616076749251911
             width: 2147483647
             isOffline: true
             originalPath: originalPath
@@ -17031,7 +17034,7 @@ components:
             fileModifiedAt: 2000-01-23T04:56:07.000+00:00
             ownerId: ownerId
             type: IMAGE
-            duration: duration
+            duration: 171976544
             createdAt: 2000-01-23T04:56:07.000+00:00
             isTrashed: true
             resized: true
@@ -17048,17 +17051,17 @@ components:
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
               email: email
             unassignedFaces:
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
               boundingBoxY1: -2147483648
               imageHeight: 2147483647
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -17074,17 +17077,17 @@ components:
               thumbnailPath: thumbnailPath
               id: id
               faces:
-              - boundingBoxX2: 2147483647
+              - boundingBoxX2: -2147483648
                 imageWidth: 2147483647
-                boundingBoxX1: -2147483648
+                boundingBoxX1: 2147483647
                 boundingBoxY2: -2147483648
                 sourceType: machine-learning
                 id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
                 boundingBoxY1: -2147483648
                 imageHeight: 2147483647
-              - boundingBoxX2: 2147483647
+              - boundingBoxX2: -2147483648
                 imageWidth: 2147483647
-                boundingBoxX1: -2147483648
+                boundingBoxX1: 2147483647
                 boundingBoxY2: -2147483648
                 sourceType: machine-learning
                 id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -17099,17 +17102,17 @@ components:
               thumbnailPath: thumbnailPath
               id: id
               faces:
-              - boundingBoxX2: 2147483647
+              - boundingBoxX2: -2147483648
                 imageWidth: 2147483647
-                boundingBoxX1: -2147483648
+                boundingBoxX1: 2147483647
                 boundingBoxY2: -2147483648
                 sourceType: machine-learning
                 id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
                 boundingBoxY1: -2147483648
                 imageHeight: 2147483647
-              - boundingBoxX2: 2147483647
+              - boundingBoxX2: -2147483648
                 imageWidth: 2147483647
-                boundingBoxX1: -2147483648
+                boundingBoxX1: 2147483647
                 boundingBoxY2: -2147483648
                 sourceType: machine-learning
                 id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -17139,25 +17142,25 @@ components:
               country: country
               orientation: orientation
               exposureTime: exposureTime
-              iso: -2147483648
+              iso: 2147483647
               modifyDate: 2000-01-23T04:56:07.000+00:00
               city: city
               fileSizeInByte: 2147483647
-              latitude: 7.061401241503109
+              latitude: 9.301444243932576
               projectionType: projectionType
               rating: -2147483648
               description: description
               timeZone: timeZone
               exifImageHeight: 2147483647
               dateTimeOriginal: 2000-01-23T04:56:07.000+00:00
-              fNumber: 1.4658129805029452
+              fNumber: 5.962133916683182
               lensModel: lensModel
               model: model
               state: state
               make: make
               exifImageWidth: 2147483647
-              focalLength: 5.637376656633329
-              longitude: 9.301444243932576
+              focalLength: 2.3021358869347655
+              longitude: 3.616076749251911
             width: 2147483647
             isOffline: true
             originalPath: originalPath
@@ -18013,7 +18016,7 @@ components:
           fileModifiedAt: 2000-01-23T04:56:07.000+00:00
           ownerId: ownerId
           type: IMAGE
-          duration: duration
+          duration: 171976544
           createdAt: 2000-01-23T04:56:07.000+00:00
           isTrashed: true
           resized: true
@@ -18030,17 +18033,17 @@ components:
             id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
             email: email
           unassignedFaces:
-          - boundingBoxX2: 2147483647
+          - boundingBoxX2: -2147483648
             imageWidth: 2147483647
-            boundingBoxX1: -2147483648
+            boundingBoxX1: 2147483647
             boundingBoxY2: -2147483648
             sourceType: machine-learning
             id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
             boundingBoxY1: -2147483648
             imageHeight: 2147483647
-          - boundingBoxX2: 2147483647
+          - boundingBoxX2: -2147483648
             imageWidth: 2147483647
-            boundingBoxX1: -2147483648
+            boundingBoxX1: 2147483647
             boundingBoxY2: -2147483648
             sourceType: machine-learning
             id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -18056,17 +18059,17 @@ components:
             thumbnailPath: thumbnailPath
             id: id
             faces:
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
               boundingBoxY1: -2147483648
               imageHeight: 2147483647
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -18081,17 +18084,17 @@ components:
             thumbnailPath: thumbnailPath
             id: id
             faces:
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
               boundingBoxY1: -2147483648
               imageHeight: 2147483647
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -18121,25 +18124,25 @@ components:
             country: country
             orientation: orientation
             exposureTime: exposureTime
-            iso: -2147483648
+            iso: 2147483647
             modifyDate: 2000-01-23T04:56:07.000+00:00
             city: city
             fileSizeInByte: 2147483647
-            latitude: 7.061401241503109
+            latitude: 9.301444243932576
             projectionType: projectionType
             rating: -2147483648
             description: description
             timeZone: timeZone
             exifImageHeight: 2147483647
             dateTimeOriginal: 2000-01-23T04:56:07.000+00:00
-            fNumber: 1.4658129805029452
+            fNumber: 5.962133916683182
             lensModel: lensModel
             model: model
             state: state
             make: make
             exifImageWidth: 2147483647
-            focalLength: 5.637376656633329
-            longitude: 9.301444243932576
+            focalLength: 2.3021358869347655
+            longitude: 3.616076749251911
           width: 2147483647
           isOffline: true
           originalPath: originalPath
@@ -18154,7 +18157,7 @@ components:
           fileModifiedAt: 2000-01-23T04:56:07.000+00:00
           ownerId: ownerId
           type: IMAGE
-          duration: duration
+          duration: 171976544
           createdAt: 2000-01-23T04:56:07.000+00:00
           isTrashed: true
           resized: true
@@ -18171,17 +18174,17 @@ components:
             id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
             email: email
           unassignedFaces:
-          - boundingBoxX2: 2147483647
+          - boundingBoxX2: -2147483648
             imageWidth: 2147483647
-            boundingBoxX1: -2147483648
+            boundingBoxX1: 2147483647
             boundingBoxY2: -2147483648
             sourceType: machine-learning
             id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
             boundingBoxY1: -2147483648
             imageHeight: 2147483647
-          - boundingBoxX2: 2147483647
+          - boundingBoxX2: -2147483648
             imageWidth: 2147483647
-            boundingBoxX1: -2147483648
+            boundingBoxX1: 2147483647
             boundingBoxY2: -2147483648
             sourceType: machine-learning
             id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -18197,17 +18200,17 @@ components:
             thumbnailPath: thumbnailPath
             id: id
             faces:
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
               boundingBoxY1: -2147483648
               imageHeight: 2147483647
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -18222,17 +18225,17 @@ components:
             thumbnailPath: thumbnailPath
             id: id
             faces:
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
               boundingBoxY1: -2147483648
               imageHeight: 2147483647
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -18262,25 +18265,25 @@ components:
             country: country
             orientation: orientation
             exposureTime: exposureTime
-            iso: -2147483648
+            iso: 2147483647
             modifyDate: 2000-01-23T04:56:07.000+00:00
             city: city
             fileSizeInByte: 2147483647
-            latitude: 7.061401241503109
+            latitude: 9.301444243932576
             projectionType: projectionType
             rating: -2147483648
             description: description
             timeZone: timeZone
             exifImageHeight: 2147483647
             dateTimeOriginal: 2000-01-23T04:56:07.000+00:00
-            fNumber: 1.4658129805029452
+            fNumber: 5.962133916683182
             lensModel: lensModel
             model: model
             state: state
             make: make
             exifImageWidth: 2147483647
-            focalLength: 5.637376656633329
-            longitude: 9.301444243932576
+            focalLength: 2.3021358869347655
+            longitude: 3.616076749251911
           width: 2147483647
           isOffline: true
           originalPath: originalPath
@@ -18693,7 +18696,7 @@ components:
           fileModifiedAt: 2000-01-23T04:56:07.000+00:00
           ownerId: ownerId
           type: IMAGE
-          duration: duration
+          duration: 171976544
           createdAt: 2000-01-23T04:56:07.000+00:00
           isTrashed: true
           resized: true
@@ -18710,17 +18713,17 @@ components:
             id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
             email: email
           unassignedFaces:
-          - boundingBoxX2: 2147483647
+          - boundingBoxX2: -2147483648
             imageWidth: 2147483647
-            boundingBoxX1: -2147483648
+            boundingBoxX1: 2147483647
             boundingBoxY2: -2147483648
             sourceType: machine-learning
             id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
             boundingBoxY1: -2147483648
             imageHeight: 2147483647
-          - boundingBoxX2: 2147483647
+          - boundingBoxX2: -2147483648
             imageWidth: 2147483647
-            boundingBoxX1: -2147483648
+            boundingBoxX1: 2147483647
             boundingBoxY2: -2147483648
             sourceType: machine-learning
             id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -18736,17 +18739,17 @@ components:
             thumbnailPath: thumbnailPath
             id: id
             faces:
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
               boundingBoxY1: -2147483648
               imageHeight: 2147483647
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -18761,17 +18764,17 @@ components:
             thumbnailPath: thumbnailPath
             id: id
             faces:
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
               boundingBoxY1: -2147483648
               imageHeight: 2147483647
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -18801,25 +18804,25 @@ components:
             country: country
             orientation: orientation
             exposureTime: exposureTime
-            iso: -2147483648
+            iso: 2147483647
             modifyDate: 2000-01-23T04:56:07.000+00:00
             city: city
             fileSizeInByte: 2147483647
-            latitude: 7.061401241503109
+            latitude: 9.301444243932576
             projectionType: projectionType
             rating: -2147483648
             description: description
             timeZone: timeZone
             exifImageHeight: 2147483647
             dateTimeOriginal: 2000-01-23T04:56:07.000+00:00
-            fNumber: 1.4658129805029452
+            fNumber: 5.962133916683182
             lensModel: lensModel
             model: model
             state: state
             make: make
             exifImageWidth: 2147483647
-            focalLength: 5.637376656633329
-            longitude: 9.301444243932576
+            focalLength: 2.3021358869347655
+            longitude: 3.616076749251911
           width: 2147483647
           isOffline: true
           originalPath: originalPath
@@ -18834,7 +18837,7 @@ components:
           fileModifiedAt: 2000-01-23T04:56:07.000+00:00
           ownerId: ownerId
           type: IMAGE
-          duration: duration
+          duration: 171976544
           createdAt: 2000-01-23T04:56:07.000+00:00
           isTrashed: true
           resized: true
@@ -18851,17 +18854,17 @@ components:
             id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
             email: email
           unassignedFaces:
-          - boundingBoxX2: 2147483647
+          - boundingBoxX2: -2147483648
             imageWidth: 2147483647
-            boundingBoxX1: -2147483648
+            boundingBoxX1: 2147483647
             boundingBoxY2: -2147483648
             sourceType: machine-learning
             id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
             boundingBoxY1: -2147483648
             imageHeight: 2147483647
-          - boundingBoxX2: 2147483647
+          - boundingBoxX2: -2147483648
             imageWidth: 2147483647
-            boundingBoxX1: -2147483648
+            boundingBoxX1: 2147483647
             boundingBoxY2: -2147483648
             sourceType: machine-learning
             id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -18877,17 +18880,17 @@ components:
             thumbnailPath: thumbnailPath
             id: id
             faces:
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
               boundingBoxY1: -2147483648
               imageHeight: 2147483647
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -18902,17 +18905,17 @@ components:
             thumbnailPath: thumbnailPath
             id: id
             faces:
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
               boundingBoxY1: -2147483648
               imageHeight: 2147483647
-            - boundingBoxX2: 2147483647
+            - boundingBoxX2: -2147483648
               imageWidth: 2147483647
-              boundingBoxX1: -2147483648
+              boundingBoxX1: 2147483647
               boundingBoxY2: -2147483648
               sourceType: machine-learning
               id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
@@ -18942,25 +18945,25 @@ components:
             country: country
             orientation: orientation
             exposureTime: exposureTime
-            iso: -2147483648
+            iso: 2147483647
             modifyDate: 2000-01-23T04:56:07.000+00:00
             city: city
             fileSizeInByte: 2147483647
-            latitude: 7.061401241503109
+            latitude: 9.301444243932576
             projectionType: projectionType
             rating: -2147483648
             description: description
             timeZone: timeZone
             exifImageHeight: 2147483647
             dateTimeOriginal: 2000-01-23T04:56:07.000+00:00
-            fNumber: 1.4658129805029452
+            fNumber: 5.962133916683182
             lensModel: lensModel
             model: model
             state: state
             make: make
             exifImageWidth: 2147483647
-            focalLength: 5.637376656633329
-            longitude: 9.301444243932576
+            focalLength: 2.3021358869347655
+            longitude: 3.616076749251911
           width: 2147483647
           isOffline: true
           originalPath: originalPath
@@ -19893,6 +19896,125 @@ components:
       - visibility
       - width
       type: object
+    SyncAssetV2:
+      properties:
+        checksum:
+          description: Checksum
+          type: string
+        deletedAt:
+          description: Deleted at
+          example: 2024-01-01T00:00:00Z
+          format: date-time
+          nullable: true
+          pattern: "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\\
+            d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\\
+            d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\\
+            d(?:\\.\\d+)?)?(?:Z))$"
+          type: string
+        duration:
+          description: Duration
+          maximum: 2147483647
+          minimum: 0
+          nullable: true
+          type: integer
+        fileCreatedAt:
+          description: File created at
+          example: 2024-01-01T00:00:00Z
+          format: date-time
+          nullable: true
+          pattern: "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\\
+            d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\\
+            d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\\
+            d(?:\\.\\d+)?)?(?:Z))$"
+          type: string
+        fileModifiedAt:
+          description: File modified at
+          example: 2024-01-01T00:00:00Z
+          format: date-time
+          nullable: true
+          pattern: "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\\
+            d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\\
+            d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\\
+            d(?:\\.\\d+)?)?(?:Z))$"
+          type: string
+        height:
+          description: Asset height
+          maximum: 9007199254740991
+          minimum: -9007199254740991
+          nullable: true
+          type: integer
+        id:
+          description: Asset ID
+          type: string
+        isEdited:
+          description: Is edited
+          type: boolean
+        isFavorite:
+          description: Is favorite
+          type: boolean
+        libraryId:
+          description: Library ID
+          nullable: true
+          type: string
+        livePhotoVideoId:
+          description: Live photo video ID
+          nullable: true
+          type: string
+        localDateTime:
+          description: Local date time
+          example: 2024-01-01T00:00:00Z
+          format: date-time
+          nullable: true
+          pattern: "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\\
+            d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\\
+            d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\\
+            d(?:\\.\\d+)?)?(?:Z))$"
+          type: string
+        originalFileName:
+          description: Original file name
+          type: string
+        ownerId:
+          description: Owner ID
+          type: string
+        stackId:
+          description: Stack ID
+          nullable: true
+          type: string
+        thumbhash:
+          description: Thumbhash
+          nullable: true
+          type: string
+        type:
+          $ref: "#/components/schemas/AssetTypeEnum"
+        visibility:
+          $ref: "#/components/schemas/AssetVisibility"
+        width:
+          description: Asset width
+          maximum: 9007199254740991
+          minimum: -9007199254740991
+          nullable: true
+          type: integer
+      required:
+      - checksum
+      - deletedAt
+      - duration
+      - fileCreatedAt
+      - fileModifiedAt
+      - height
+      - id
+      - isEdited
+      - isFavorite
+      - libraryId
+      - livePhotoVideoId
+      - localDateTime
+      - originalFileName
+      - ownerId
+      - stackId
+      - thumbhash
+      - type
+      - visibility
+      - width
+      type: object
     SyncAuthUserV1:
       properties:
         avatarColor:
@@ -19979,6 +20101,7 @@ components:
       - UserV1
       - UserDeleteV1
       - AssetV1
+      - AssetV2
       - AssetDeleteV1
       - AssetExifV1
       - AssetEditV1
@@ -19988,7 +20111,9 @@ components:
       - PartnerV1
       - PartnerDeleteV1
       - PartnerAssetV1
+      - PartnerAssetV2
       - PartnerAssetBackfillV1
+      - PartnerAssetBackfillV2
       - PartnerAssetDeleteV1
       - PartnerAssetExifV1
       - PartnerAssetExifBackfillV1
@@ -20002,8 +20127,11 @@ components:
       - AlbumUserBackfillV1
       - AlbumUserDeleteV1
       - AlbumAssetCreateV1
+      - AlbumAssetCreateV2
       - AlbumAssetUpdateV1
+      - AlbumAssetUpdateV2
       - AlbumAssetBackfillV1
+      - AlbumAssetBackfillV2
       - AlbumAssetExifCreateV1
       - AlbumAssetExifUpdateV1
       - AlbumAssetExifBackfillV1
@@ -20266,8 +20394,10 @@ components:
       - AlbumUsersV1
       - AlbumToAssetsV1
       - AlbumAssetsV1
+      - AlbumAssetsV2
       - AlbumAssetExifsV1
       - AssetsV1
+      - AssetsV2
       - AssetExifsV1
       - AssetEditsV1
       - AssetMetadataV1
@@ -20276,6 +20406,7 @@ components:
       - MemoryToAssetsV1
       - PartnersV1
       - PartnerAssetsV1
+      - PartnerAssetsV2
       - PartnerAssetExifsV1
       - PartnerStacksV1
       - StacksV1
@@ -21809,8 +21940,8 @@ components:
         - city
         - city
         latitude:
-        - 0.8008281904610115
-        - 0.8008281904610115
+        - 6.027456183070403
+        - 6.027456183070403
         projectionType:
         - projectionType
         - projectionType
@@ -21818,14 +21949,14 @@ components:
         - ownerId
         - ownerId
         localOffsetHours:
-        - 6.027456183070403
-        - 6.027456183070403
+        - 1.4658129805029452
+        - 1.4658129805029452
         thumbhash:
         - thumbhash
         - thumbhash
         duration:
-        - duration
-        - duration
+        - 171976544
+        - 171976544
         isImage:
         - true
         - true
@@ -21842,11 +21973,11 @@ components:
         - true
         - true
         longitude:
-        - 1.4658129805029452
-        - 1.4658129805029452
+        - 5.962133916683182
+        - 5.962133916683182
         ratio:
-        - 5.962133916683182
-        - 5.962133916683182
+        - 5.637376656633329
+        - 5.637376656633329
       properties:
         city:
           description: Array of city names extracted from EXIF GPS data
@@ -21861,11 +21992,13 @@ components:
             type: string
           type: array
         duration:
-          description: Array of video/gif durations in hh:mm:ss.SSS format (null for
-            static images)
+          description: Array of video/gif durations in milliseconds (null for static
+            images)
           items:
+            maximum: 2147483647
+            minimum: 0
             nullable: true
-            type: string
+            type: integer
           type: array
         fileCreatedAt:
           description: Array of file creation timestamps in UTC

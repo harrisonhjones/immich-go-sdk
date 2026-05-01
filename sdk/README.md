@@ -577,6 +577,7 @@ Class | Method | HTTP request | Description
  - [SyncAssetMetadataDeleteV1](docs/SyncAssetMetadataDeleteV1.md)
  - [SyncAssetMetadataV1](docs/SyncAssetMetadataV1.md)
  - [SyncAssetV1](docs/SyncAssetV1.md)
+ - [SyncAssetV2](docs/SyncAssetV2.md)
  - [SyncAuthUserV1](docs/SyncAuthUserV1.md)
  - [SyncEntityType](docs/SyncEntityType.md)
  - [SyncMemoryAssetDeleteV1](docs/SyncMemoryAssetDeleteV1.md)

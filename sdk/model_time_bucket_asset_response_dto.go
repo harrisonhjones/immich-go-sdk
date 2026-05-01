@@ -24,8 +24,8 @@ type TimeBucketAssetResponseDto struct {
 	City []*string `json:"city"`
 	// Array of country names extracted from EXIF GPS data
 	Country []*string `json:"country"`
-	// Array of video/gif durations in hh:mm:ss.SSS format (null for static images)
-	Duration []*string `json:"duration"`
+	// Array of video/gif durations in milliseconds (null for static images)
+	Duration []*int32 `json:"duration"`
 	// Array of file creation timestamps in UTC
 	FileCreatedAt []string `json:"fileCreatedAt"`
 	// Array of asset IDs in the time bucket
@@ -65,7 +65,7 @@ type _TimeBucketAssetResponseDto TimeBucketAssetResponseDto
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewTimeBucketAssetResponseDto(city []*string, country []*string, duration []*string, fileCreatedAt []string, id []string, isFavorite []bool, isImage []bool, isTrashed []bool, livePhotoVideoId []*string, localOffsetHours []float32, ownerId []string, projectionType []*string, ratio []float32, thumbhash []*string, visibility []AssetVisibility) *TimeBucketAssetResponseDto {
+func NewTimeBucketAssetResponseDto(city []*string, country []*string, duration []*int32, fileCreatedAt []string, id []string, isFavorite []bool, isImage []bool, isTrashed []bool, livePhotoVideoId []*string, localOffsetHours []float32, ownerId []string, projectionType []*string, ratio []float32, thumbhash []*string, visibility []AssetVisibility) *TimeBucketAssetResponseDto {
 	this := TimeBucketAssetResponseDto{}
 	this.City = city
 	this.Country = country
@@ -142,9 +142,9 @@ func (o *TimeBucketAssetResponseDto) SetCountry(v []*string) {
 }
 
 // GetDuration returns the Duration field value
-func (o *TimeBucketAssetResponseDto) GetDuration() []*string {
+func (o *TimeBucketAssetResponseDto) GetDuration() []*int32 {
 	if o == nil {
-		var ret []*string
+		var ret []*int32
 		return ret
 	}
 
@@ -153,7 +153,7 @@ func (o *TimeBucketAssetResponseDto) GetDuration() []*string {
 
 // GetDurationOk returns a tuple with the Duration field value
 // and a boolean to check if the value has been set.
-func (o *TimeBucketAssetResponseDto) GetDurationOk() ([]*string, bool) {
+func (o *TimeBucketAssetResponseDto) GetDurationOk() ([]*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -161,7 +161,7 @@ func (o *TimeBucketAssetResponseDto) GetDurationOk() ([]*string, bool) {
 }
 
 // SetDuration sets field value
-func (o *TimeBucketAssetResponseDto) SetDuration(v []*string) {
+func (o *TimeBucketAssetResponseDto) SetDuration(v []*int32) {
 	o.Duration = v
 }
 
