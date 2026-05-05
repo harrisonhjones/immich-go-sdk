@@ -144,7 +144,7 @@ Class | Method | HTTP request | Description
 *DeprecatedAPI* | [**RunQueueCommandLegacy**](docs/DeprecatedAPI.md#runqueuecommandlegacy) | **Put** /jobs/{name} | Run jobs
 *DownloadAPI* | [**DownloadArchive**](docs/DownloadAPI.md#downloadarchive) | **Post** /download/archive | Download asset archive
 *DownloadAPI* | [**GetDownloadInfo**](docs/DownloadAPI.md#getdownloadinfo) | **Post** /download/info | Retrieve download information
-*DuplicatesAPI* | [**DeleteDuplicate**](docs/DuplicatesAPI.md#deleteduplicate) | **Delete** /duplicates/{id} | Delete a duplicate
+*DuplicatesAPI* | [**DeleteDuplicate**](docs/DuplicatesAPI.md#deleteduplicate) | **Delete** /duplicates/{id} | Dismiss a duplicate group
 *DuplicatesAPI* | [**DeleteDuplicates**](docs/DuplicatesAPI.md#deleteduplicates) | **Delete** /duplicates | Delete duplicates
 *DuplicatesAPI* | [**GetAssetDuplicates**](docs/DuplicatesAPI.md#getassetduplicates) | **Get** /duplicates | Retrieve duplicates
 *DuplicatesAPI* | [**ResolveDuplicates**](docs/DuplicatesAPI.md#resolveduplicates) | **Post** /duplicates/resolve | Resolve duplicate groups

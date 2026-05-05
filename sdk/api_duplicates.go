@@ -23,9 +23,9 @@ import (
 type DuplicatesAPI interface {
 
 	/*
-	DeleteDuplicate Delete a duplicate
+	DeleteDuplicate Dismiss a duplicate group
 
-	Delete a single duplicate asset specified by its ID.
+	Dismiss a duplicate group by its ID, unlinking all assets in the group without deleting them.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@param id
@@ -92,9 +92,9 @@ func (r ApiDeleteDuplicateRequest) Execute() (*http.Response, error) {
 }
 
 /*
-DeleteDuplicate Delete a duplicate
+DeleteDuplicate Dismiss a duplicate group
 
-Delete a single duplicate asset specified by its ID.
+Dismiss a duplicate group by its ID, unlinking all assets in the group without deleting them.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param id

@@ -4,7 +4,7 @@ All URIs are relative to */api*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**DeleteDuplicate**](DuplicatesAPI.md#DeleteDuplicate) | **Delete** /duplicates/{id} | Delete a duplicate
+[**DeleteDuplicate**](DuplicatesAPI.md#DeleteDuplicate) | **Delete** /duplicates/{id} | Dismiss a duplicate group
 [**DeleteDuplicates**](DuplicatesAPI.md#DeleteDuplicates) | **Delete** /duplicates | Delete duplicates
 [**GetAssetDuplicates**](DuplicatesAPI.md#GetAssetDuplicates) | **Get** /duplicates | Retrieve duplicates
 [**ResolveDuplicates**](DuplicatesAPI.md#ResolveDuplicates) | **Post** /duplicates/resolve | Resolve duplicate groups
@@ -15,7 +15,7 @@ Method | HTTP request | Description
 
 > DeleteDuplicate(ctx, id).Execute()
 
-Delete a duplicate
+Dismiss a duplicate group
 
 
 
