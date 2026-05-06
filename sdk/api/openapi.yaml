@@ -3,7 +3,7 @@ info:
   contact: {}
   description: Immich API
   title: Immich
-  version: 2.7.5
+  version: 3.0.0
 servers:
 - url: /api
 tags:
@@ -12310,102 +12310,124 @@ components:
           description: City name
           nullable: true
           type: string
+          default: null
         country:
           description: Country name
           nullable: true
           type: string
+          default: null
         dateTimeOriginal:
           description: Original date/time
           format: date-time
           nullable: true
           type: string
+          default: null
         description:
           description: Image description
           nullable: true
           type: string
+          default: null
         exifImageHeight:
           description: Image height in pixels
           maximum: 9007199254740991
           minimum: 0
           nullable: true
           type: integer
+          default: null
         exifImageWidth:
           description: Image width in pixels
           maximum: 9007199254740991
           minimum: 0
           nullable: true
           type: integer
+          default: null
         exposureTime:
           description: Exposure time
           nullable: true
           type: string
+          default: null
         fNumber:
           description: F-number (aperture)
           nullable: true
           type: number
+          default: null
         fileSizeInByte:
           description: File size in bytes
           maximum: 9007199254740991
           minimum: 0
           nullable: true
           type: integer
+          default: null
         focalLength:
           description: Focal length in mm
           nullable: true
           type: number
+          default: null
         iso:
           description: ISO sensitivity
           maximum: 9007199254740991
           minimum: -9007199254740991
           nullable: true
           type: integer
+          default: null
         latitude:
           description: GPS latitude
           nullable: true
           type: number
+          default: null
         lensModel:
           description: Lens model
           nullable: true
           type: string
+          default: null
         longitude:
           description: GPS longitude
           nullable: true
           type: number
+          default: null
         make:
           description: Camera make
           nullable: true
           type: string
+          default: null
         model:
           description: Camera model
           nullable: true
           type: string
+          default: null
         modifyDate:
           description: Modification date/time
           format: date-time
           nullable: true
           type: string
+          default: null
         orientation:
           description: Image orientation
           nullable: true
           type: string
+          default: null
         projectionType:
           description: Projection type
           nullable: true
           type: string
+          default: null
         rating:
           description: Rating
           maximum: 9007199254740991
           minimum: -9007199254740991
           nullable: true
           type: integer
+          default: null
         state:
           description: State/province name
           nullable: true
           type: string
+          default: null
         timeZone:
           description: Time zone
           nullable: true
           type: string
+          default: null
       type: object
     FaceDto:
       example:
@@ -17883,6 +17905,7 @@ components:
             d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\\
             d(?:\\.\\d+)?)?(?:Z))$"
           type: string
+          default: null
         password:
           description: Link password
           nullable: true
