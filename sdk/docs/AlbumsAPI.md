@@ -575,7 +575,7 @@ Other parameters are passed through a pointer to a apiGetAlbumStatisticsRequest 
 
 ## GetAllAlbums
 
-> []AlbumResponseDto GetAllAlbums(ctx).AssetId(assetId).Shared(shared).Execute()
+> []AlbumResponseDto GetAllAlbums(ctx).AssetId(assetId).IsOwned(isOwned).IsShared(isShared).Execute()
 
 List all albums
 
@@ -594,12 +594,13 @@ import (
 )
 
 func main() {
-	assetId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | Filter albums containing this asset ID (ignores shared parameter) (optional)
-	shared := true // bool | Filter by shared status: true = only shared, false = not shared, undefined = all owned albums (optional)
+	assetId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | Filter albums containing this asset ID (ignores other parameters) (optional)
+	isOwned := true // bool | Filter by ownership: true = only owned, false = only shared-with-me, undefined = no filter (optional)
+	isShared := true // bool | Filter by shared status: true = only shared, false = not shared, undefined = no filter (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.AlbumsAPI.GetAllAlbums(context.Background()).AssetId(assetId).Shared(shared).Execute()
+	resp, r, err := apiClient.AlbumsAPI.GetAllAlbums(context.Background()).AssetId(assetId).IsOwned(isOwned).IsShared(isShared).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `AlbumsAPI.GetAllAlbums``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -620,8 +621,9 @@ Other parameters are passed through a pointer to a apiGetAllAlbumsRequest struct
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **assetId** | **string** | Filter albums containing this asset ID (ignores shared parameter) | 
- **shared** | **bool** | Filter by shared status: true &#x3D; only shared, false &#x3D; not shared, undefined &#x3D; all owned albums | 
+ **assetId** | **string** | Filter albums containing this asset ID (ignores other parameters) | 
+ **isOwned** | **bool** | Filter by ownership: true &#x3D; only owned, false &#x3D; only shared-with-me, undefined &#x3D; no filter | 
+ **isShared** | **bool** | Filter by shared status: true &#x3D; only shared, false &#x3D; not shared, undefined &#x3D; no filter | 
 
 ### Return type
 

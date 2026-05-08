@@ -1213,18 +1213,25 @@ type ApiGetAllAlbumsRequest struct {
 	ctx context.Context
 	ApiService AlbumsAPI
 	assetId *string
-	shared *bool
+	isOwned *bool
+	isShared *bool
 }
 
-// Filter albums containing this asset ID (ignores shared parameter)
+// Filter albums containing this asset ID (ignores other parameters)
 func (r ApiGetAllAlbumsRequest) AssetId(assetId string) ApiGetAllAlbumsRequest {
 	r.assetId = &assetId
 	return r
 }
 
-// Filter by shared status: true &#x3D; only shared, false &#x3D; not shared, undefined &#x3D; all owned albums
-func (r ApiGetAllAlbumsRequest) Shared(shared bool) ApiGetAllAlbumsRequest {
-	r.shared = &shared
+// Filter by ownership: true &#x3D; only owned, false &#x3D; only shared-with-me, undefined &#x3D; no filter
+func (r ApiGetAllAlbumsRequest) IsOwned(isOwned bool) ApiGetAllAlbumsRequest {
+	r.isOwned = &isOwned
+	return r
+}
+
+// Filter by shared status: true &#x3D; only shared, false &#x3D; not shared, undefined &#x3D; no filter
+func (r ApiGetAllAlbumsRequest) IsShared(isShared bool) ApiGetAllAlbumsRequest {
+	r.isShared = &isShared
 	return r
 }
 
@@ -1271,8 +1278,11 @@ func (a *AlbumsAPIService) GetAllAlbumsExecute(r ApiGetAllAlbumsRequest) ([]Albu
 	if r.assetId != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "assetId", r.assetId, "form", "")
 	}
-	if r.shared != nil {
-		parameterAddToHeaderOrQuery(localVarQueryParams, "shared", r.shared, "form", "")
+	if r.isOwned != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "isOwned", r.isOwned, "form", "")
+	}
+	if r.isShared != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "isShared", r.isShared, "form", "")
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}

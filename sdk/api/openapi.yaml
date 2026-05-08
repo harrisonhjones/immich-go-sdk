@@ -1138,7 +1138,7 @@ paths:
       description: Retrieve a list of albums available to the authenticated user.
       operationId: getAllAlbums
       parameters:
-      - description: Filter albums containing this asset ID (ignores shared parameter)
+      - description: Filter albums containing this asset ID (ignores other parameters)
         explode: true
         in: query
         name: assetId
@@ -1148,11 +1148,20 @@ paths:
           pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$"
           type: string
         style: form
-      - description: "Filter by shared status: true = only shared, false = not shared,\
-          \ undefined = all owned albums"
+      - description: "Filter by ownership: true = only owned, false = only shared-with-me,\
+          \ undefined = no filter"
         explode: true
         in: query
-        name: shared
+        name: isOwned
+        required: false
+        schema:
+          type: boolean
+        style: form
+      - description: "Filter by shared status: true = only shared, false = not shared,\
+          \ undefined = no filter"
+        explode: true
+        in: query
+        name: isShared
         required: false
         schema:
           type: boolean
