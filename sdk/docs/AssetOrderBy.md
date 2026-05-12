@@ -1,15 +1,11 @@
-# AudioCodec
+# AssetOrderBy
 
 ## Enum
 
 
-* `MP3` (value: `"mp3"`)
+* `TAKEN_AT` (value: `"takenAt"`)
 
-* `AAC` (value: `"aac"`)
-
-* `OPUS` (value: `"opus"`)
-
-* `PCM_S16LE` (value: `"pcm_s16le"`)
+* `CREATED_AT` (value: `"createdAt"`)
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

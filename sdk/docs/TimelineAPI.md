@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 ## GetTimeBucket
 
-> TimeBucketAssetResponseDto GetTimeBucket(ctx).TimeBucket(timeBucket).AlbumId(albumId).Bbox(bbox).IsFavorite(isFavorite).IsTrashed(isTrashed).Key(key).Order(order).PersonId(personId).Slug(slug).TagId(tagId).UserId(userId).Visibility(visibility).WithCoordinates(withCoordinates).WithPartners(withPartners).WithStacked(withStacked).Execute()
+> TimeBucketAssetResponseDto GetTimeBucket(ctx).TimeBucket(timeBucket).AlbumId(albumId).Bbox(bbox).IsFavorite(isFavorite).IsTrashed(isTrashed).Key(key).Order(order).OrderBy(orderBy).PersonId(personId).Slug(slug).TagId(tagId).UserId(userId).Visibility(visibility).WithCoordinates(withCoordinates).WithPartners(withPartners).WithStacked(withStacked).Execute()
 
 Get time bucket
 
@@ -37,6 +37,7 @@ func main() {
 	isTrashed := true // bool | Filter by trash status (true for trashed assets only, false for non-trashed only) (optional)
 	key := "key_example" // string |  (optional)
 	order := openapiclient.AssetOrder("asc") // AssetOrder | Sort order for assets within time buckets (ASC for oldest first, DESC for newest first) (optional)
+	orderBy := openapiclient.AssetOrderBy("takenAt") // AssetOrderBy | Date to group and order assets by (takenAt for date taken, createdAt for date added to Immich) (optional)
 	personId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | Filter assets containing a specific person (face recognition) (optional)
 	slug := "slug_example" // string |  (optional)
 	tagId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | Filter assets with a specific tag (optional)
@@ -48,7 +49,7 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.TimelineAPI.GetTimeBucket(context.Background()).TimeBucket(timeBucket).AlbumId(albumId).Bbox(bbox).IsFavorite(isFavorite).IsTrashed(isTrashed).Key(key).Order(order).PersonId(personId).Slug(slug).TagId(tagId).UserId(userId).Visibility(visibility).WithCoordinates(withCoordinates).WithPartners(withPartners).WithStacked(withStacked).Execute()
+	resp, r, err := apiClient.TimelineAPI.GetTimeBucket(context.Background()).TimeBucket(timeBucket).AlbumId(albumId).Bbox(bbox).IsFavorite(isFavorite).IsTrashed(isTrashed).Key(key).Order(order).OrderBy(orderBy).PersonId(personId).Slug(slug).TagId(tagId).UserId(userId).Visibility(visibility).WithCoordinates(withCoordinates).WithPartners(withPartners).WithStacked(withStacked).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `TimelineAPI.GetTimeBucket``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -76,6 +77,7 @@ Name | Type | Description  | Notes
  **isTrashed** | **bool** | Filter by trash status (true for trashed assets only, false for non-trashed only) | 
  **key** | **string** |  | 
  **order** | [**AssetOrder**](AssetOrder.md) | Sort order for assets within time buckets (ASC for oldest first, DESC for newest first) | 
+ **orderBy** | [**AssetOrderBy**](AssetOrderBy.md) | Date to group and order assets by (takenAt for date taken, createdAt for date added to Immich) | 
  **personId** | **string** | Filter assets containing a specific person (face recognition) | 
  **slug** | **string** |  | 
  **tagId** | **string** | Filter assets with a specific tag | 
@@ -105,7 +107,7 @@ Name | Type | Description  | Notes
 
 ## GetTimeBuckets
 
-> []TimeBucketsResponseDto GetTimeBuckets(ctx).AlbumId(albumId).Bbox(bbox).IsFavorite(isFavorite).IsTrashed(isTrashed).Key(key).Order(order).PersonId(personId).Slug(slug).TagId(tagId).UserId(userId).Visibility(visibility).WithCoordinates(withCoordinates).WithPartners(withPartners).WithStacked(withStacked).Execute()
+> []TimeBucketsResponseDto GetTimeBuckets(ctx).AlbumId(albumId).Bbox(bbox).IsFavorite(isFavorite).IsTrashed(isTrashed).Key(key).Order(order).OrderBy(orderBy).PersonId(personId).Slug(slug).TagId(tagId).UserId(userId).Visibility(visibility).WithCoordinates(withCoordinates).WithPartners(withPartners).WithStacked(withStacked).Execute()
 
 Get time buckets
 
@@ -130,6 +132,7 @@ func main() {
 	isTrashed := true // bool | Filter by trash status (true for trashed assets only, false for non-trashed only) (optional)
 	key := "key_example" // string |  (optional)
 	order := openapiclient.AssetOrder("asc") // AssetOrder | Sort order for assets within time buckets (ASC for oldest first, DESC for newest first) (optional)
+	orderBy := openapiclient.AssetOrderBy("takenAt") // AssetOrderBy | Date to group and order assets by (takenAt for date taken, createdAt for date added to Immich) (optional)
 	personId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | Filter assets containing a specific person (face recognition) (optional)
 	slug := "slug_example" // string |  (optional)
 	tagId := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | Filter assets with a specific tag (optional)
@@ -141,7 +144,7 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.TimelineAPI.GetTimeBuckets(context.Background()).AlbumId(albumId).Bbox(bbox).IsFavorite(isFavorite).IsTrashed(isTrashed).Key(key).Order(order).PersonId(personId).Slug(slug).TagId(tagId).UserId(userId).Visibility(visibility).WithCoordinates(withCoordinates).WithPartners(withPartners).WithStacked(withStacked).Execute()
+	resp, r, err := apiClient.TimelineAPI.GetTimeBuckets(context.Background()).AlbumId(albumId).Bbox(bbox).IsFavorite(isFavorite).IsTrashed(isTrashed).Key(key).Order(order).OrderBy(orderBy).PersonId(personId).Slug(slug).TagId(tagId).UserId(userId).Visibility(visibility).WithCoordinates(withCoordinates).WithPartners(withPartners).WithStacked(withStacked).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `TimelineAPI.GetTimeBuckets``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -168,6 +171,7 @@ Name | Type | Description  | Notes
  **isTrashed** | **bool** | Filter by trash status (true for trashed assets only, false for non-trashed only) | 
  **key** | **string** |  | 
  **order** | [**AssetOrder**](AssetOrder.md) | Sort order for assets within time buckets (ASC for oldest first, DESC for newest first) | 
+ **orderBy** | [**AssetOrderBy**](AssetOrderBy.md) | Date to group and order assets by (takenAt for date taken, createdAt for date added to Immich) | 
  **personId** | **string** | Filter assets containing a specific person (face recognition) | 
  **slug** | **string** |  | 
  **tagId** | **string** | Filter assets with a specific tag | 

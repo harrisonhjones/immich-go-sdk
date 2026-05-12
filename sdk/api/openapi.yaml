@@ -8467,6 +8467,15 @@ paths:
         schema:
           $ref: "#/components/schemas/AssetOrder"
         style: form
+      - description: "Date to group and order assets by (takenAt for date taken, createdAt\
+          \ for date added to Immich)"
+        explode: true
+        in: query
+        name: orderBy
+        required: false
+        schema:
+          $ref: "#/components/schemas/AssetOrderBy"
+        style: form
       - description: Filter assets containing a specific person (face recognition)
         explode: true
         in: query
@@ -8625,6 +8634,15 @@ paths:
         required: false
         schema:
           $ref: "#/components/schemas/AssetOrder"
+        style: form
+      - description: "Date to group and order assets by (takenAt for date taken, createdAt\
+          \ for date added to Immich)"
+        explode: true
+        in: query
+        name: orderBy
+        required: false
+        schema:
+          $ref: "#/components/schemas/AssetOrderBy"
         style: form
       - description: Filter assets containing a specific person (face recognition)
         explode: true
@@ -10373,6 +10391,7 @@ components:
       - force
       type: object
     AssetFaceResponseDto:
+      description: Asset face with person
       example:
         boundingBoxX1: -2147483648
         boundingBoxX2: 2147483647
@@ -10470,64 +10489,6 @@ components:
       - assetId
       - personId
       type: object
-    AssetFaceWithoutPersonResponseDto:
-      description: Asset face without person
-      example:
-        boundingBoxX1: 2147483647
-        boundingBoxX2: -2147483648
-        boundingBoxY1: -2147483648
-        boundingBoxY2: -2147483648
-        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-        imageHeight: 2147483647
-        imageWidth: 2147483647
-        sourceType: machine-learning
-      properties:
-        boundingBoxX1:
-          description: Bounding box X1 coordinate
-          maximum: 9007199254740991
-          minimum: -9007199254740991
-          type: integer
-        boundingBoxX2:
-          description: Bounding box X2 coordinate
-          maximum: 9007199254740991
-          minimum: -9007199254740991
-          type: integer
-        boundingBoxY1:
-          description: Bounding box Y1 coordinate
-          maximum: 9007199254740991
-          minimum: -9007199254740991
-          type: integer
-        boundingBoxY2:
-          description: Bounding box Y2 coordinate
-          maximum: 9007199254740991
-          minimum: -9007199254740991
-          type: integer
-        id:
-          description: Face ID
-          format: uuid
-          pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$"
-          type: string
-        imageHeight:
-          description: Image height in pixels
-          maximum: 9007199254740991
-          minimum: 0
-          type: integer
-        imageWidth:
-          description: Image width in pixels
-          maximum: 9007199254740991
-          minimum: 0
-          type: integer
-        sourceType:
-          $ref: "#/components/schemas/SourceType"
-      required:
-      - boundingBoxX1
-      - boundingBoxX2
-      - boundingBoxY1
-      - boundingBoxY2
-      - id
-      - imageHeight
-      - imageWidth
-      type: object
     AssetIdErrorReason:
       description: Error reason if failed
       enum:
@@ -10605,7 +10566,7 @@ components:
           type: string
         duration:
           description: Duration in milliseconds (for videos)
-          maximum: 2147483647
+          maximum: 9007199254740991
           minimum: 0
           type: integer
         fileCreatedAt:
@@ -10942,6 +10903,12 @@ components:
       - asc
       - desc
       type: string
+    AssetOrderBy:
+      description: Asset sorting property
+      enum:
+      - takenAt
+      - createdAt
+      type: string
     AssetRejectReason:
       description: Rejection reason if rejected
       enum:
@@ -11004,23 +10971,6 @@ components:
         people:
         - birthDate: 2000-01-23
           color: color
-          faces:
-          - boundingBoxX1: 2147483647
-            boundingBoxX2: -2147483648
-            boundingBoxY1: -2147483648
-            boundingBoxY2: -2147483648
-            id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-            imageHeight: 2147483647
-            imageWidth: 2147483647
-            sourceType: machine-learning
-          - boundingBoxX1: 2147483647
-            boundingBoxX2: -2147483648
-            boundingBoxY1: -2147483648
-            boundingBoxY2: -2147483648
-            id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-            imageHeight: 2147483647
-            imageWidth: 2147483647
-            sourceType: machine-learning
           id: id
           isFavorite: true
           isHidden: true
@@ -11029,23 +10979,6 @@ components:
           updatedAt: 2000-01-23T04:56:07.000+00:00
         - birthDate: 2000-01-23
           color: color
-          faces:
-          - boundingBoxX1: 2147483647
-            boundingBoxX2: -2147483648
-            boundingBoxY1: -2147483648
-            boundingBoxY2: -2147483648
-            id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-            imageHeight: 2147483647
-            imageWidth: 2147483647
-            sourceType: machine-learning
-          - boundingBoxX1: 2147483647
-            boundingBoxX2: -2147483648
-            boundingBoxY1: -2147483648
-            boundingBoxY2: -2147483648
-            id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-            imageHeight: 2147483647
-            imageWidth: 2147483647
-            sourceType: machine-learning
           id: id
           isFavorite: true
           isHidden: true
@@ -11071,23 +11004,6 @@ components:
           value: value
         thumbhash: thumbhash
         type: IMAGE
-        unassignedFaces:
-        - boundingBoxX1: 2147483647
-          boundingBoxX2: -2147483648
-          boundingBoxY1: -2147483648
-          boundingBoxY2: -2147483648
-          id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-          imageHeight: 2147483647
-          imageWidth: 2147483647
-          sourceType: machine-learning
-        - boundingBoxX1: 2147483647
-          boundingBoxX2: -2147483648
-          boundingBoxY1: -2147483648
-          boundingBoxY2: -2147483648
-          id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-          imageHeight: 2147483647
-          imageWidth: 2147483647
-          sourceType: machine-learning
         updatedAt: 2000-01-23T04:56:07.000+00:00
         visibility: archive
         width: 2147483647
@@ -11197,7 +11113,7 @@ components:
           type: string
         people:
           items:
-            $ref: "#/components/schemas/PersonWithFacesResponseDto"
+            $ref: "#/components/schemas/PersonResponseDto"
           type: array
         resized:
           description: Is resized
@@ -11223,10 +11139,6 @@ components:
           type: string
         type:
           $ref: "#/components/schemas/AssetTypeEnum"
-        unassignedFaces:
-          items:
-            $ref: "#/components/schemas/AssetFaceWithoutPersonResponseDto"
-          type: array
         updatedAt:
           description: The UTC timestamp when the asset record was last updated in
             the database. This is automatically maintained by the database and reflects
@@ -11336,7 +11248,6 @@ components:
       enum:
       - mp3
       - aac
-      - libopus
       - opus
       - pcm_s16le
       type: string
@@ -12000,23 +11911,6 @@ components:
           people:
           - birthDate: 2000-01-23
             color: color
-            faces:
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
             id: id
             isFavorite: true
             isHidden: true
@@ -12025,23 +11919,6 @@ components:
             updatedAt: 2000-01-23T04:56:07.000+00:00
           - birthDate: 2000-01-23
             color: color
-            faces:
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
             id: id
             isFavorite: true
             isHidden: true
@@ -12067,23 +11944,6 @@ components:
             value: value
           thumbhash: thumbhash
           type: IMAGE
-          unassignedFaces:
-          - boundingBoxX1: 2147483647
-            boundingBoxX2: -2147483648
-            boundingBoxY1: -2147483648
-            boundingBoxY2: -2147483648
-            id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-            imageHeight: 2147483647
-            imageWidth: 2147483647
-            sourceType: machine-learning
-          - boundingBoxX1: 2147483647
-            boundingBoxX2: -2147483648
-            boundingBoxY1: -2147483648
-            boundingBoxY2: -2147483648
-            id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-            imageHeight: 2147483647
-            imageWidth: 2147483647
-            sourceType: machine-learning
           updatedAt: 2000-01-23T04:56:07.000+00:00
           visibility: archive
           width: 2147483647
@@ -12141,23 +12001,6 @@ components:
           people:
           - birthDate: 2000-01-23
             color: color
-            faces:
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
             id: id
             isFavorite: true
             isHidden: true
@@ -12166,23 +12009,6 @@ components:
             updatedAt: 2000-01-23T04:56:07.000+00:00
           - birthDate: 2000-01-23
             color: color
-            faces:
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
             id: id
             isFavorite: true
             isHidden: true
@@ -12208,23 +12034,6 @@ components:
             value: value
           thumbhash: thumbhash
           type: IMAGE
-          unassignedFaces:
-          - boundingBoxX1: 2147483647
-            boundingBoxX2: -2147483648
-            boundingBoxY1: -2147483648
-            boundingBoxY2: -2147483648
-            id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-            imageHeight: 2147483647
-            imageWidth: 2147483647
-            sourceType: machine-learning
-          - boundingBoxX1: 2147483647
-            boundingBoxX2: -2147483648
-            boundingBoxY1: -2147483648
-            boundingBoxY2: -2147483648
-            id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-            imageHeight: 2147483647
-            imageWidth: 2147483647
-            sourceType: machine-learning
           updatedAt: 2000-01-23T04:56:07.000+00:00
           visibility: archive
           width: 2147483647
@@ -13183,23 +12992,6 @@ components:
           people:
           - birthDate: 2000-01-23
             color: color
-            faces:
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
             id: id
             isFavorite: true
             isHidden: true
@@ -13208,23 +13000,6 @@ components:
             updatedAt: 2000-01-23T04:56:07.000+00:00
           - birthDate: 2000-01-23
             color: color
-            faces:
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
             id: id
             isFavorite: true
             isHidden: true
@@ -13250,23 +13025,6 @@ components:
             value: value
           thumbhash: thumbhash
           type: IMAGE
-          unassignedFaces:
-          - boundingBoxX1: 2147483647
-            boundingBoxX2: -2147483648
-            boundingBoxY1: -2147483648
-            boundingBoxY2: -2147483648
-            id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-            imageHeight: 2147483647
-            imageWidth: 2147483647
-            sourceType: machine-learning
-          - boundingBoxX1: 2147483647
-            boundingBoxX2: -2147483648
-            boundingBoxY1: -2147483648
-            boundingBoxY2: -2147483648
-            id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-            imageHeight: 2147483647
-            imageWidth: 2147483647
-            sourceType: machine-learning
           updatedAt: 2000-01-23T04:56:07.000+00:00
           visibility: archive
           width: 2147483647
@@ -13324,23 +13082,6 @@ components:
           people:
           - birthDate: 2000-01-23
             color: color
-            faces:
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
             id: id
             isFavorite: true
             isHidden: true
@@ -13349,23 +13090,6 @@ components:
             updatedAt: 2000-01-23T04:56:07.000+00:00
           - birthDate: 2000-01-23
             color: color
-            faces:
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
             id: id
             isFavorite: true
             isHidden: true
@@ -13391,23 +13115,6 @@ components:
             value: value
           thumbhash: thumbhash
           type: IMAGE
-          unassignedFaces:
-          - boundingBoxX1: 2147483647
-            boundingBoxX2: -2147483648
-            boundingBoxY1: -2147483648
-            boundingBoxY2: -2147483648
-            id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-            imageHeight: 2147483647
-            imageWidth: 2147483647
-            sourceType: machine-learning
-          - boundingBoxX1: 2147483647
-            boundingBoxX2: -2147483648
-            boundingBoxY1: -2147483648
-            boundingBoxY2: -2147483648
-            id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-            imageHeight: 2147483647
-            imageWidth: 2147483647
-            sourceType: machine-learning
           updatedAt: 2000-01-23T04:56:07.000+00:00
           visibility: archive
           width: 2147483647
@@ -14682,91 +14389,6 @@ components:
         name:
           description: Person name
           type: string
-      type: object
-    PersonWithFacesResponseDto:
-      example:
-        birthDate: 2000-01-23
-        color: color
-        faces:
-        - boundingBoxX1: 2147483647
-          boundingBoxX2: -2147483648
-          boundingBoxY1: -2147483648
-          boundingBoxY2: -2147483648
-          id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-          imageHeight: 2147483647
-          imageWidth: 2147483647
-          sourceType: machine-learning
-        - boundingBoxX1: 2147483647
-          boundingBoxX2: -2147483648
-          boundingBoxY1: -2147483648
-          boundingBoxY2: -2147483648
-          id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-          imageHeight: 2147483647
-          imageWidth: 2147483647
-          sourceType: machine-learning
-        id: id
-        isFavorite: true
-        isHidden: true
-        name: name
-        thumbnailPath: thumbnailPath
-        updatedAt: 2000-01-23T04:56:07.000+00:00
-      properties:
-        birthDate:
-          description: Person date of birth
-          format: date
-          nullable: true
-          type: string
-        color:
-          description: Person color (hex)
-          type: string
-          x-immich-history:
-          - version: v1.126.0
-            state: Added
-          - version: v2
-            state: Stable
-          x-immich-state: Stable
-        faces:
-          items:
-            $ref: "#/components/schemas/AssetFaceWithoutPersonResponseDto"
-          type: array
-        id:
-          description: Person ID
-          type: string
-        isFavorite:
-          description: Is favorite
-          type: boolean
-          x-immich-history:
-          - version: v1.126.0
-            state: Added
-          - version: v2
-            state: Stable
-          x-immich-state: Stable
-        isHidden:
-          description: Is hidden
-          type: boolean
-        name:
-          description: Person name
-          type: string
-        thumbnailPath:
-          description: Thumbnail path
-          type: string
-        updatedAt:
-          description: Last update date
-          format: date-time
-          type: string
-          x-immich-history:
-          - version: v1.107.0
-            state: Added
-          - version: v2
-            state: Stable
-          x-immich-state: Stable
-      required:
-      - birthDate
-      - faces
-      - id
-      - isHidden
-      - name
-      - thumbnailPath
       type: object
     PinCodeChangeDto:
       example:
@@ -16066,23 +15688,6 @@ components:
           people:
           - birthDate: 2000-01-23
             color: color
-            faces:
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
             id: id
             isFavorite: true
             isHidden: true
@@ -16091,23 +15696,6 @@ components:
             updatedAt: 2000-01-23T04:56:07.000+00:00
           - birthDate: 2000-01-23
             color: color
-            faces:
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
             id: id
             isFavorite: true
             isHidden: true
@@ -16133,23 +15721,6 @@ components:
             value: value
           thumbhash: thumbhash
           type: IMAGE
-          unassignedFaces:
-          - boundingBoxX1: 2147483647
-            boundingBoxX2: -2147483648
-            boundingBoxY1: -2147483648
-            boundingBoxY2: -2147483648
-            id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-            imageHeight: 2147483647
-            imageWidth: 2147483647
-            sourceType: machine-learning
-          - boundingBoxX1: 2147483647
-            boundingBoxX2: -2147483648
-            boundingBoxY1: -2147483648
-            boundingBoxY2: -2147483648
-            id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-            imageHeight: 2147483647
-            imageWidth: 2147483647
-            sourceType: machine-learning
           updatedAt: 2000-01-23T04:56:07.000+00:00
           visibility: archive
           width: 2147483647
@@ -16207,23 +15778,6 @@ components:
           people:
           - birthDate: 2000-01-23
             color: color
-            faces:
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
             id: id
             isFavorite: true
             isHidden: true
@@ -16232,23 +15786,6 @@ components:
             updatedAt: 2000-01-23T04:56:07.000+00:00
           - birthDate: 2000-01-23
             color: color
-            faces:
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
             id: id
             isFavorite: true
             isHidden: true
@@ -16274,23 +15811,6 @@ components:
             value: value
           thumbhash: thumbhash
           type: IMAGE
-          unassignedFaces:
-          - boundingBoxX1: 2147483647
-            boundingBoxX2: -2147483648
-            boundingBoxY1: -2147483648
-            boundingBoxY2: -2147483648
-            id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-            imageHeight: 2147483647
-            imageWidth: 2147483647
-            sourceType: machine-learning
-          - boundingBoxX1: 2147483647
-            boundingBoxX2: -2147483648
-            boundingBoxY1: -2147483648
-            boundingBoxY2: -2147483648
-            id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-            imageHeight: 2147483647
-            imageWidth: 2147483647
-            sourceType: machine-learning
           updatedAt: 2000-01-23T04:56:07.000+00:00
           visibility: archive
           width: 2147483647
@@ -16383,23 +15903,6 @@ components:
           people:
           - birthDate: 2000-01-23
             color: color
-            faces:
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
             id: id
             isFavorite: true
             isHidden: true
@@ -16408,23 +15911,6 @@ components:
             updatedAt: 2000-01-23T04:56:07.000+00:00
           - birthDate: 2000-01-23
             color: color
-            faces:
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
             id: id
             isFavorite: true
             isHidden: true
@@ -16450,23 +15936,6 @@ components:
             value: value
           thumbhash: thumbhash
           type: IMAGE
-          unassignedFaces:
-          - boundingBoxX1: 2147483647
-            boundingBoxX2: -2147483648
-            boundingBoxY1: -2147483648
-            boundingBoxY2: -2147483648
-            id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-            imageHeight: 2147483647
-            imageWidth: 2147483647
-            sourceType: machine-learning
-          - boundingBoxX1: 2147483647
-            boundingBoxX2: -2147483648
-            boundingBoxY1: -2147483648
-            boundingBoxY2: -2147483648
-            id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-            imageHeight: 2147483647
-            imageWidth: 2147483647
-            sourceType: machine-learning
           updatedAt: 2000-01-23T04:56:07.000+00:00
           visibility: archive
           width: 2147483647
@@ -16540,23 +16009,6 @@ components:
             people:
             - birthDate: 2000-01-23
               color: color
-              faces:
-              - boundingBoxX1: 2147483647
-                boundingBoxX2: -2147483648
-                boundingBoxY1: -2147483648
-                boundingBoxY2: -2147483648
-                id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-                imageHeight: 2147483647
-                imageWidth: 2147483647
-                sourceType: machine-learning
-              - boundingBoxX1: 2147483647
-                boundingBoxX2: -2147483648
-                boundingBoxY1: -2147483648
-                boundingBoxY2: -2147483648
-                id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-                imageHeight: 2147483647
-                imageWidth: 2147483647
-                sourceType: machine-learning
               id: id
               isFavorite: true
               isHidden: true
@@ -16565,23 +16017,6 @@ components:
               updatedAt: 2000-01-23T04:56:07.000+00:00
             - birthDate: 2000-01-23
               color: color
-              faces:
-              - boundingBoxX1: 2147483647
-                boundingBoxX2: -2147483648
-                boundingBoxY1: -2147483648
-                boundingBoxY2: -2147483648
-                id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-                imageHeight: 2147483647
-                imageWidth: 2147483647
-                sourceType: machine-learning
-              - boundingBoxX1: 2147483647
-                boundingBoxX2: -2147483648
-                boundingBoxY1: -2147483648
-                boundingBoxY2: -2147483648
-                id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-                imageHeight: 2147483647
-                imageWidth: 2147483647
-                sourceType: machine-learning
               id: id
               isFavorite: true
               isHidden: true
@@ -16607,23 +16042,6 @@ components:
               value: value
             thumbhash: thumbhash
             type: IMAGE
-            unassignedFaces:
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
             updatedAt: 2000-01-23T04:56:07.000+00:00
             visibility: archive
             width: 2147483647
@@ -16683,23 +16101,6 @@ components:
             people:
             - birthDate: 2000-01-23
               color: color
-              faces:
-              - boundingBoxX1: 2147483647
-                boundingBoxX2: -2147483648
-                boundingBoxY1: -2147483648
-                boundingBoxY2: -2147483648
-                id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-                imageHeight: 2147483647
-                imageWidth: 2147483647
-                sourceType: machine-learning
-              - boundingBoxX1: 2147483647
-                boundingBoxX2: -2147483648
-                boundingBoxY1: -2147483648
-                boundingBoxY2: -2147483648
-                id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-                imageHeight: 2147483647
-                imageWidth: 2147483647
-                sourceType: machine-learning
               id: id
               isFavorite: true
               isHidden: true
@@ -16708,23 +16109,6 @@ components:
               updatedAt: 2000-01-23T04:56:07.000+00:00
             - birthDate: 2000-01-23
               color: color
-              faces:
-              - boundingBoxX1: 2147483647
-                boundingBoxX2: -2147483648
-                boundingBoxY1: -2147483648
-                boundingBoxY2: -2147483648
-                id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-                imageHeight: 2147483647
-                imageWidth: 2147483647
-                sourceType: machine-learning
-              - boundingBoxX1: 2147483647
-                boundingBoxX2: -2147483648
-                boundingBoxY1: -2147483648
-                boundingBoxY2: -2147483648
-                id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-                imageHeight: 2147483647
-                imageWidth: 2147483647
-                sourceType: machine-learning
               id: id
               isFavorite: true
               isHidden: true
@@ -16750,23 +16134,6 @@ components:
               value: value
             thumbhash: thumbhash
             type: IMAGE
-            unassignedFaces:
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
             updatedAt: 2000-01-23T04:56:07.000+00:00
             visibility: archive
             width: 2147483647
@@ -16981,23 +16348,6 @@ components:
             people:
             - birthDate: 2000-01-23
               color: color
-              faces:
-              - boundingBoxX1: 2147483647
-                boundingBoxX2: -2147483648
-                boundingBoxY1: -2147483648
-                boundingBoxY2: -2147483648
-                id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-                imageHeight: 2147483647
-                imageWidth: 2147483647
-                sourceType: machine-learning
-              - boundingBoxX1: 2147483647
-                boundingBoxX2: -2147483648
-                boundingBoxY1: -2147483648
-                boundingBoxY2: -2147483648
-                id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-                imageHeight: 2147483647
-                imageWidth: 2147483647
-                sourceType: machine-learning
               id: id
               isFavorite: true
               isHidden: true
@@ -17006,23 +16356,6 @@ components:
               updatedAt: 2000-01-23T04:56:07.000+00:00
             - birthDate: 2000-01-23
               color: color
-              faces:
-              - boundingBoxX1: 2147483647
-                boundingBoxX2: -2147483648
-                boundingBoxY1: -2147483648
-                boundingBoxY2: -2147483648
-                id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-                imageHeight: 2147483647
-                imageWidth: 2147483647
-                sourceType: machine-learning
-              - boundingBoxX1: 2147483647
-                boundingBoxX2: -2147483648
-                boundingBoxY1: -2147483648
-                boundingBoxY2: -2147483648
-                id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-                imageHeight: 2147483647
-                imageWidth: 2147483647
-                sourceType: machine-learning
               id: id
               isFavorite: true
               isHidden: true
@@ -17048,23 +16381,6 @@ components:
               value: value
             thumbhash: thumbhash
             type: IMAGE
-            unassignedFaces:
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
             updatedAt: 2000-01-23T04:56:07.000+00:00
             visibility: archive
             width: 2147483647
@@ -17122,23 +16438,6 @@ components:
             people:
             - birthDate: 2000-01-23
               color: color
-              faces:
-              - boundingBoxX1: 2147483647
-                boundingBoxX2: -2147483648
-                boundingBoxY1: -2147483648
-                boundingBoxY2: -2147483648
-                id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-                imageHeight: 2147483647
-                imageWidth: 2147483647
-                sourceType: machine-learning
-              - boundingBoxX1: 2147483647
-                boundingBoxX2: -2147483648
-                boundingBoxY1: -2147483648
-                boundingBoxY2: -2147483648
-                id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-                imageHeight: 2147483647
-                imageWidth: 2147483647
-                sourceType: machine-learning
               id: id
               isFavorite: true
               isHidden: true
@@ -17147,23 +16446,6 @@ components:
               updatedAt: 2000-01-23T04:56:07.000+00:00
             - birthDate: 2000-01-23
               color: color
-              faces:
-              - boundingBoxX1: 2147483647
-                boundingBoxX2: -2147483648
-                boundingBoxY1: -2147483648
-                boundingBoxY2: -2147483648
-                id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-                imageHeight: 2147483647
-                imageWidth: 2147483647
-                sourceType: machine-learning
-              - boundingBoxX1: 2147483647
-                boundingBoxX2: -2147483648
-                boundingBoxY1: -2147483648
-                boundingBoxY2: -2147483648
-                id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-                imageHeight: 2147483647
-                imageWidth: 2147483647
-                sourceType: machine-learning
               id: id
               isFavorite: true
               isHidden: true
@@ -17189,23 +16471,6 @@ components:
               value: value
             thumbhash: thumbhash
             type: IMAGE
-            unassignedFaces:
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
             updatedAt: 2000-01-23T04:56:07.000+00:00
             visibility: archive
             width: 2147483647
@@ -18089,23 +17354,6 @@ components:
           people:
           - birthDate: 2000-01-23
             color: color
-            faces:
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
             id: id
             isFavorite: true
             isHidden: true
@@ -18114,23 +17362,6 @@ components:
             updatedAt: 2000-01-23T04:56:07.000+00:00
           - birthDate: 2000-01-23
             color: color
-            faces:
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
             id: id
             isFavorite: true
             isHidden: true
@@ -18156,23 +17387,6 @@ components:
             value: value
           thumbhash: thumbhash
           type: IMAGE
-          unassignedFaces:
-          - boundingBoxX1: 2147483647
-            boundingBoxX2: -2147483648
-            boundingBoxY1: -2147483648
-            boundingBoxY2: -2147483648
-            id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-            imageHeight: 2147483647
-            imageWidth: 2147483647
-            sourceType: machine-learning
-          - boundingBoxX1: 2147483647
-            boundingBoxX2: -2147483648
-            boundingBoxY1: -2147483648
-            boundingBoxY2: -2147483648
-            id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-            imageHeight: 2147483647
-            imageWidth: 2147483647
-            sourceType: machine-learning
           updatedAt: 2000-01-23T04:56:07.000+00:00
           visibility: archive
           width: 2147483647
@@ -18230,23 +17444,6 @@ components:
           people:
           - birthDate: 2000-01-23
             color: color
-            faces:
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
             id: id
             isFavorite: true
             isHidden: true
@@ -18255,23 +17452,6 @@ components:
             updatedAt: 2000-01-23T04:56:07.000+00:00
           - birthDate: 2000-01-23
             color: color
-            faces:
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
             id: id
             isFavorite: true
             isHidden: true
@@ -18297,23 +17477,6 @@ components:
             value: value
           thumbhash: thumbhash
           type: IMAGE
-          unassignedFaces:
-          - boundingBoxX1: 2147483647
-            boundingBoxX2: -2147483648
-            boundingBoxY1: -2147483648
-            boundingBoxY2: -2147483648
-            id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-            imageHeight: 2147483647
-            imageWidth: 2147483647
-            sourceType: machine-learning
-          - boundingBoxX1: 2147483647
-            boundingBoxX2: -2147483648
-            boundingBoxY1: -2147483648
-            boundingBoxY2: -2147483648
-            id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-            imageHeight: 2147483647
-            imageWidth: 2147483647
-            sourceType: machine-learning
           updatedAt: 2000-01-23T04:56:07.000+00:00
           visibility: archive
           width: 2147483647
@@ -18774,23 +17937,6 @@ components:
           people:
           - birthDate: 2000-01-23
             color: color
-            faces:
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
             id: id
             isFavorite: true
             isHidden: true
@@ -18799,23 +17945,6 @@ components:
             updatedAt: 2000-01-23T04:56:07.000+00:00
           - birthDate: 2000-01-23
             color: color
-            faces:
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
             id: id
             isFavorite: true
             isHidden: true
@@ -18841,23 +17970,6 @@ components:
             value: value
           thumbhash: thumbhash
           type: IMAGE
-          unassignedFaces:
-          - boundingBoxX1: 2147483647
-            boundingBoxX2: -2147483648
-            boundingBoxY1: -2147483648
-            boundingBoxY2: -2147483648
-            id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-            imageHeight: 2147483647
-            imageWidth: 2147483647
-            sourceType: machine-learning
-          - boundingBoxX1: 2147483647
-            boundingBoxX2: -2147483648
-            boundingBoxY1: -2147483648
-            boundingBoxY2: -2147483648
-            id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-            imageHeight: 2147483647
-            imageWidth: 2147483647
-            sourceType: machine-learning
           updatedAt: 2000-01-23T04:56:07.000+00:00
           visibility: archive
           width: 2147483647
@@ -18915,23 +18027,6 @@ components:
           people:
           - birthDate: 2000-01-23
             color: color
-            faces:
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
             id: id
             isFavorite: true
             isHidden: true
@@ -18940,23 +18035,6 @@ components:
             updatedAt: 2000-01-23T04:56:07.000+00:00
           - birthDate: 2000-01-23
             color: color
-            faces:
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
-            - boundingBoxX1: 2147483647
-              boundingBoxX2: -2147483648
-              boundingBoxY1: -2147483648
-              boundingBoxY2: -2147483648
-              id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-              imageHeight: 2147483647
-              imageWidth: 2147483647
-              sourceType: machine-learning
             id: id
             isFavorite: true
             isHidden: true
@@ -18982,23 +18060,6 @@ components:
             value: value
           thumbhash: thumbhash
           type: IMAGE
-          unassignedFaces:
-          - boundingBoxX1: 2147483647
-            boundingBoxX2: -2147483648
-            boundingBoxY1: -2147483648
-            boundingBoxY2: -2147483648
-            id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-            imageHeight: 2147483647
-            imageWidth: 2147483647
-            sourceType: machine-learning
-          - boundingBoxX1: 2147483647
-            boundingBoxX2: -2147483648
-            boundingBoxY1: -2147483648
-            boundingBoxY2: -2147483648
-            id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-            imageHeight: 2147483647
-            imageWidth: 2147483647
-            sourceType: machine-learning
           updatedAt: 2000-01-23T04:56:07.000+00:00
           visibility: archive
           width: 2147483647
@@ -19817,6 +18878,16 @@ components:
         checksum:
           description: Checksum
           type: string
+        createdAt:
+          description: Uploaded to Immich at
+          example: 2024-01-01T00:00:00Z
+          format: date-time
+          nullable: true
+          pattern: "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\\
+            d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\\
+            d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\\
+            d(?:\\.\\d+)?)?(?:Z))$"
+          type: string
         deletedAt:
           description: Deleted at
           example: 2024-01-01T00:00:00Z
@@ -19910,6 +18981,7 @@ components:
           type: integer
       required:
       - checksum
+      - createdAt
       - deletedAt
       - duration
       - fileCreatedAt
@@ -19933,6 +19005,16 @@ components:
       properties:
         checksum:
           description: Checksum
+          type: string
+        createdAt:
+          description: Uploaded to Immich at
+          example: 2024-01-01T00:00:00Z
+          format: date-time
+          nullable: true
+          pattern: "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\\
+            d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\\
+            d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\\
+            d(?:\\.\\d+)?)?(?:Z))$"
           type: string
         deletedAt:
           description: Deleted at
@@ -20029,6 +19111,7 @@ components:
           type: integer
       required:
       - checksum
+      - createdAt
       - deletedAt
       - duration
       - fileCreatedAt
@@ -21961,6 +21044,9 @@ components:
         country:
         - country
         - country
+        createdAt:
+        - createdAt
+        - createdAt
         duration:
         - 171976544
         - 171976544
@@ -22022,6 +21108,12 @@ components:
           description: Array of country names extracted from EXIF GPS data
           items:
             nullable: true
+            type: string
+          type: array
+        createdAt:
+          description: Array of UTC timestamps when each asset was originally uploaded
+            to Immich
+          items:
             type: string
           type: array
         duration:
@@ -22130,6 +21222,7 @@ components:
       required:
       - city
       - country
+      - createdAt
       - duration
       - fileCreatedAt
       - id

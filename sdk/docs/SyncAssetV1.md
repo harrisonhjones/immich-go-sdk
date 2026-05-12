@@ -5,6 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Checksum** | **string** | Checksum | 
+**CreatedAt** | **NullableTime** | Uploaded to Immich at | 
 **DeletedAt** | **NullableTime** | Deleted at | 
 **Duration** | **NullableString** | Duration | 
 **FileCreatedAt** | **NullableTime** | File created at | 
@@ -28,7 +29,7 @@ Name | Type | Description | Notes
 
 ### NewSyncAssetV1
 
-`func NewSyncAssetV1(checksum string, deletedAt NullableTime, duration NullableString, fileCreatedAt NullableTime, fileModifiedAt NullableTime, height NullableInt32, id string, isEdited bool, isFavorite bool, libraryId NullableString, livePhotoVideoId NullableString, localDateTime NullableTime, originalFileName string, ownerId string, stackId NullableString, thumbhash NullableString, type_ AssetTypeEnum, visibility AssetVisibility, width NullableInt32, ) *SyncAssetV1`
+`func NewSyncAssetV1(checksum string, createdAt NullableTime, deletedAt NullableTime, duration NullableString, fileCreatedAt NullableTime, fileModifiedAt NullableTime, height NullableInt32, id string, isEdited bool, isFavorite bool, libraryId NullableString, livePhotoVideoId NullableString, localDateTime NullableTime, originalFileName string, ownerId string, stackId NullableString, thumbhash NullableString, type_ AssetTypeEnum, visibility AssetVisibility, width NullableInt32, ) *SyncAssetV1`
 
 NewSyncAssetV1 instantiates a new SyncAssetV1 object
 This constructor will assign default values to properties that have it defined,
@@ -63,6 +64,36 @@ and a boolean to check if the value has been set.
 SetChecksum sets Checksum field to given value.
 
 
+### GetCreatedAt
+
+`func (o *SyncAssetV1) GetCreatedAt() time.Time`
+
+GetCreatedAt returns the CreatedAt field if non-nil, zero value otherwise.
+
+### GetCreatedAtOk
+
+`func (o *SyncAssetV1) GetCreatedAtOk() (*time.Time, bool)`
+
+GetCreatedAtOk returns a tuple with the CreatedAt field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCreatedAt
+
+`func (o *SyncAssetV1) SetCreatedAt(v time.Time)`
+
+SetCreatedAt sets CreatedAt field to given value.
+
+
+### SetCreatedAtNil
+
+`func (o *SyncAssetV1) SetCreatedAtNil(b bool)`
+
+ SetCreatedAtNil sets the value for CreatedAt to be an explicit nil
+
+### UnsetCreatedAt
+`func (o *SyncAssetV1) UnsetCreatedAt()`
+
+UnsetCreatedAt ensures that no value is present for CreatedAt, not even an explicit nil
 ### GetDeletedAt
 
 `func (o *SyncAssetV1) GetDeletedAt() time.Time`

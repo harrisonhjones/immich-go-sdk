@@ -27,13 +27,12 @@ Name | Type | Description | Notes
 **OriginalPath** | **string** | Original file path | 
 **Owner** | Pointer to [**UserResponseDto**](UserResponseDto.md) |  | [optional] 
 **OwnerId** | **string** | Owner user ID | 
-**People** | Pointer to [**[]PersonWithFacesResponseDto**](PersonWithFacesResponseDto.md) |  | [optional] 
+**People** | Pointer to [**[]PersonResponseDto**](PersonResponseDto.md) |  | [optional] 
 **Resized** | Pointer to **bool** | Is resized | [optional] 
 **Stack** | Pointer to [**NullableAssetStackResponseDto**](AssetStackResponseDto.md) |  | [optional] 
 **Tags** | Pointer to [**[]TagResponseDto**](TagResponseDto.md) |  | [optional] 
 **Thumbhash** | **NullableString** | Thumbhash for thumbnail generation (base64) also used as the c query param for thumbnail cache busting. | 
 **Type** | [**AssetTypeEnum**](AssetTypeEnum.md) |  | 
-**UnassignedFaces** | Pointer to [**[]AssetFaceWithoutPersonResponseDto**](AssetFaceWithoutPersonResponseDto.md) |  | [optional] 
 **UpdatedAt** | **time.Time** | The UTC timestamp when the asset record was last updated in the database. This is automatically maintained by the database and reflects when any field in the asset was last modified. | 
 **Visibility** | [**AssetVisibility**](AssetVisibility.md) |  | 
 **Width** | **NullableInt32** | Asset width | 
@@ -599,20 +598,20 @@ SetOwnerId sets OwnerId field to given value.
 
 ### GetPeople
 
-`func (o *AssetResponseDto) GetPeople() []PersonWithFacesResponseDto`
+`func (o *AssetResponseDto) GetPeople() []PersonResponseDto`
 
 GetPeople returns the People field if non-nil, zero value otherwise.
 
 ### GetPeopleOk
 
-`func (o *AssetResponseDto) GetPeopleOk() (*[]PersonWithFacesResponseDto, bool)`
+`func (o *AssetResponseDto) GetPeopleOk() (*[]PersonResponseDto, bool)`
 
 GetPeopleOk returns a tuple with the People field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPeople
 
-`func (o *AssetResponseDto) SetPeople(v []PersonWithFacesResponseDto)`
+`func (o *AssetResponseDto) SetPeople(v []PersonResponseDto)`
 
 SetPeople sets People field to given value.
 
@@ -756,31 +755,6 @@ and a boolean to check if the value has been set.
 
 SetType sets Type field to given value.
 
-
-### GetUnassignedFaces
-
-`func (o *AssetResponseDto) GetUnassignedFaces() []AssetFaceWithoutPersonResponseDto`
-
-GetUnassignedFaces returns the UnassignedFaces field if non-nil, zero value otherwise.
-
-### GetUnassignedFacesOk
-
-`func (o *AssetResponseDto) GetUnassignedFacesOk() (*[]AssetFaceWithoutPersonResponseDto, bool)`
-
-GetUnassignedFacesOk returns a tuple with the UnassignedFaces field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetUnassignedFaces
-
-`func (o *AssetResponseDto) SetUnassignedFaces(v []AssetFaceWithoutPersonResponseDto)`
-
-SetUnassignedFaces sets UnassignedFaces field to given value.
-
-### HasUnassignedFaces
-
-`func (o *AssetResponseDto) HasUnassignedFaces() bool`
-
-HasUnassignedFaces returns a boolean if a field has been set.
 
 ### GetUpdatedAt
 

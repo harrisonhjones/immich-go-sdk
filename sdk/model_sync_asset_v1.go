@@ -23,6 +23,8 @@ var _ MappedNullable = &SyncAssetV1{}
 type SyncAssetV1 struct {
 	// Checksum
 	Checksum string `json:"checksum"`
+	// Uploaded to Immich at
+	CreatedAt NullableTime `json:"createdAt" validate:"regexp=^(?:(?:\\\\d\\\\d[2468][048]|\\\\d\\\\d[13579][26]|\\\\d\\\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\\\d|30)|(?:02)-(?:0[1-9]|1\\\\d|2[0-8])))T(?:(?:[01]\\\\d|2[0-3]):[0-5]\\\\d(?::[0-5]\\\\d(?:\\\\.\\\\d+)?)?(?:Z))$"`
 	// Deleted at
 	DeletedAt NullableTime `json:"deletedAt" validate:"regexp=^(?:(?:\\\\d\\\\d[2468][048]|\\\\d\\\\d[13579][26]|\\\\d\\\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\\\d|30)|(?:02)-(?:0[1-9]|1\\\\d|2[0-8])))T(?:(?:[01]\\\\d|2[0-3]):[0-5]\\\\d(?::[0-5]\\\\d(?:\\\\.\\\\d+)?)?(?:Z))$"`
 	// Duration
@@ -66,9 +68,10 @@ type _SyncAssetV1 SyncAssetV1
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSyncAssetV1(checksum string, deletedAt NullableTime, duration NullableString, fileCreatedAt NullableTime, fileModifiedAt NullableTime, height NullableInt32, id string, isEdited bool, isFavorite bool, libraryId NullableString, livePhotoVideoId NullableString, localDateTime NullableTime, originalFileName string, ownerId string, stackId NullableString, thumbhash NullableString, type_ AssetTypeEnum, visibility AssetVisibility, width NullableInt32) *SyncAssetV1 {
+func NewSyncAssetV1(checksum string, createdAt NullableTime, deletedAt NullableTime, duration NullableString, fileCreatedAt NullableTime, fileModifiedAt NullableTime, height NullableInt32, id string, isEdited bool, isFavorite bool, libraryId NullableString, livePhotoVideoId NullableString, localDateTime NullableTime, originalFileName string, ownerId string, stackId NullableString, thumbhash NullableString, type_ AssetTypeEnum, visibility AssetVisibility, width NullableInt32) *SyncAssetV1 {
 	this := SyncAssetV1{}
 	this.Checksum = checksum
+	this.CreatedAt = createdAt
 	this.DeletedAt = deletedAt
 	this.Duration = duration
 	this.FileCreatedAt = fileCreatedAt
@@ -120,6 +123,32 @@ func (o *SyncAssetV1) GetChecksumOk() (*string, bool) {
 // SetChecksum sets field value
 func (o *SyncAssetV1) SetChecksum(v string) {
 	o.Checksum = v
+}
+
+// GetCreatedAt returns the CreatedAt field value
+// If the value is explicit nil, the zero value for time.Time will be returned
+func (o *SyncAssetV1) GetCreatedAt() time.Time {
+	if o == nil || o.CreatedAt.Get() == nil {
+		var ret time.Time
+		return ret
+	}
+
+	return *o.CreatedAt.Get()
+}
+
+// GetCreatedAtOk returns a tuple with the CreatedAt field value
+// and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
+func (o *SyncAssetV1) GetCreatedAtOk() (*time.Time, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.CreatedAt.Get(), o.CreatedAt.IsSet()
+}
+
+// SetCreatedAt sets field value
+func (o *SyncAssetV1) SetCreatedAt(v time.Time) {
+	o.CreatedAt.Set(&v)
 }
 
 // GetDeletedAt returns the DeletedAt field value
@@ -587,6 +616,7 @@ func (o SyncAssetV1) MarshalJSON() ([]byte, error) {
 func (o SyncAssetV1) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["checksum"] = o.Checksum
+	toSerialize["createdAt"] = o.CreatedAt.Get()
 	toSerialize["deletedAt"] = o.DeletedAt.Get()
 	toSerialize["duration"] = o.Duration.Get()
 	toSerialize["fileCreatedAt"] = o.FileCreatedAt.Get()
@@ -619,6 +649,7 @@ func (o *SyncAssetV1) UnmarshalJSON(data []byte) (err error) {
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
 		"checksum",
+		"createdAt",
 		"deletedAt",
 		"duration",
 		"fileCreatedAt",
@@ -667,6 +698,7 @@ func (o *SyncAssetV1) UnmarshalJSON(data []byte) (err error) {
 
 	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "checksum")
+		delete(additionalProperties, "createdAt")
 		delete(additionalProperties, "deletedAt")
 		delete(additionalProperties, "duration")
 		delete(additionalProperties, "fileCreatedAt")

@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **City** | **[]string** | Array of city names extracted from EXIF GPS data | 
 **Country** | **[]string** | Array of country names extracted from EXIF GPS data | 
+**CreatedAt** | **[]string** | Array of UTC timestamps when each asset was originally uploaded to Immich | 
 **Duration** | **[]int32** | Array of video/gif durations in milliseconds (null for static images) | 
 **FileCreatedAt** | **[]string** | Array of file creation timestamps in UTC | 
 **Id** | **[]string** | Array of asset IDs in the time bucket | 
@@ -27,7 +28,7 @@ Name | Type | Description | Notes
 
 ### NewTimeBucketAssetResponseDto
 
-`func NewTimeBucketAssetResponseDto(city []*string, country []*string, duration []*int32, fileCreatedAt []string, id []string, isFavorite []bool, isImage []bool, isTrashed []bool, livePhotoVideoId []*string, localOffsetHours []float32, ownerId []string, projectionType []*string, ratio []float32, thumbhash []*string, visibility []AssetVisibility, ) *TimeBucketAssetResponseDto`
+`func NewTimeBucketAssetResponseDto(city []*string, country []*string, createdAt []string, duration []*int32, fileCreatedAt []string, id []string, isFavorite []bool, isImage []bool, isTrashed []bool, livePhotoVideoId []*string, localOffsetHours []float32, ownerId []string, projectionType []*string, ratio []float32, thumbhash []*string, visibility []AssetVisibility, ) *TimeBucketAssetResponseDto`
 
 NewTimeBucketAssetResponseDto instantiates a new TimeBucketAssetResponseDto object
 This constructor will assign default values to properties that have it defined,
@@ -80,6 +81,26 @@ and a boolean to check if the value has been set.
 `func (o *TimeBucketAssetResponseDto) SetCountry(v []*string)`
 
 SetCountry sets Country field to given value.
+
+
+### GetCreatedAt
+
+`func (o *TimeBucketAssetResponseDto) GetCreatedAt() []string`
+
+GetCreatedAt returns the CreatedAt field if non-nil, zero value otherwise.
+
+### GetCreatedAtOk
+
+`func (o *TimeBucketAssetResponseDto) GetCreatedAtOk() (*[]string, bool)`
+
+GetCreatedAtOk returns a tuple with the CreatedAt field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCreatedAt
+
+`func (o *TimeBucketAssetResponseDto) SetCreatedAt(v []string)`
+
+SetCreatedAt sets CreatedAt field to given value.
 
 
 ### GetDuration

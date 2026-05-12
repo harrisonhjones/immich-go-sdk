@@ -24,6 +24,8 @@ type TimeBucketAssetResponseDto struct {
 	City []*string `json:"city"`
 	// Array of country names extracted from EXIF GPS data
 	Country []*string `json:"country"`
+	// Array of UTC timestamps when each asset was originally uploaded to Immich
+	CreatedAt []string `json:"createdAt"`
 	// Array of video/gif durations in milliseconds (null for static images)
 	Duration []*int32 `json:"duration"`
 	// Array of file creation timestamps in UTC
@@ -65,10 +67,11 @@ type _TimeBucketAssetResponseDto TimeBucketAssetResponseDto
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewTimeBucketAssetResponseDto(city []*string, country []*string, duration []*int32, fileCreatedAt []string, id []string, isFavorite []bool, isImage []bool, isTrashed []bool, livePhotoVideoId []*string, localOffsetHours []float32, ownerId []string, projectionType []*string, ratio []float32, thumbhash []*string, visibility []AssetVisibility) *TimeBucketAssetResponseDto {
+func NewTimeBucketAssetResponseDto(city []*string, country []*string, createdAt []string, duration []*int32, fileCreatedAt []string, id []string, isFavorite []bool, isImage []bool, isTrashed []bool, livePhotoVideoId []*string, localOffsetHours []float32, ownerId []string, projectionType []*string, ratio []float32, thumbhash []*string, visibility []AssetVisibility) *TimeBucketAssetResponseDto {
 	this := TimeBucketAssetResponseDto{}
 	this.City = city
 	this.Country = country
+	this.CreatedAt = createdAt
 	this.Duration = duration
 	this.FileCreatedAt = fileCreatedAt
 	this.Id = id
@@ -139,6 +142,30 @@ func (o *TimeBucketAssetResponseDto) GetCountryOk() ([]*string, bool) {
 // SetCountry sets field value
 func (o *TimeBucketAssetResponseDto) SetCountry(v []*string) {
 	o.Country = v
+}
+
+// GetCreatedAt returns the CreatedAt field value
+func (o *TimeBucketAssetResponseDto) GetCreatedAt() []string {
+	if o == nil {
+		var ret []string
+		return ret
+	}
+
+	return o.CreatedAt
+}
+
+// GetCreatedAtOk returns a tuple with the CreatedAt field value
+// and a boolean to check if the value has been set.
+func (o *TimeBucketAssetResponseDto) GetCreatedAtOk() ([]string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.CreatedAt, true
+}
+
+// SetCreatedAt sets field value
+func (o *TimeBucketAssetResponseDto) SetCreatedAt(v []string) {
+	o.CreatedAt = v
 }
 
 // GetDuration returns the Duration field value
@@ -561,6 +588,7 @@ func (o TimeBucketAssetResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["city"] = o.City
 	toSerialize["country"] = o.Country
+	toSerialize["createdAt"] = o.CreatedAt
 	toSerialize["duration"] = o.Duration
 	toSerialize["fileCreatedAt"] = o.FileCreatedAt
 	toSerialize["id"] = o.Id
@@ -598,6 +626,7 @@ func (o *TimeBucketAssetResponseDto) UnmarshalJSON(data []byte) (err error) {
 	requiredProperties := []string{
 		"city",
 		"country",
+		"createdAt",
 		"duration",
 		"fileCreatedAt",
 		"id",
@@ -642,6 +671,7 @@ func (o *TimeBucketAssetResponseDto) UnmarshalJSON(data []byte) (err error) {
 	if err = json.Unmarshal(data, &additionalProperties); err == nil {
 		delete(additionalProperties, "city")
 		delete(additionalProperties, "country")
+		delete(additionalProperties, "createdAt")
 		delete(additionalProperties, "duration")
 		delete(additionalProperties, "fileCreatedAt")
 		delete(additionalProperties, "id")

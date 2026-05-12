@@ -65,7 +65,7 @@ type AssetResponseDto struct {
 	Owner *UserResponseDto `json:"owner,omitempty"`
 	// Owner user ID
 	OwnerId string `json:"ownerId"`
-	People []PersonWithFacesResponseDto `json:"people,omitempty"`
+	People []PersonResponseDto `json:"people,omitempty"`
 	// Is resized
 	Resized *bool `json:"resized,omitempty"`
 	Stack NullableAssetStackResponseDto `json:"stack,omitempty"`
@@ -73,7 +73,6 @@ type AssetResponseDto struct {
 	// Thumbhash for thumbnail generation (base64) also used as the c query param for thumbnail cache busting.
 	Thumbhash NullableString `json:"thumbhash"`
 	Type AssetTypeEnum `json:"type"`
-	UnassignedFaces []AssetFaceWithoutPersonResponseDto `json:"unassignedFaces,omitempty"`
 	// The UTC timestamp when the asset record was last updated in the database. This is automatically maintained by the database and reflects when any field in the asset was last modified.
 	UpdatedAt time.Time `json:"updatedAt"`
 	Visibility AssetVisibility `json:"visibility"`
@@ -758,9 +757,9 @@ func (o *AssetResponseDto) SetOwnerId(v string) {
 }
 
 // GetPeople returns the People field value if set, zero value otherwise.
-func (o *AssetResponseDto) GetPeople() []PersonWithFacesResponseDto {
+func (o *AssetResponseDto) GetPeople() []PersonResponseDto {
 	if o == nil || IsNil(o.People) {
-		var ret []PersonWithFacesResponseDto
+		var ret []PersonResponseDto
 		return ret
 	}
 	return o.People
@@ -768,7 +767,7 @@ func (o *AssetResponseDto) GetPeople() []PersonWithFacesResponseDto {
 
 // GetPeopleOk returns a tuple with the People field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *AssetResponseDto) GetPeopleOk() ([]PersonWithFacesResponseDto, bool) {
+func (o *AssetResponseDto) GetPeopleOk() ([]PersonResponseDto, bool) {
 	if o == nil || IsNil(o.People) {
 		return nil, false
 	}
@@ -784,8 +783,8 @@ func (o *AssetResponseDto) HasPeople() bool {
 	return false
 }
 
-// SetPeople gets a reference to the given []PersonWithFacesResponseDto and assigns it to the People field.
-func (o *AssetResponseDto) SetPeople(v []PersonWithFacesResponseDto) {
+// SetPeople gets a reference to the given []PersonResponseDto and assigns it to the People field.
+func (o *AssetResponseDto) SetPeople(v []PersonResponseDto) {
 	o.People = v
 }
 
@@ -945,38 +944,6 @@ func (o *AssetResponseDto) SetType(v AssetTypeEnum) {
 	o.Type = v
 }
 
-// GetUnassignedFaces returns the UnassignedFaces field value if set, zero value otherwise.
-func (o *AssetResponseDto) GetUnassignedFaces() []AssetFaceWithoutPersonResponseDto {
-	if o == nil || IsNil(o.UnassignedFaces) {
-		var ret []AssetFaceWithoutPersonResponseDto
-		return ret
-	}
-	return o.UnassignedFaces
-}
-
-// GetUnassignedFacesOk returns a tuple with the UnassignedFaces field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *AssetResponseDto) GetUnassignedFacesOk() ([]AssetFaceWithoutPersonResponseDto, bool) {
-	if o == nil || IsNil(o.UnassignedFaces) {
-		return nil, false
-	}
-	return o.UnassignedFaces, true
-}
-
-// HasUnassignedFaces returns a boolean if a field has been set.
-func (o *AssetResponseDto) HasUnassignedFaces() bool {
-	if o != nil && !IsNil(o.UnassignedFaces) {
-		return true
-	}
-
-	return false
-}
-
-// SetUnassignedFaces gets a reference to the given []AssetFaceWithoutPersonResponseDto and assigns it to the UnassignedFaces field.
-func (o *AssetResponseDto) SetUnassignedFaces(v []AssetFaceWithoutPersonResponseDto) {
-	o.UnassignedFaces = v
-}
-
 // GetUpdatedAt returns the UpdatedAt field value
 func (o *AssetResponseDto) GetUpdatedAt() time.Time {
 	if o == nil {
@@ -1110,9 +1077,6 @@ func (o AssetResponseDto) ToMap() (map[string]interface{}, error) {
 	}
 	toSerialize["thumbhash"] = o.Thumbhash.Get()
 	toSerialize["type"] = o.Type
-	if !IsNil(o.UnassignedFaces) {
-		toSerialize["unassignedFaces"] = o.UnassignedFaces
-	}
 	toSerialize["updatedAt"] = o.UpdatedAt
 	toSerialize["visibility"] = o.Visibility
 	toSerialize["width"] = o.Width.Get()
@@ -1209,7 +1173,6 @@ func (o *AssetResponseDto) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "tags")
 		delete(additionalProperties, "thumbhash")
 		delete(additionalProperties, "type")
-		delete(additionalProperties, "unassignedFaces")
 		delete(additionalProperties, "updatedAt")
 		delete(additionalProperties, "visibility")
 		delete(additionalProperties, "width")

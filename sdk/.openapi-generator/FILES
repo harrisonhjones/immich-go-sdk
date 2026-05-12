@@ -82,7 +82,6 @@ docs/AssetFaceDeleteDto.md
 docs/AssetFaceResponseDto.md
 docs/AssetFaceUpdateDto.md
 docs/AssetFaceUpdateItem.md
-docs/AssetFaceWithoutPersonResponseDto.md
 docs/AssetIdErrorReason.md
 docs/AssetIdsDto.md
 docs/AssetIdsResponseDto.md
@@ -101,6 +100,7 @@ docs/AssetMetadataUpsertDto.md
 docs/AssetMetadataUpsertItemDto.md
 docs/AssetOcrResponseDto.md
 docs/AssetOrder.md
+docs/AssetOrderBy.md
 docs/AssetRejectReason.md
 docs/AssetResponseDto.md
 docs/AssetStackResponseDto.md
@@ -225,7 +225,6 @@ docs/PersonCreateDto.md
 docs/PersonResponseDto.md
 docs/PersonStatisticsResponseDto.md
 docs/PersonUpdateDto.md
-docs/PersonWithFacesResponseDto.md
 docs/PinCodeChangeDto.md
 docs/PinCodeResetDto.md
 docs/PinCodeSetupDto.md
@@ -476,7 +475,6 @@ model_asset_face_delete_dto.go
 model_asset_face_response_dto.go
 model_asset_face_update_dto.go
 model_asset_face_update_item.go
-model_asset_face_without_person_response_dto.go
 model_asset_id_error_reason.go
 model_asset_ids_dto.go
 model_asset_ids_response_dto.go
@@ -495,6 +493,7 @@ model_asset_metadata_upsert_dto.go
 model_asset_metadata_upsert_item_dto.go
 model_asset_ocr_response_dto.go
 model_asset_order.go
+model_asset_order_by.go
 model_asset_reject_reason.go
 model_asset_response_dto.go
 model_asset_stack_response_dto.go
@@ -602,7 +601,6 @@ model_person_create_dto.go
 model_person_response_dto.go
 model_person_statistics_response_dto.go
 model_person_update_dto.go
-model_person_with_faces_response_dto.go
 model_pin_code_change_dto.go
 model_pin_code_reset_dto.go
 model_pin_code_setup_dto.go

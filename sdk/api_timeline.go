@@ -63,6 +63,7 @@ type ApiGetTimeBucketRequest struct {
 	isTrashed *bool
 	key *string
 	order *AssetOrder
+	orderBy *AssetOrderBy
 	personId *string
 	slug *string
 	tagId *string
@@ -111,6 +112,12 @@ func (r ApiGetTimeBucketRequest) Key(key string) ApiGetTimeBucketRequest {
 // Sort order for assets within time buckets (ASC for oldest first, DESC for newest first)
 func (r ApiGetTimeBucketRequest) Order(order AssetOrder) ApiGetTimeBucketRequest {
 	r.order = &order
+	return r
+}
+
+// Date to group and order assets by (takenAt for date taken, createdAt for date added to Immich)
+func (r ApiGetTimeBucketRequest) OrderBy(orderBy AssetOrderBy) ApiGetTimeBucketRequest {
+	r.orderBy = &orderBy
 	return r
 }
 
@@ -222,6 +229,9 @@ func (a *TimelineAPIService) GetTimeBucketExecute(r ApiGetTimeBucketRequest) (*T
 	if r.order != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "order", r.order, "form", "")
 	}
+	if r.orderBy != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "orderBy", r.orderBy, "form", "")
+	}
 	if r.personId != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "personId", r.personId, "form", "")
 	}
@@ -324,6 +334,7 @@ type ApiGetTimeBucketsRequest struct {
 	isTrashed *bool
 	key *string
 	order *AssetOrder
+	orderBy *AssetOrderBy
 	personId *string
 	slug *string
 	tagId *string
@@ -366,6 +377,12 @@ func (r ApiGetTimeBucketsRequest) Key(key string) ApiGetTimeBucketsRequest {
 // Sort order for assets within time buckets (ASC for oldest first, DESC for newest first)
 func (r ApiGetTimeBucketsRequest) Order(order AssetOrder) ApiGetTimeBucketsRequest {
 	r.order = &order
+	return r
+}
+
+// Date to group and order assets by (takenAt for date taken, createdAt for date added to Immich)
+func (r ApiGetTimeBucketsRequest) OrderBy(orderBy AssetOrderBy) ApiGetTimeBucketsRequest {
+	r.orderBy = &orderBy
 	return r
 }
 
@@ -473,6 +490,9 @@ func (a *TimelineAPIService) GetTimeBucketsExecute(r ApiGetTimeBucketsRequest) (
 	}
 	if r.order != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "order", r.order, "form", "")
+	}
+	if r.orderBy != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "orderBy", r.orderBy, "form", "")
 	}
 	if r.personId != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "personId", r.personId, "form", "")

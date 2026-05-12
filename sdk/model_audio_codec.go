@@ -22,7 +22,6 @@ type AudioCodec string
 const (
 	AUDIOCODEC_MP3 AudioCodec = "mp3"
 	AUDIOCODEC_AAC AudioCodec = "aac"
-	AUDIOCODEC_LIBOPUS AudioCodec = "libopus"
 	AUDIOCODEC_OPUS AudioCodec = "opus"
 	AUDIOCODEC_PCM_S16LE AudioCodec = "pcm_s16le"
 )
@@ -31,7 +30,6 @@ const (
 var AllowedAudioCodecEnumValues = []AudioCodec{
 	"mp3",
 	"aac",
-	"libopus",
 	"opus",
 	"pcm_s16le",
 }

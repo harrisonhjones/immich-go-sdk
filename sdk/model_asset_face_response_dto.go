@@ -18,7 +18,7 @@ import (
 // checks if the AssetFaceResponseDto type satisfies the MappedNullable interface at compile time
 var _ MappedNullable = &AssetFaceResponseDto{}
 
-// AssetFaceResponseDto struct for AssetFaceResponseDto
+// AssetFaceResponseDto Asset face with person
 type AssetFaceResponseDto struct {
 	// Bounding box X1 coordinate
 	BoundingBoxX1 int32 `json:"boundingBoxX1"`
