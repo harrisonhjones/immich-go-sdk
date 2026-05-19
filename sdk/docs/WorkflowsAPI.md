@@ -7,7 +7,9 @@ Method | HTTP request | Description
 [**CreateWorkflow**](WorkflowsAPI.md#CreateWorkflow) | **Post** /workflows | Create a workflow
 [**DeleteWorkflow**](WorkflowsAPI.md#DeleteWorkflow) | **Delete** /workflows/{id} | Delete a workflow
 [**GetWorkflow**](WorkflowsAPI.md#GetWorkflow) | **Get** /workflows/{id} | Retrieve a workflow
-[**GetWorkflows**](WorkflowsAPI.md#GetWorkflows) | **Get** /workflows | List all workflows
+[**GetWorkflowForShare**](WorkflowsAPI.md#GetWorkflowForShare) | **Get** /workflows/{id}/share | Retrieve a workflow
+[**GetWorkflowTriggers**](WorkflowsAPI.md#GetWorkflowTriggers) | **Get** /workflows/triggers | List all workflow triggers
+[**SearchWorkflows**](WorkflowsAPI.md#SearchWorkflows) | **Get** /workflows | List all workflows
 [**UpdateWorkflow**](WorkflowsAPI.md#UpdateWorkflow) | **Put** /workflows/{id} | Update a workflow
 
 
@@ -33,7 +35,7 @@ import (
 )
 
 func main() {
-	workflowCreateDto := *openapiclient.NewWorkflowCreateDto([]openapiclient.WorkflowActionItemDto{*openapiclient.NewWorkflowActionItemDto("PluginActionId_example")}, []openapiclient.WorkflowFilterItemDto{*openapiclient.NewWorkflowFilterItemDto("PluginFilterId_example")}, "Name_example", openapiclient.PluginTriggerType("AssetCreate")) // WorkflowCreateDto | 
+	workflowCreateDto := *openapiclient.NewWorkflowCreateDto(openapiclient.WorkflowTrigger("AssetCreate")) // WorkflowCreateDto | 
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -216,11 +218,81 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## GetWorkflows
+## GetWorkflowForShare
 
-> []WorkflowResponseDto GetWorkflows(ctx).Execute()
+> WorkflowShareResponseDto GetWorkflowForShare(ctx, id).Execute()
 
-List all workflows
+Retrieve a workflow
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "harrisonhjones.com/immich-go-sdk/sdk"
+)
+
+func main() {
+	id := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.WorkflowsAPI.GetWorkflowForShare(context.Background(), id).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `WorkflowsAPI.GetWorkflowForShare``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `GetWorkflowForShare`: WorkflowShareResponseDto
+	fmt.Fprintf(os.Stdout, "Response from `WorkflowsAPI.GetWorkflowForShare`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**id** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetWorkflowForShareRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+[**WorkflowShareResponseDto**](WorkflowShareResponseDto.md)
+
+### Authorization
+
+[cookie](../README.md#cookie), [api_key](../README.md#api_key), [bearer](../README.md#bearer)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GetWorkflowTriggers
+
+> []WorkflowTriggerResponseDto GetWorkflowTriggers(ctx).Execute()
+
+List all workflow triggers
 
 
 
@@ -240,13 +312,13 @@ func main() {
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.WorkflowsAPI.GetWorkflows(context.Background()).Execute()
+	resp, r, err := apiClient.WorkflowsAPI.GetWorkflowTriggers(context.Background()).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `WorkflowsAPI.GetWorkflows``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `WorkflowsAPI.GetWorkflowTriggers``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetWorkflows`: []WorkflowResponseDto
-	fmt.Fprintf(os.Stdout, "Response from `WorkflowsAPI.GetWorkflows`: %v\n", resp)
+	// response from `GetWorkflowTriggers`: []WorkflowTriggerResponseDto
+	fmt.Fprintf(os.Stdout, "Response from `WorkflowsAPI.GetWorkflowTriggers`: %v\n", resp)
 }
 ```
 
@@ -256,8 +328,82 @@ This endpoint does not need any parameter.
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiGetWorkflowsRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiGetWorkflowTriggersRequest struct via the builder pattern
 
+
+### Return type
+
+[**[]WorkflowTriggerResponseDto**](WorkflowTriggerResponseDto.md)
+
+### Authorization
+
+[cookie](../README.md#cookie), [api_key](../README.md#api_key), [bearer](../README.md#bearer)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## SearchWorkflows
+
+> []WorkflowResponseDto SearchWorkflows(ctx).Description(description).Enabled(enabled).Id(id).Name(name).Trigger(trigger).Execute()
+
+List all workflows
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "harrisonhjones.com/immich-go-sdk/sdk"
+)
+
+func main() {
+	description := "description_example" // string | Workflow description (optional)
+	enabled := true // bool | Workflow enabled (optional)
+	id := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | Workflow ID (optional)
+	name := "name_example" // string | Workflow name (optional)
+	trigger := openapiclient.WorkflowTrigger("AssetCreate") // WorkflowTrigger | Workflow trigger type (optional)
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.WorkflowsAPI.SearchWorkflows(context.Background()).Description(description).Enabled(enabled).Id(id).Name(name).Trigger(trigger).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `WorkflowsAPI.SearchWorkflows``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `SearchWorkflows`: []WorkflowResponseDto
+	fmt.Fprintf(os.Stdout, "Response from `WorkflowsAPI.SearchWorkflows`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiSearchWorkflowsRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **description** | **string** | Workflow description | 
+ **enabled** | **bool** | Workflow enabled | 
+ **id** | **string** | Workflow ID | 
+ **name** | **string** | Workflow name | 
+ **trigger** | [**WorkflowTrigger**](WorkflowTrigger.md) | Workflow trigger type | 
 
 ### Return type
 

@@ -139,8 +139,6 @@ paths:
           pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$"
           type: string
         style: form
-        x-nestjs_zod-parent-metadata:
-          description: Activity search
       - description: Asset ID (if activity is for an asset)
         explode: true
         in: query
@@ -151,8 +149,6 @@ paths:
           pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$"
           type: string
         style: form
-        x-nestjs_zod-parent-metadata:
-          description: Activity search
       - explode: true
         in: query
         name: level
@@ -160,8 +156,6 @@ paths:
         schema:
           $ref: "#/components/schemas/ReactionLevel"
         style: form
-        x-nestjs_zod-parent-metadata:
-          description: Activity search
       - explode: true
         in: query
         name: type
@@ -169,8 +163,6 @@ paths:
         schema:
           $ref: "#/components/schemas/ReactionType"
         style: form
-        x-nestjs_zod-parent-metadata:
-          description: Activity search
       - description: Filter by user ID
         explode: true
         in: query
@@ -181,8 +173,6 @@ paths:
           pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$"
           type: string
         style: form
-        x-nestjs_zod-parent-metadata:
-          description: Activity search
       responses:
         "200":
           content:
@@ -257,8 +247,6 @@ paths:
           pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$"
           type: string
         style: form
-        x-nestjs_zod-parent-metadata:
-          description: Activity
       - description: Asset ID (if activity is for an asset)
         explode: true
         in: query
@@ -269,8 +257,6 @@ paths:
           pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$"
           type: string
         style: form
-        x-nestjs_zod-parent-metadata:
-          description: Activity
       responses:
         "200":
           content:
@@ -5501,8 +5487,54 @@ paths:
   /plugins:
     get:
       description: Retrieve a list of plugins available to the authenticated user.
-      operationId: getPlugins
-      parameters: []
+      operationId: searchPlugins
+      parameters:
+      - explode: true
+        in: query
+        name: description
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Whether the plugin is enabled
+        explode: true
+        in: query
+        name: enabled
+        required: false
+        schema:
+          type: boolean
+        style: form
+      - description: Plugin ID
+        explode: true
+        in: query
+        name: id
+        required: false
+        schema:
+          format: uuid
+          pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$"
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: name
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: title
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: version
+        required: false
+        schema:
+          type: string
+        style: form
       responses:
         "200":
           content:
@@ -5520,40 +5552,105 @@ paths:
       tags:
       - Plugins
       x-immich-history:
-      - version: v2.3.0
+      - version: v3.0.0
         state: Added
-      - version: v2.3.0
-        state: Alpha
       x-immich-permission: plugin.read
-      x-immich-state: Alpha
-  /plugins/triggers:
+  /plugins/methods:
     get:
-      description: Retrieve a list of all available plugin triggers.
-      operationId: getPluginTriggers
-      parameters: []
+      description: Retrieve a list of plugin methods
+      operationId: searchPluginMethods
+      parameters:
+      - explode: true
+        in: query
+        name: description
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Whether the plugin method is enabled
+        explode: true
+        in: query
+        name: enabled
+        required: false
+        schema:
+          type: boolean
+        style: form
+      - description: Plugin method ID
+        explode: true
+        in: query
+        name: id
+        required: false
+        schema:
+          format: uuid
+          pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$"
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: name
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Plugin name
+        explode: true
+        in: query
+        name: pluginName
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Plugin version
+        explode: true
+        in: query
+        name: pluginVersion
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: title
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Workflow trigger
+        explode: true
+        in: query
+        name: trigger
+        required: false
+        schema:
+          $ref: "#/components/schemas/WorkflowTrigger"
+        style: form
+      - description: Workflow types
+        explode: true
+        in: query
+        name: type
+        required: false
+        schema:
+          $ref: "#/components/schemas/WorkflowType"
+        style: form
       responses:
         "200":
           content:
             application/json:
               schema:
                 items:
-                  $ref: "#/components/schemas/PluginTriggerResponseDto"
+                  $ref: "#/components/schemas/PluginMethodResponseDto"
                 type: array
           description: ""
       security:
       - bearer: []
       - cookie: []
       - api_key: []
-      summary: List all plugin triggers
+      summary: Retrieve plugin methods
       tags:
       - Plugins
       x-immich-history:
-      - version: v2.3.0
+      - version: v3.0.0
         state: Added
-      - version: v2.3.0
-        state: Alpha
       x-immich-permission: plugin.read
-      x-immich-state: Alpha
   /plugins/{id}:
     get:
       description: Retrieve information about a specific plugin by its ID.
@@ -5583,12 +5680,9 @@ paths:
       tags:
       - Plugins
       x-immich-history:
-      - version: v2.3.0
+      - version: v3.0.0
         state: Added
-      - version: v2.3.0
-        state: Alpha
       x-immich-permission: plugin.read
-      x-immich-state: Alpha
   /queues:
     get:
       description: Retrieves a list of queues.
@@ -9352,8 +9446,50 @@ paths:
   /workflows:
     get:
       description: Retrieve a list of workflows available to the authenticated user.
-      operationId: getWorkflows
-      parameters: []
+      operationId: searchWorkflows
+      parameters:
+      - description: Workflow description
+        explode: true
+        in: query
+        name: description
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Workflow enabled
+        explode: true
+        in: query
+        name: enabled
+        required: false
+        schema:
+          type: boolean
+        style: form
+      - description: Workflow ID
+        explode: true
+        in: query
+        name: id
+        required: false
+        schema:
+          format: uuid
+          pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$"
+          type: string
+        style: form
+      - description: Workflow name
+        explode: true
+        in: query
+        name: name
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Workflow trigger type
+        explode: true
+        in: query
+        name: trigger
+        required: false
+        schema:
+          $ref: "#/components/schemas/WorkflowTrigger"
+        style: form
       responses:
         "200":
           content:
@@ -9371,12 +9507,9 @@ paths:
       tags:
       - Workflows
       x-immich-history:
-      - version: v2.3.0
+      - version: v3.0.0
         state: Added
-      - version: v2.3.0
-        state: Alpha
       x-immich-permission: workflow.read
-      x-immich-state: Alpha
     post:
       description: "Create a new workflow, the workflow can also be created with empty\
         \ filters and actions."
@@ -9403,12 +9536,33 @@ paths:
       tags:
       - Workflows
       x-immich-history:
-      - version: v2.3.0
+      - version: v3.0.0
         state: Added
-      - version: v2.3.0
-        state: Alpha
       x-immich-permission: workflow.create
-      x-immich-state: Alpha
+  /workflows/triggers:
+    get:
+      description: Retrieve a list of all available workflow triggers.
+      operationId: getWorkflowTriggers
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/WorkflowTriggerResponseDto"
+                type: array
+          description: ""
+      security:
+      - bearer: []
+      - cookie: []
+      - api_key: []
+      summary: List all workflow triggers
+      tags:
+      - Workflows
+      x-immich-history:
+      - version: v3.0.0
+        state: Added
   /workflows/{id}:
     delete:
       description: Delete a workflow by its ID.
@@ -9434,12 +9588,9 @@ paths:
       tags:
       - Workflows
       x-immich-history:
-      - version: v2.3.0
+      - version: v3.0.0
         state: Added
-      - version: v2.3.0
-        state: Alpha
       x-immich-permission: workflow.delete
-      x-immich-state: Alpha
     get:
       description: Retrieve information about a specific workflow by its ID.
       operationId: getWorkflow
@@ -9468,12 +9619,9 @@ paths:
       tags:
       - Workflows
       x-immich-history:
-      - version: v2.3.0
+      - version: v3.0.0
         state: Added
-      - version: v2.3.0
-        state: Alpha
       x-immich-permission: workflow.read
-      x-immich-state: Alpha
     put:
       description: "Update the information of a specific workflow by its ID. This\
         \ endpoint can be used to update the workflow name, description, trigger type,\
@@ -9510,12 +9658,41 @@ paths:
       tags:
       - Workflows
       x-immich-history:
-      - version: v2.3.0
+      - version: v3.0.0
         state: Added
-      - version: v2.3.0
-        state: Alpha
       x-immich-permission: workflow.update
-      x-immich-state: Alpha
+  /workflows/{id}/share:
+    get:
+      description: "Retrieve a workflow details without ids, default values, etc."
+      operationId: getWorkflowForShare
+      parameters:
+      - explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$"
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WorkflowShareResponseDto"
+          description: ""
+      security:
+      - bearer: []
+      - cookie: []
+      - api_key: []
+      summary: Retrieve a workflow
+      tags:
+      - Workflows
+      x-immich-history:
+      - version: v3.0.0
+        state: Added
+      x-immich-permission: workflow.read
 components:
   schemas:
     ActivityCreateDto:
@@ -12396,7 +12573,7 @@ components:
       - VersionCheck
       - OcrQueueAll
       - Ocr
-      - WorkflowRun
+      - WorkflowAssetCreate
       type: string
     JobSettingsDto:
       example:
@@ -14467,211 +14644,93 @@ components:
       - longitude
       - name
       type: object
-    PluginActionResponseDto:
+    PluginMethodResponseDto:
       example:
         description: description
-        id: id
-        methodName: methodName
-        pluginId: pluginId
-        schema: ""
-        supportedContexts:
-        - asset
-        - asset
+        hostFunctions: true
+        key: key
+        name: name
+        schema: "{}"
         title: title
+        types:
+        - AssetV1
+        - AssetV1
+        uiHints:
+        - uiHints
+        - uiHints
       properties:
         description:
-          description: Action description
+          description: Description
           type: string
-        id:
-          description: Action ID
-          type: string
-        methodName:
-          description: Method name
-          type: string
-        pluginId:
-          description: Plugin ID
-          type: string
-        schema:
-          allOf:
-          - $ref: "#/components/schemas/PluginJsonSchema"
-          description: Action schema
-          nullable: true
-        supportedContexts:
-          description: Supported contexts
-          items:
-            $ref: "#/components/schemas/PluginContextType"
-          type: array
-        title:
-          description: Action title
-          type: string
-      required:
-      - description
-      - id
-      - methodName
-      - pluginId
-      - schema
-      - supportedContexts
-      - title
-      type: object
-    PluginConfigValue: {}
-    PluginContextType:
-      description: Plugin context
-      enum:
-      - asset
-      - album
-      - person
-      type: string
-    PluginFilterResponseDto:
-      example:
-        description: description
-        id: id
-        methodName: methodName
-        pluginId: pluginId
-        schema: ""
-        supportedContexts:
-        - null
-        - null
-        title: title
-      properties:
-        description:
-          description: Filter description
-          type: string
-        id:
-          description: Filter ID
-          type: string
-        methodName:
-          description: Method name
-          type: string
-        pluginId:
-          description: Plugin ID
-          type: string
-        schema:
-          allOf:
-          - $ref: "#/components/schemas/PluginJsonSchema"
-          description: Filter schema
-          nullable: true
-        supportedContexts:
-          description: Supported contexts
-          items:
-            $ref: "#/components/schemas/PluginContextType"
-          type: array
-        title:
-          description: Filter title
-          type: string
-      required:
-      - description
-      - id
-      - methodName
-      - pluginId
-      - schema
-      - supportedContexts
-      - title
-      type: object
-    PluginJsonSchema:
-      properties:
-        additionalProperties:
+        hostFunctions:
           type: boolean
-        description:
+        key:
+          description: Key
           type: string
-        properties:
-          additionalProperties:
-            $ref: "#/components/schemas/PluginJsonSchemaProperty"
-          type: object
-        required:
-          items:
-            type: string
-          type: array
-        type:
-          $ref: "#/components/schemas/PluginJsonSchemaType"
-      type: object
-    PluginJsonSchemaProperty:
-      properties:
-        additionalProperties:
-          $ref: "#/components/schemas/PluginJsonSchemaProperty_additionalProperties"
-        default: {}
-        description:
+        name:
+          description: Name
           type: string
-        enum:
-          items:
-            type: string
-          type: array
-        items:
-          $ref: "#/components/schemas/PluginJsonSchemaProperty"
-        properties:
-          additionalProperties:
-            $ref: "#/components/schemas/PluginJsonSchemaProperty"
+        schema:
+          properties: {}
           type: object
-        required:
+        title:
+          description: Title
+          type: string
+        types:
+          description: Workflow types
+          items:
+            $ref: "#/components/schemas/WorkflowType"
+          type: array
+        uiHints:
+          description: Ui hints
           items:
             type: string
           type: array
-        type:
-          $ref: "#/components/schemas/PluginJsonSchemaType"
+      required:
+      - description
+      - hostFunctions
+      - key
+      - name
+      - title
+      - types
+      - uiHints
       type: object
-    PluginJsonSchemaType:
-      enum:
-      - string
-      - number
-      - integer
-      - boolean
-      - object
-      - array
-      - "null"
-      type: string
     PluginResponseDto:
       example:
-        actions:
-        - description: description
-          id: id
-          methodName: methodName
-          pluginId: pluginId
-          schema: ""
-          supportedContexts:
-          - asset
-          - asset
-          title: title
-        - description: description
-          id: id
-          methodName: methodName
-          pluginId: pluginId
-          schema: ""
-          supportedContexts:
-          - asset
-          - asset
-          title: title
         author: author
         createdAt: createdAt
         description: description
-        filters:
-        - description: description
-          id: id
-          methodName: methodName
-          pluginId: pluginId
-          schema: ""
-          supportedContexts:
-          - null
-          - null
-          title: title
-        - description: description
-          id: id
-          methodName: methodName
-          pluginId: pluginId
-          schema: ""
-          supportedContexts:
-          - null
-          - null
-          title: title
         id: id
+        methods:
+        - description: description
+          hostFunctions: true
+          key: key
+          name: name
+          schema: "{}"
+          title: title
+          types:
+          - AssetV1
+          - AssetV1
+          uiHints:
+          - uiHints
+          - uiHints
+        - description: description
+          hostFunctions: true
+          key: key
+          name: name
+          schema: "{}"
+          title: title
+          types:
+          - AssetV1
+          - AssetV1
+          uiHints:
+          - uiHints
+          - uiHints
         name: name
         title: title
         updatedAt: updatedAt
         version: version
       properties:
-        actions:
-          description: Plugin actions
-          items:
-            $ref: "#/components/schemas/PluginActionResponseDto"
-          type: array
         author:
           description: Plugin author
           type: string
@@ -14681,14 +14740,14 @@ components:
         description:
           description: Plugin description
           type: string
-        filters:
-          description: Plugin filters
-          items:
-            $ref: "#/components/schemas/PluginFilterResponseDto"
-          type: array
         id:
           description: Plugin ID
           type: string
+        methods:
+          description: Plugin methods
+          items:
+            $ref: "#/components/schemas/PluginMethodResponseDto"
+          type: array
         name:
           description: Plugin name
           type: string
@@ -14702,36 +14761,16 @@ components:
           description: Plugin version
           type: string
       required:
-      - actions
       - author
       - createdAt
       - description
-      - filters
       - id
+      - methods
       - name
       - title
       - updatedAt
       - version
       type: object
-    PluginTriggerResponseDto:
-      example:
-        contextType: asset
-        type: AssetCreate
-      properties:
-        contextType:
-          $ref: "#/components/schemas/PluginContextType"
-        type:
-          $ref: "#/components/schemas/PluginTriggerType"
-      required:
-      - contextType
-      - type
-      type: object
-    PluginTriggerType:
-      description: Plugin trigger type
-      enum:
-      - AssetCreate
-      - PersonRecognized
-      type: string
     PurchaseResponse:
       example:
         hideBuyButtonUntil: hideBuyButtonUntil
@@ -22070,215 +22109,71 @@ components:
       - ogg
       - webm
       type: string
-    WorkflowActionConfig:
-      additionalProperties:
-        $ref: "#/components/schemas/PluginConfigValue"
-      type: object
-    WorkflowActionItemDto:
-      example:
-        actionConfig:
-          key: null
-        pluginActionId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-      properties:
-        actionConfig:
-          additionalProperties:
-            $ref: "#/components/schemas/PluginConfigValue"
-          type: object
-        pluginActionId:
-          description: Plugin action ID
-          format: uuid
-          pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$"
-          type: string
-      required:
-      - pluginActionId
-      type: object
-    WorkflowActionResponseDto:
-      example:
-        actionConfig: ""
-        id: id
-        order: -2147483648
-        pluginActionId: pluginActionId
-        workflowId: workflowId
-      properties:
-        actionConfig:
-          allOf:
-          - $ref: "#/components/schemas/WorkflowActionConfig"
-          nullable: true
-        id:
-          description: Action ID
-          type: string
-        order:
-          description: Action order
-          maximum: 9007199254740991
-          minimum: -9007199254740991
-          type: integer
-        pluginActionId:
-          description: Plugin action ID
-          type: string
-        workflowId:
-          description: Workflow ID
-          type: string
-      required:
-      - actionConfig
-      - id
-      - order
-      - pluginActionId
-      - workflowId
-      type: object
     WorkflowCreateDto:
       example:
-        actions:
-        - actionConfig:
-            key: null
-          pluginActionId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-        - actionConfig:
-            key: null
-          pluginActionId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
         description: description
         enabled: true
-        filters:
-        - filterConfig:
-            key: null
-          pluginFilterId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-        - filterConfig:
-            key: null
-          pluginFilterId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
         name: name
-        triggerType: AssetCreate
+        steps:
+        - config:
+            key: ""
+          enabled: true
+          method: method
+        - config:
+            key: ""
+          enabled: true
+          method: method
+        trigger: AssetCreate
       properties:
-        actions:
-          description: Workflow actions
-          items:
-            $ref: "#/components/schemas/WorkflowActionItemDto"
-          type: array
         description:
           description: Workflow description
+          nullable: true
           type: string
         enabled:
           description: Workflow enabled
           type: boolean
-        filters:
-          description: Workflow filters
-          items:
-            $ref: "#/components/schemas/WorkflowFilterItemDto"
-          type: array
         name:
           description: Workflow name
-          type: string
-        triggerType:
-          $ref: "#/components/schemas/PluginTriggerType"
-      required:
-      - actions
-      - filters
-      - name
-      - triggerType
-      type: object
-    WorkflowFilterConfig:
-      additionalProperties:
-        $ref: "#/components/schemas/PluginConfigValue"
-      type: object
-    WorkflowFilterItemDto:
-      example:
-        filterConfig:
-          key: null
-        pluginFilterId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-      properties:
-        filterConfig:
-          additionalProperties:
-            $ref: "#/components/schemas/PluginConfigValue"
-          type: object
-        pluginFilterId:
-          description: Plugin filter ID
-          format: uuid
-          pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$"
-          type: string
-      required:
-      - pluginFilterId
-      type: object
-    WorkflowFilterResponseDto:
-      example:
-        filterConfig: ""
-        id: id
-        order: 2147483647
-        pluginFilterId: pluginFilterId
-        workflowId: workflowId
-      properties:
-        filterConfig:
-          allOf:
-          - $ref: "#/components/schemas/WorkflowFilterConfig"
           nullable: true
-        id:
-          description: Filter ID
           type: string
-        order:
-          description: Filter order
-          maximum: 9007199254740991
-          minimum: -9007199254740991
-          type: integer
-        pluginFilterId:
-          description: Plugin filter ID
-          type: string
-        workflowId:
-          description: Workflow ID
-          type: string
+        steps:
+          items:
+            $ref: "#/components/schemas/WorkflowStepDto"
+          type: array
+        trigger:
+          $ref: "#/components/schemas/WorkflowTrigger"
       required:
-      - filterConfig
-      - id
-      - order
-      - pluginFilterId
-      - workflowId
+      - trigger
       type: object
     WorkflowResponseDto:
       example:
-        actions:
-        - actionConfig: ""
-          id: id
-          order: -2147483648
-          pluginActionId: pluginActionId
-          workflowId: workflowId
-        - actionConfig: ""
-          id: id
-          order: -2147483648
-          pluginActionId: pluginActionId
-          workflowId: workflowId
         createdAt: createdAt
         description: description
         enabled: true
-        filters:
-        - filterConfig: ""
-          id: id
-          order: 2147483647
-          pluginFilterId: pluginFilterId
-          workflowId: workflowId
-        - filterConfig: ""
-          id: id
-          order: 2147483647
-          pluginFilterId: pluginFilterId
-          workflowId: workflowId
         id: id
         name: name
-        ownerId: ownerId
-        triggerType: AssetCreate
+        steps:
+        - config:
+            key: ""
+          enabled: true
+          method: method
+        - config:
+            key: ""
+          enabled: true
+          method: method
+        trigger: AssetCreate
+        updatedAt: updatedAt
       properties:
-        actions:
-          description: Workflow actions
-          items:
-            $ref: "#/components/schemas/WorkflowActionResponseDto"
-          type: array
         createdAt:
           description: Creation date
           type: string
         description:
           description: Workflow description
+          nullable: true
           type: string
         enabled:
           description: Workflow enabled
           type: boolean
-        filters:
-          description: Workflow filters
-          items:
-            $ref: "#/components/schemas/WorkflowFilterResponseDto"
-          type: array
         id:
           description: Workflow ID
           type: string
@@ -22286,64 +22181,169 @@ components:
           description: Workflow name
           nullable: true
           type: string
-        ownerId:
-          description: Owner user ID
+        steps:
+          description: Workflow steps
+          items:
+            $ref: "#/components/schemas/WorkflowStepDto"
+          type: array
+        trigger:
+          $ref: "#/components/schemas/WorkflowTrigger"
+        updatedAt:
+          description: Update date
           type: string
-        triggerType:
-          $ref: "#/components/schemas/PluginTriggerType"
       required:
-      - actions
       - createdAt
       - description
       - enabled
-      - filters
       - id
       - name
-      - ownerId
-      - triggerType
+      - steps
+      - trigger
+      - updatedAt
       type: object
-    WorkflowUpdateDto:
+    WorkflowShareResponseDto:
       example:
-        actions:
-        - actionConfig:
-            key: null
-          pluginActionId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-        - actionConfig:
-            key: null
-          pluginActionId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
         description: description
-        enabled: true
-        filters:
-        - filterConfig:
-            key: null
-          pluginFilterId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
-        - filterConfig:
-            key: null
-          pluginFilterId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
         name: name
-        triggerType: AssetCreate
+        steps:
+        - config:
+            key: ""
+          enabled: true
+          method: method
+        - config:
+            key: ""
+          enabled: true
+          method: method
+        trigger: AssetCreate
       properties:
-        actions:
-          description: Workflow actions
-          items:
-            $ref: "#/components/schemas/WorkflowActionItemDto"
-          type: array
         description:
           description: Workflow description
+          nullable: true
+          type: string
+        name:
+          description: Workflow name
+          nullable: true
+          type: string
+        steps:
+          description: Workflow steps
+          items:
+            $ref: "#/components/schemas/WorkflowShareStepDto"
+          type: array
+        trigger:
+          $ref: "#/components/schemas/WorkflowTrigger"
+      required:
+      - description
+      - name
+      - steps
+      - trigger
+      type: object
+    WorkflowShareStepDto:
+      example:
+        config:
+          key: ""
+        enabled: true
+        method: method
+      properties:
+        config:
+          additionalProperties: {}
+          description: Step configuration
+          nullable: true
+          type: object
+        enabled:
+          description: Step is enabled
+          type: boolean
+        method:
+          description: Step plugin method
+          type: string
+      required:
+      - config
+      - method
+      type: object
+    WorkflowStepDto:
+      example:
+        config:
+          key: ""
+        enabled: true
+        method: method
+      properties:
+        config:
+          additionalProperties: {}
+          description: Step configuration
+          nullable: true
+          type: object
+        enabled:
+          description: Step is enabled
+          type: boolean
+        method:
+          description: Step plugin method
+          type: string
+      required:
+      - config
+      - method
+      type: object
+    WorkflowTrigger:
+      description: Plugin trigger type
+      enum:
+      - AssetCreate
+      - PersonRecognized
+      type: string
+    WorkflowTriggerResponseDto:
+      example:
+        trigger: AssetCreate
+        types:
+        - AssetV1
+        - AssetV1
+      properties:
+        trigger:
+          $ref: "#/components/schemas/WorkflowTrigger"
+        types:
+          description: Workflow types
+          items:
+            $ref: "#/components/schemas/WorkflowType"
+          type: array
+      required:
+      - trigger
+      - types
+      type: object
+    WorkflowType:
+      description: Workflow type
+      enum:
+      - AssetV1
+      - AssetPersonV1
+      type: string
+    WorkflowUpdateDto:
+      example:
+        description: description
+        enabled: true
+        name: name
+        steps:
+        - config:
+            key: ""
+          enabled: true
+          method: method
+        - config:
+            key: ""
+          enabled: true
+          method: method
+        trigger: AssetCreate
+      properties:
+        description:
+          description: Workflow description
+          nullable: true
           type: string
         enabled:
           description: Workflow enabled
           type: boolean
-        filters:
-          description: Workflow filters
-          items:
-            $ref: "#/components/schemas/WorkflowFilterItemDto"
-          type: array
         name:
           description: Workflow name
+          nullable: true
           type: string
-        triggerType:
-          $ref: "#/components/schemas/PluginTriggerType"
+        steps:
+          items:
+            $ref: "#/components/schemas/WorkflowStepDto"
+          type: array
+        trigger:
+          $ref: "#/components/schemas/WorkflowTrigger"
       type: object
     AssetEditActionItemDto_parameters:
       anyOf:
@@ -22351,10 +22351,6 @@ components:
       - $ref: "#/components/schemas/RotateParameters"
       - $ref: "#/components/schemas/MirrorParameters"
       description: "List of edit actions to apply (crop, rotate, or mirror)"
-    PluginJsonSchemaProperty_additionalProperties:
-      anyOf:
-      - type: boolean
-      - $ref: "#/components/schemas/PluginJsonSchemaProperty"
   securitySchemes:
     bearer:
       bearerFormat: JWT

@@ -20,18 +20,16 @@ var _ MappedNullable = &PluginResponseDto{}
 
 // PluginResponseDto struct for PluginResponseDto
 type PluginResponseDto struct {
-	// Plugin actions
-	Actions []PluginActionResponseDto `json:"actions"`
 	// Plugin author
 	Author string `json:"author"`
 	// Creation date
 	CreatedAt string `json:"createdAt"`
 	// Plugin description
 	Description string `json:"description"`
-	// Plugin filters
-	Filters []PluginFilterResponseDto `json:"filters"`
 	// Plugin ID
 	Id string `json:"id"`
+	// Plugin methods
+	Methods []PluginMethodResponseDto `json:"methods"`
 	// Plugin name
 	Name string `json:"name"`
 	// Plugin title
@@ -49,14 +47,13 @@ type _PluginResponseDto PluginResponseDto
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewPluginResponseDto(actions []PluginActionResponseDto, author string, createdAt string, description string, filters []PluginFilterResponseDto, id string, name string, title string, updatedAt string, version string) *PluginResponseDto {
+func NewPluginResponseDto(author string, createdAt string, description string, id string, methods []PluginMethodResponseDto, name string, title string, updatedAt string, version string) *PluginResponseDto {
 	this := PluginResponseDto{}
-	this.Actions = actions
 	this.Author = author
 	this.CreatedAt = createdAt
 	this.Description = description
-	this.Filters = filters
 	this.Id = id
+	this.Methods = methods
 	this.Name = name
 	this.Title = title
 	this.UpdatedAt = updatedAt
@@ -70,30 +67,6 @@ func NewPluginResponseDto(actions []PluginActionResponseDto, author string, crea
 func NewPluginResponseDtoWithDefaults() *PluginResponseDto {
 	this := PluginResponseDto{}
 	return &this
-}
-
-// GetActions returns the Actions field value
-func (o *PluginResponseDto) GetActions() []PluginActionResponseDto {
-	if o == nil {
-		var ret []PluginActionResponseDto
-		return ret
-	}
-
-	return o.Actions
-}
-
-// GetActionsOk returns a tuple with the Actions field value
-// and a boolean to check if the value has been set.
-func (o *PluginResponseDto) GetActionsOk() ([]PluginActionResponseDto, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return o.Actions, true
-}
-
-// SetActions sets field value
-func (o *PluginResponseDto) SetActions(v []PluginActionResponseDto) {
-	o.Actions = v
 }
 
 // GetAuthor returns the Author field value
@@ -168,30 +141,6 @@ func (o *PluginResponseDto) SetDescription(v string) {
 	o.Description = v
 }
 
-// GetFilters returns the Filters field value
-func (o *PluginResponseDto) GetFilters() []PluginFilterResponseDto {
-	if o == nil {
-		var ret []PluginFilterResponseDto
-		return ret
-	}
-
-	return o.Filters
-}
-
-// GetFiltersOk returns a tuple with the Filters field value
-// and a boolean to check if the value has been set.
-func (o *PluginResponseDto) GetFiltersOk() ([]PluginFilterResponseDto, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return o.Filters, true
-}
-
-// SetFilters sets field value
-func (o *PluginResponseDto) SetFilters(v []PluginFilterResponseDto) {
-	o.Filters = v
-}
-
 // GetId returns the Id field value
 func (o *PluginResponseDto) GetId() string {
 	if o == nil {
@@ -214,6 +163,30 @@ func (o *PluginResponseDto) GetIdOk() (*string, bool) {
 // SetId sets field value
 func (o *PluginResponseDto) SetId(v string) {
 	o.Id = v
+}
+
+// GetMethods returns the Methods field value
+func (o *PluginResponseDto) GetMethods() []PluginMethodResponseDto {
+	if o == nil {
+		var ret []PluginMethodResponseDto
+		return ret
+	}
+
+	return o.Methods
+}
+
+// GetMethodsOk returns a tuple with the Methods field value
+// and a boolean to check if the value has been set.
+func (o *PluginResponseDto) GetMethodsOk() ([]PluginMethodResponseDto, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Methods, true
+}
+
+// SetMethods sets field value
+func (o *PluginResponseDto) SetMethods(v []PluginMethodResponseDto) {
+	o.Methods = v
 }
 
 // GetName returns the Name field value
@@ -322,12 +295,11 @@ func (o PluginResponseDto) MarshalJSON() ([]byte, error) {
 
 func (o PluginResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["actions"] = o.Actions
 	toSerialize["author"] = o.Author
 	toSerialize["createdAt"] = o.CreatedAt
 	toSerialize["description"] = o.Description
-	toSerialize["filters"] = o.Filters
 	toSerialize["id"] = o.Id
+	toSerialize["methods"] = o.Methods
 	toSerialize["name"] = o.Name
 	toSerialize["title"] = o.Title
 	toSerialize["updatedAt"] = o.UpdatedAt
@@ -345,12 +317,11 @@ func (o *PluginResponseDto) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"actions",
 		"author",
 		"createdAt",
 		"description",
-		"filters",
 		"id",
+		"methods",
 		"name",
 		"title",
 		"updatedAt",
@@ -384,12 +355,11 @@ func (o *PluginResponseDto) UnmarshalJSON(data []byte) (err error) {
 	additionalProperties := make(map[string]interface{})
 
 	if err = json.Unmarshal(data, &additionalProperties); err == nil {
-		delete(additionalProperties, "actions")
 		delete(additionalProperties, "author")
 		delete(additionalProperties, "createdAt")
 		delete(additionalProperties, "description")
-		delete(additionalProperties, "filters")
 		delete(additionalProperties, "id")
+		delete(additionalProperties, "methods")
 		delete(additionalProperties, "name")
 		delete(additionalProperties, "title")
 		delete(additionalProperties, "updatedAt")

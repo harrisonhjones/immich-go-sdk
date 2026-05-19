@@ -5,8 +5,8 @@ All URIs are relative to */api*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**GetPlugin**](PluginsAPI.md#GetPlugin) | **Get** /plugins/{id} | Retrieve a plugin
-[**GetPluginTriggers**](PluginsAPI.md#GetPluginTriggers) | **Get** /plugins/triggers | List all plugin triggers
-[**GetPlugins**](PluginsAPI.md#GetPlugins) | **Get** /plugins | List all plugins
+[**SearchPluginMethods**](PluginsAPI.md#SearchPluginMethods) | **Get** /plugins/methods | Retrieve plugin methods
+[**SearchPlugins**](PluginsAPI.md#SearchPlugins) | **Get** /plugins | List all plugins
 
 
 
@@ -80,11 +80,11 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## GetPluginTriggers
+## SearchPluginMethods
 
-> []PluginTriggerResponseDto GetPluginTriggers(ctx).Execute()
+> []PluginMethodResponseDto SearchPluginMethods(ctx).Description(description).Enabled(enabled).Id(id).Name(name).PluginName(pluginName).PluginVersion(pluginVersion).Title(title).Trigger(trigger).Type_(type_).Execute()
 
-List all plugin triggers
+Retrieve plugin methods
 
 
 
@@ -101,31 +101,52 @@ import (
 )
 
 func main() {
+	description := "description_example" // string |  (optional)
+	enabled := true // bool | Whether the plugin method is enabled (optional)
+	id := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | Plugin method ID (optional)
+	name := "name_example" // string |  (optional)
+	pluginName := "pluginName_example" // string | Plugin name (optional)
+	pluginVersion := "pluginVersion_example" // string | Plugin version (optional)
+	title := "title_example" // string |  (optional)
+	trigger := openapiclient.WorkflowTrigger("AssetCreate") // WorkflowTrigger | Workflow trigger (optional)
+	type_ := openapiclient.WorkflowType("AssetV1") // WorkflowType | Workflow types (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.PluginsAPI.GetPluginTriggers(context.Background()).Execute()
+	resp, r, err := apiClient.PluginsAPI.SearchPluginMethods(context.Background()).Description(description).Enabled(enabled).Id(id).Name(name).PluginName(pluginName).PluginVersion(pluginVersion).Title(title).Trigger(trigger).Type_(type_).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `PluginsAPI.GetPluginTriggers``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `PluginsAPI.SearchPluginMethods``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetPluginTriggers`: []PluginTriggerResponseDto
-	fmt.Fprintf(os.Stdout, "Response from `PluginsAPI.GetPluginTriggers`: %v\n", resp)
+	// response from `SearchPluginMethods`: []PluginMethodResponseDto
+	fmt.Fprintf(os.Stdout, "Response from `PluginsAPI.SearchPluginMethods`: %v\n", resp)
 }
 ```
 
 ### Path Parameters
 
-This endpoint does not need any parameter.
+
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiGetPluginTriggersRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiSearchPluginMethodsRequest struct via the builder pattern
 
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **description** | **string** |  | 
+ **enabled** | **bool** | Whether the plugin method is enabled | 
+ **id** | **string** | Plugin method ID | 
+ **name** | **string** |  | 
+ **pluginName** | **string** | Plugin name | 
+ **pluginVersion** | **string** | Plugin version | 
+ **title** | **string** |  | 
+ **trigger** | [**WorkflowTrigger**](WorkflowTrigger.md) | Workflow trigger | 
+ **type_** | [**WorkflowType**](WorkflowType.md) | Workflow types | 
 
 ### Return type
 
-[**[]PluginTriggerResponseDto**](PluginTriggerResponseDto.md)
+[**[]PluginMethodResponseDto**](PluginMethodResponseDto.md)
 
 ### Authorization
 
@@ -141,9 +162,9 @@ Other parameters are passed through a pointer to a apiGetPluginTriggersRequest s
 [[Back to README]](../README.md)
 
 
-## GetPlugins
+## SearchPlugins
 
-> []PluginResponseDto GetPlugins(ctx).Execute()
+> []PluginResponseDto SearchPlugins(ctx).Description(description).Enabled(enabled).Id(id).Name(name).Title(title).Version(version).Execute()
 
 List all plugins
 
@@ -162,27 +183,42 @@ import (
 )
 
 func main() {
+	description := "description_example" // string |  (optional)
+	enabled := true // bool | Whether the plugin is enabled (optional)
+	id := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | Plugin ID (optional)
+	name := "name_example" // string |  (optional)
+	title := "title_example" // string |  (optional)
+	version := "version_example" // string |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.PluginsAPI.GetPlugins(context.Background()).Execute()
+	resp, r, err := apiClient.PluginsAPI.SearchPlugins(context.Background()).Description(description).Enabled(enabled).Id(id).Name(name).Title(title).Version(version).Execute()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error when calling `PluginsAPI.GetPlugins``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error when calling `PluginsAPI.SearchPlugins``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
 	}
-	// response from `GetPlugins`: []PluginResponseDto
-	fmt.Fprintf(os.Stdout, "Response from `PluginsAPI.GetPlugins`: %v\n", resp)
+	// response from `SearchPlugins`: []PluginResponseDto
+	fmt.Fprintf(os.Stdout, "Response from `PluginsAPI.SearchPlugins`: %v\n", resp)
 }
 ```
 
 ### Path Parameters
 
-This endpoint does not need any parameter.
+
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiGetPluginsRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiSearchPluginsRequest struct via the builder pattern
 
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **description** | **string** |  | 
+ **enabled** | **bool** | Whether the plugin is enabled | 
+ **id** | **string** | Plugin ID | 
+ **name** | **string** |  | 
+ **title** | **string** |  | 
+ **version** | **string** |  | 
 
 ### Return type
 

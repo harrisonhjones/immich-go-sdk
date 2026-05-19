@@ -38,32 +38,32 @@ type PluginsAPI interface {
 	GetPluginExecute(r ApiGetPluginRequest) (*PluginResponseDto, *http.Response, error)
 
 	/*
-	GetPluginTriggers List all plugin triggers
+	SearchPluginMethods Retrieve plugin methods
 
-	Retrieve a list of all available plugin triggers.
+	Retrieve a list of plugin methods
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiGetPluginTriggersRequest
+	@return ApiSearchPluginMethodsRequest
 	*/
-	GetPluginTriggers(ctx context.Context) ApiGetPluginTriggersRequest
+	SearchPluginMethods(ctx context.Context) ApiSearchPluginMethodsRequest
 
-	// GetPluginTriggersExecute executes the request
-	//  @return []PluginTriggerResponseDto
-	GetPluginTriggersExecute(r ApiGetPluginTriggersRequest) ([]PluginTriggerResponseDto, *http.Response, error)
+	// SearchPluginMethodsExecute executes the request
+	//  @return []PluginMethodResponseDto
+	SearchPluginMethodsExecute(r ApiSearchPluginMethodsRequest) ([]PluginMethodResponseDto, *http.Response, error)
 
 	/*
-	GetPlugins List all plugins
+	SearchPlugins List all plugins
 
 	Retrieve a list of plugins available to the authenticated user.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiGetPluginsRequest
+	@return ApiSearchPluginsRequest
 	*/
-	GetPlugins(ctx context.Context) ApiGetPluginsRequest
+	SearchPlugins(ctx context.Context) ApiSearchPluginsRequest
 
-	// GetPluginsExecute executes the request
+	// SearchPluginsExecute executes the request
 	//  @return []PluginResponseDto
-	GetPluginsExecute(r ApiGetPluginsRequest) ([]PluginResponseDto, *http.Response, error)
+	SearchPluginsExecute(r ApiSearchPluginsRequest) ([]PluginResponseDto, *http.Response, error)
 }
 
 // PluginsAPIService PluginsAPI service
@@ -186,51 +186,138 @@ func (a *PluginsAPIService) GetPluginExecute(r ApiGetPluginRequest) (*PluginResp
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiGetPluginTriggersRequest struct {
+type ApiSearchPluginMethodsRequest struct {
 	ctx context.Context
 	ApiService PluginsAPI
+	description *string
+	enabled *bool
+	id *string
+	name *string
+	pluginName *string
+	pluginVersion *string
+	title *string
+	trigger *WorkflowTrigger
+	type_ *WorkflowType
 }
 
-func (r ApiGetPluginTriggersRequest) Execute() ([]PluginTriggerResponseDto, *http.Response, error) {
-	return r.ApiService.GetPluginTriggersExecute(r)
+func (r ApiSearchPluginMethodsRequest) Description(description string) ApiSearchPluginMethodsRequest {
+	r.description = &description
+	return r
+}
+
+// Whether the plugin method is enabled
+func (r ApiSearchPluginMethodsRequest) Enabled(enabled bool) ApiSearchPluginMethodsRequest {
+	r.enabled = &enabled
+	return r
+}
+
+// Plugin method ID
+func (r ApiSearchPluginMethodsRequest) Id(id string) ApiSearchPluginMethodsRequest {
+	r.id = &id
+	return r
+}
+
+func (r ApiSearchPluginMethodsRequest) Name(name string) ApiSearchPluginMethodsRequest {
+	r.name = &name
+	return r
+}
+
+// Plugin name
+func (r ApiSearchPluginMethodsRequest) PluginName(pluginName string) ApiSearchPluginMethodsRequest {
+	r.pluginName = &pluginName
+	return r
+}
+
+// Plugin version
+func (r ApiSearchPluginMethodsRequest) PluginVersion(pluginVersion string) ApiSearchPluginMethodsRequest {
+	r.pluginVersion = &pluginVersion
+	return r
+}
+
+func (r ApiSearchPluginMethodsRequest) Title(title string) ApiSearchPluginMethodsRequest {
+	r.title = &title
+	return r
+}
+
+// Workflow trigger
+func (r ApiSearchPluginMethodsRequest) Trigger(trigger WorkflowTrigger) ApiSearchPluginMethodsRequest {
+	r.trigger = &trigger
+	return r
+}
+
+// Workflow types
+func (r ApiSearchPluginMethodsRequest) Type_(type_ WorkflowType) ApiSearchPluginMethodsRequest {
+	r.type_ = &type_
+	return r
+}
+
+func (r ApiSearchPluginMethodsRequest) Execute() ([]PluginMethodResponseDto, *http.Response, error) {
+	return r.ApiService.SearchPluginMethodsExecute(r)
 }
 
 /*
-GetPluginTriggers List all plugin triggers
+SearchPluginMethods Retrieve plugin methods
 
-Retrieve a list of all available plugin triggers.
+Retrieve a list of plugin methods
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetPluginTriggersRequest
+ @return ApiSearchPluginMethodsRequest
 */
-func (a *PluginsAPIService) GetPluginTriggers(ctx context.Context) ApiGetPluginTriggersRequest {
-	return ApiGetPluginTriggersRequest{
+func (a *PluginsAPIService) SearchPluginMethods(ctx context.Context) ApiSearchPluginMethodsRequest {
+	return ApiSearchPluginMethodsRequest{
 		ApiService: a,
 		ctx: ctx,
 	}
 }
 
 // Execute executes the request
-//  @return []PluginTriggerResponseDto
-func (a *PluginsAPIService) GetPluginTriggersExecute(r ApiGetPluginTriggersRequest) ([]PluginTriggerResponseDto, *http.Response, error) {
+//  @return []PluginMethodResponseDto
+func (a *PluginsAPIService) SearchPluginMethodsExecute(r ApiSearchPluginMethodsRequest) ([]PluginMethodResponseDto, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  []PluginTriggerResponseDto
+		localVarReturnValue  []PluginMethodResponseDto
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PluginsAPIService.GetPluginTriggers")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PluginsAPIService.SearchPluginMethods")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/plugins/triggers"
+	localVarPath := localBasePath + "/plugins/methods"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
+	if r.description != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "description", r.description, "form", "")
+	}
+	if r.enabled != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "enabled", r.enabled, "form", "")
+	}
+	if r.id != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "id", r.id, "form", "")
+	}
+	if r.name != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "name", r.name, "form", "")
+	}
+	if r.pluginName != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "pluginName", r.pluginName, "form", "")
+	}
+	if r.pluginVersion != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "pluginVersion", r.pluginVersion, "form", "")
+	}
+	if r.title != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "title", r.title, "form", "")
+	}
+	if r.trigger != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "trigger", r.trigger, "form", "")
+	}
+	if r.type_ != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "type", r.type_, "form", "")
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -299,25 +386,63 @@ func (a *PluginsAPIService) GetPluginTriggersExecute(r ApiGetPluginTriggersReque
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiGetPluginsRequest struct {
+type ApiSearchPluginsRequest struct {
 	ctx context.Context
 	ApiService PluginsAPI
+	description *string
+	enabled *bool
+	id *string
+	name *string
+	title *string
+	version *string
 }
 
-func (r ApiGetPluginsRequest) Execute() ([]PluginResponseDto, *http.Response, error) {
-	return r.ApiService.GetPluginsExecute(r)
+func (r ApiSearchPluginsRequest) Description(description string) ApiSearchPluginsRequest {
+	r.description = &description
+	return r
+}
+
+// Whether the plugin is enabled
+func (r ApiSearchPluginsRequest) Enabled(enabled bool) ApiSearchPluginsRequest {
+	r.enabled = &enabled
+	return r
+}
+
+// Plugin ID
+func (r ApiSearchPluginsRequest) Id(id string) ApiSearchPluginsRequest {
+	r.id = &id
+	return r
+}
+
+func (r ApiSearchPluginsRequest) Name(name string) ApiSearchPluginsRequest {
+	r.name = &name
+	return r
+}
+
+func (r ApiSearchPluginsRequest) Title(title string) ApiSearchPluginsRequest {
+	r.title = &title
+	return r
+}
+
+func (r ApiSearchPluginsRequest) Version(version string) ApiSearchPluginsRequest {
+	r.version = &version
+	return r
+}
+
+func (r ApiSearchPluginsRequest) Execute() ([]PluginResponseDto, *http.Response, error) {
+	return r.ApiService.SearchPluginsExecute(r)
 }
 
 /*
-GetPlugins List all plugins
+SearchPlugins List all plugins
 
 Retrieve a list of plugins available to the authenticated user.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetPluginsRequest
+ @return ApiSearchPluginsRequest
 */
-func (a *PluginsAPIService) GetPlugins(ctx context.Context) ApiGetPluginsRequest {
-	return ApiGetPluginsRequest{
+func (a *PluginsAPIService) SearchPlugins(ctx context.Context) ApiSearchPluginsRequest {
+	return ApiSearchPluginsRequest{
 		ApiService: a,
 		ctx: ctx,
 	}
@@ -325,7 +450,7 @@ func (a *PluginsAPIService) GetPlugins(ctx context.Context) ApiGetPluginsRequest
 
 // Execute executes the request
 //  @return []PluginResponseDto
-func (a *PluginsAPIService) GetPluginsExecute(r ApiGetPluginsRequest) ([]PluginResponseDto, *http.Response, error) {
+func (a *PluginsAPIService) SearchPluginsExecute(r ApiSearchPluginsRequest) ([]PluginResponseDto, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -333,7 +458,7 @@ func (a *PluginsAPIService) GetPluginsExecute(r ApiGetPluginsRequest) ([]PluginR
 		localVarReturnValue  []PluginResponseDto
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PluginsAPIService.GetPlugins")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PluginsAPIService.SearchPlugins")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -344,6 +469,24 @@ func (a *PluginsAPIService) GetPluginsExecute(r ApiGetPluginsRequest) ([]PluginR
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
+	if r.description != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "description", r.description, "form", "")
+	}
+	if r.enabled != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "enabled", r.enabled, "form", "")
+	}
+	if r.id != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "id", r.id, "form", "")
+	}
+	if r.name != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "name", r.name, "form", "")
+	}
+	if r.title != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "title", r.title, "form", "")
+	}
+	if r.version != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "version", r.version, "form", "")
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 

@@ -20,23 +20,21 @@ var _ MappedNullable = &WorkflowResponseDto{}
 
 // WorkflowResponseDto struct for WorkflowResponseDto
 type WorkflowResponseDto struct {
-	// Workflow actions
-	Actions []WorkflowActionResponseDto `json:"actions"`
 	// Creation date
 	CreatedAt string `json:"createdAt"`
 	// Workflow description
-	Description string `json:"description"`
+	Description NullableString `json:"description"`
 	// Workflow enabled
 	Enabled bool `json:"enabled"`
-	// Workflow filters
-	Filters []WorkflowFilterResponseDto `json:"filters"`
 	// Workflow ID
 	Id string `json:"id"`
 	// Workflow name
 	Name NullableString `json:"name"`
-	// Owner user ID
-	OwnerId string `json:"ownerId"`
-	TriggerType PluginTriggerType `json:"triggerType"`
+	// Workflow steps
+	Steps []WorkflowStepDto `json:"steps"`
+	Trigger WorkflowTrigger `json:"trigger"`
+	// Update date
+	UpdatedAt string `json:"updatedAt"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -46,17 +44,16 @@ type _WorkflowResponseDto WorkflowResponseDto
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewWorkflowResponseDto(actions []WorkflowActionResponseDto, createdAt string, description string, enabled bool, filters []WorkflowFilterResponseDto, id string, name NullableString, ownerId string, triggerType PluginTriggerType) *WorkflowResponseDto {
+func NewWorkflowResponseDto(createdAt string, description NullableString, enabled bool, id string, name NullableString, steps []WorkflowStepDto, trigger WorkflowTrigger, updatedAt string) *WorkflowResponseDto {
 	this := WorkflowResponseDto{}
-	this.Actions = actions
 	this.CreatedAt = createdAt
 	this.Description = description
 	this.Enabled = enabled
-	this.Filters = filters
 	this.Id = id
 	this.Name = name
-	this.OwnerId = ownerId
-	this.TriggerType = triggerType
+	this.Steps = steps
+	this.Trigger = trigger
+	this.UpdatedAt = updatedAt
 	return &this
 }
 
@@ -66,30 +63,6 @@ func NewWorkflowResponseDto(actions []WorkflowActionResponseDto, createdAt strin
 func NewWorkflowResponseDtoWithDefaults() *WorkflowResponseDto {
 	this := WorkflowResponseDto{}
 	return &this
-}
-
-// GetActions returns the Actions field value
-func (o *WorkflowResponseDto) GetActions() []WorkflowActionResponseDto {
-	if o == nil {
-		var ret []WorkflowActionResponseDto
-		return ret
-	}
-
-	return o.Actions
-}
-
-// GetActionsOk returns a tuple with the Actions field value
-// and a boolean to check if the value has been set.
-func (o *WorkflowResponseDto) GetActionsOk() ([]WorkflowActionResponseDto, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return o.Actions, true
-}
-
-// SetActions sets field value
-func (o *WorkflowResponseDto) SetActions(v []WorkflowActionResponseDto) {
-	o.Actions = v
 }
 
 // GetCreatedAt returns the CreatedAt field value
@@ -117,27 +90,29 @@ func (o *WorkflowResponseDto) SetCreatedAt(v string) {
 }
 
 // GetDescription returns the Description field value
+// If the value is explicit nil, the zero value for string will be returned
 func (o *WorkflowResponseDto) GetDescription() string {
-	if o == nil {
+	if o == nil || o.Description.Get() == nil {
 		var ret string
 		return ret
 	}
 
-	return o.Description
+	return *o.Description.Get()
 }
 
 // GetDescriptionOk returns a tuple with the Description field value
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *WorkflowResponseDto) GetDescriptionOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Description, true
+	return o.Description.Get(), o.Description.IsSet()
 }
 
 // SetDescription sets field value
 func (o *WorkflowResponseDto) SetDescription(v string) {
-	o.Description = v
+	o.Description.Set(&v)
 }
 
 // GetEnabled returns the Enabled field value
@@ -162,30 +137,6 @@ func (o *WorkflowResponseDto) GetEnabledOk() (*bool, bool) {
 // SetEnabled sets field value
 func (o *WorkflowResponseDto) SetEnabled(v bool) {
 	o.Enabled = v
-}
-
-// GetFilters returns the Filters field value
-func (o *WorkflowResponseDto) GetFilters() []WorkflowFilterResponseDto {
-	if o == nil {
-		var ret []WorkflowFilterResponseDto
-		return ret
-	}
-
-	return o.Filters
-}
-
-// GetFiltersOk returns a tuple with the Filters field value
-// and a boolean to check if the value has been set.
-func (o *WorkflowResponseDto) GetFiltersOk() ([]WorkflowFilterResponseDto, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return o.Filters, true
-}
-
-// SetFilters sets field value
-func (o *WorkflowResponseDto) SetFilters(v []WorkflowFilterResponseDto) {
-	o.Filters = v
 }
 
 // GetId returns the Id field value
@@ -238,52 +189,76 @@ func (o *WorkflowResponseDto) SetName(v string) {
 	o.Name.Set(&v)
 }
 
-// GetOwnerId returns the OwnerId field value
-func (o *WorkflowResponseDto) GetOwnerId() string {
+// GetSteps returns the Steps field value
+func (o *WorkflowResponseDto) GetSteps() []WorkflowStepDto {
+	if o == nil {
+		var ret []WorkflowStepDto
+		return ret
+	}
+
+	return o.Steps
+}
+
+// GetStepsOk returns a tuple with the Steps field value
+// and a boolean to check if the value has been set.
+func (o *WorkflowResponseDto) GetStepsOk() ([]WorkflowStepDto, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Steps, true
+}
+
+// SetSteps sets field value
+func (o *WorkflowResponseDto) SetSteps(v []WorkflowStepDto) {
+	o.Steps = v
+}
+
+// GetTrigger returns the Trigger field value
+func (o *WorkflowResponseDto) GetTrigger() WorkflowTrigger {
+	if o == nil {
+		var ret WorkflowTrigger
+		return ret
+	}
+
+	return o.Trigger
+}
+
+// GetTriggerOk returns a tuple with the Trigger field value
+// and a boolean to check if the value has been set.
+func (o *WorkflowResponseDto) GetTriggerOk() (*WorkflowTrigger, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Trigger, true
+}
+
+// SetTrigger sets field value
+func (o *WorkflowResponseDto) SetTrigger(v WorkflowTrigger) {
+	o.Trigger = v
+}
+
+// GetUpdatedAt returns the UpdatedAt field value
+func (o *WorkflowResponseDto) GetUpdatedAt() string {
 	if o == nil {
 		var ret string
 		return ret
 	}
 
-	return o.OwnerId
+	return o.UpdatedAt
 }
 
-// GetOwnerIdOk returns a tuple with the OwnerId field value
+// GetUpdatedAtOk returns a tuple with the UpdatedAt field value
 // and a boolean to check if the value has been set.
-func (o *WorkflowResponseDto) GetOwnerIdOk() (*string, bool) {
+func (o *WorkflowResponseDto) GetUpdatedAtOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.OwnerId, true
+	return &o.UpdatedAt, true
 }
 
-// SetOwnerId sets field value
-func (o *WorkflowResponseDto) SetOwnerId(v string) {
-	o.OwnerId = v
-}
-
-// GetTriggerType returns the TriggerType field value
-func (o *WorkflowResponseDto) GetTriggerType() PluginTriggerType {
-	if o == nil {
-		var ret PluginTriggerType
-		return ret
-	}
-
-	return o.TriggerType
-}
-
-// GetTriggerTypeOk returns a tuple with the TriggerType field value
-// and a boolean to check if the value has been set.
-func (o *WorkflowResponseDto) GetTriggerTypeOk() (*PluginTriggerType, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.TriggerType, true
-}
-
-// SetTriggerType sets field value
-func (o *WorkflowResponseDto) SetTriggerType(v PluginTriggerType) {
-	o.TriggerType = v
+// SetUpdatedAt sets field value
+func (o *WorkflowResponseDto) SetUpdatedAt(v string) {
+	o.UpdatedAt = v
 }
 
 func (o WorkflowResponseDto) MarshalJSON() ([]byte, error) {
@@ -296,15 +271,14 @@ func (o WorkflowResponseDto) MarshalJSON() ([]byte, error) {
 
 func (o WorkflowResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["actions"] = o.Actions
 	toSerialize["createdAt"] = o.CreatedAt
-	toSerialize["description"] = o.Description
+	toSerialize["description"] = o.Description.Get()
 	toSerialize["enabled"] = o.Enabled
-	toSerialize["filters"] = o.Filters
 	toSerialize["id"] = o.Id
 	toSerialize["name"] = o.Name.Get()
-	toSerialize["ownerId"] = o.OwnerId
-	toSerialize["triggerType"] = o.TriggerType
+	toSerialize["steps"] = o.Steps
+	toSerialize["trigger"] = o.Trigger
+	toSerialize["updatedAt"] = o.UpdatedAt
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -318,15 +292,14 @@ func (o *WorkflowResponseDto) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"actions",
 		"createdAt",
 		"description",
 		"enabled",
-		"filters",
 		"id",
 		"name",
-		"ownerId",
-		"triggerType",
+		"steps",
+		"trigger",
+		"updatedAt",
 	}
 
 	allProperties := make(map[string]interface{})
@@ -356,15 +329,14 @@ func (o *WorkflowResponseDto) UnmarshalJSON(data []byte) (err error) {
 	additionalProperties := make(map[string]interface{})
 
 	if err = json.Unmarshal(data, &additionalProperties); err == nil {
-		delete(additionalProperties, "actions")
 		delete(additionalProperties, "createdAt")
 		delete(additionalProperties, "description")
 		delete(additionalProperties, "enabled")
-		delete(additionalProperties, "filters")
 		delete(additionalProperties, "id")
 		delete(additionalProperties, "name")
-		delete(additionalProperties, "ownerId")
-		delete(additionalProperties, "triggerType")
+		delete(additionalProperties, "steps")
+		delete(additionalProperties, "trigger")
+		delete(additionalProperties, "updatedAt")
 		o.AdditionalProperties = additionalProperties
 	}
 

@@ -74,7 +74,7 @@ const (
 	JOBNAME_VERSION_CHECK JobName = "VersionCheck"
 	JOBNAME_OCR_QUEUE_ALL JobName = "OcrQueueAll"
 	JOBNAME_OCR JobName = "Ocr"
-	JOBNAME_WORKFLOW_RUN JobName = "WorkflowRun"
+	JOBNAME_WORKFLOW_ASSET_CREATE JobName = "WorkflowAssetCreate"
 )
 
 // All allowed values of JobName enum
@@ -133,7 +133,7 @@ var AllowedJobNameEnumValues = []JobName{
 	"VersionCheck",
 	"OcrQueueAll",
 	"Ocr",
-	"WorkflowRun",
+	"WorkflowAssetCreate",
 }
 
 func (v *JobName) UnmarshalJSON(src []byte) error {

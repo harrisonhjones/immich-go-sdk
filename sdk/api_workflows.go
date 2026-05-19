@@ -66,18 +66,47 @@ type WorkflowsAPI interface {
 	GetWorkflowExecute(r ApiGetWorkflowRequest) (*WorkflowResponseDto, *http.Response, error)
 
 	/*
-	GetWorkflows List all workflows
+	GetWorkflowForShare Retrieve a workflow
+
+	Retrieve a workflow details without ids, default values, etc.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id
+	@return ApiGetWorkflowForShareRequest
+	*/
+	GetWorkflowForShare(ctx context.Context, id string) ApiGetWorkflowForShareRequest
+
+	// GetWorkflowForShareExecute executes the request
+	//  @return WorkflowShareResponseDto
+	GetWorkflowForShareExecute(r ApiGetWorkflowForShareRequest) (*WorkflowShareResponseDto, *http.Response, error)
+
+	/*
+	GetWorkflowTriggers List all workflow triggers
+
+	Retrieve a list of all available workflow triggers.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetWorkflowTriggersRequest
+	*/
+	GetWorkflowTriggers(ctx context.Context) ApiGetWorkflowTriggersRequest
+
+	// GetWorkflowTriggersExecute executes the request
+	//  @return []WorkflowTriggerResponseDto
+	GetWorkflowTriggersExecute(r ApiGetWorkflowTriggersRequest) ([]WorkflowTriggerResponseDto, *http.Response, error)
+
+	/*
+	SearchWorkflows List all workflows
 
 	Retrieve a list of workflows available to the authenticated user.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiGetWorkflowsRequest
+	@return ApiSearchWorkflowsRequest
 	*/
-	GetWorkflows(ctx context.Context) ApiGetWorkflowsRequest
+	SearchWorkflows(ctx context.Context) ApiSearchWorkflowsRequest
 
-	// GetWorkflowsExecute executes the request
+	// SearchWorkflowsExecute executes the request
 	//  @return []WorkflowResponseDto
-	GetWorkflowsExecute(r ApiGetWorkflowsRequest) ([]WorkflowResponseDto, *http.Response, error)
+	SearchWorkflowsExecute(r ApiSearchWorkflowsRequest) ([]WorkflowResponseDto, *http.Response, error)
 
 	/*
 	UpdateWorkflow Update a workflow
@@ -445,25 +474,290 @@ func (a *WorkflowsAPIService) GetWorkflowExecute(r ApiGetWorkflowRequest) (*Work
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiGetWorkflowsRequest struct {
+type ApiGetWorkflowForShareRequest struct {
+	ctx context.Context
+	ApiService WorkflowsAPI
+	id string
+}
+
+func (r ApiGetWorkflowForShareRequest) Execute() (*WorkflowShareResponseDto, *http.Response, error) {
+	return r.ApiService.GetWorkflowForShareExecute(r)
+}
+
+/*
+GetWorkflowForShare Retrieve a workflow
+
+Retrieve a workflow details without ids, default values, etc.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param id
+ @return ApiGetWorkflowForShareRequest
+*/
+func (a *WorkflowsAPIService) GetWorkflowForShare(ctx context.Context, id string) ApiGetWorkflowForShareRequest {
+	return ApiGetWorkflowForShareRequest{
+		ApiService: a,
+		ctx: ctx,
+		id: id,
+	}
+}
+
+// Execute executes the request
+//  @return WorkflowShareResponseDto
+func (a *WorkflowsAPIService) GetWorkflowForShareExecute(r ApiGetWorkflowForShareRequest) (*WorkflowShareResponseDto, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *WorkflowShareResponseDto
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "WorkflowsAPIService.GetWorkflowForShare")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/workflows/{id}/share"
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", url.PathEscape(parameterValueToString(r.id, "id")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["api_key"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["x-api-key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiGetWorkflowTriggersRequest struct {
 	ctx context.Context
 	ApiService WorkflowsAPI
 }
 
-func (r ApiGetWorkflowsRequest) Execute() ([]WorkflowResponseDto, *http.Response, error) {
-	return r.ApiService.GetWorkflowsExecute(r)
+func (r ApiGetWorkflowTriggersRequest) Execute() ([]WorkflowTriggerResponseDto, *http.Response, error) {
+	return r.ApiService.GetWorkflowTriggersExecute(r)
 }
 
 /*
-GetWorkflows List all workflows
+GetWorkflowTriggers List all workflow triggers
+
+Retrieve a list of all available workflow triggers.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiGetWorkflowTriggersRequest
+*/
+func (a *WorkflowsAPIService) GetWorkflowTriggers(ctx context.Context) ApiGetWorkflowTriggersRequest {
+	return ApiGetWorkflowTriggersRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+// Execute executes the request
+//  @return []WorkflowTriggerResponseDto
+func (a *WorkflowsAPIService) GetWorkflowTriggersExecute(r ApiGetWorkflowTriggersRequest) ([]WorkflowTriggerResponseDto, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  []WorkflowTriggerResponseDto
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "WorkflowsAPIService.GetWorkflowTriggers")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/workflows/triggers"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["api_key"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["x-api-key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiSearchWorkflowsRequest struct {
+	ctx context.Context
+	ApiService WorkflowsAPI
+	description *string
+	enabled *bool
+	id *string
+	name *string
+	trigger *WorkflowTrigger
+}
+
+// Workflow description
+func (r ApiSearchWorkflowsRequest) Description(description string) ApiSearchWorkflowsRequest {
+	r.description = &description
+	return r
+}
+
+// Workflow enabled
+func (r ApiSearchWorkflowsRequest) Enabled(enabled bool) ApiSearchWorkflowsRequest {
+	r.enabled = &enabled
+	return r
+}
+
+// Workflow ID
+func (r ApiSearchWorkflowsRequest) Id(id string) ApiSearchWorkflowsRequest {
+	r.id = &id
+	return r
+}
+
+// Workflow name
+func (r ApiSearchWorkflowsRequest) Name(name string) ApiSearchWorkflowsRequest {
+	r.name = &name
+	return r
+}
+
+// Workflow trigger type
+func (r ApiSearchWorkflowsRequest) Trigger(trigger WorkflowTrigger) ApiSearchWorkflowsRequest {
+	r.trigger = &trigger
+	return r
+}
+
+func (r ApiSearchWorkflowsRequest) Execute() ([]WorkflowResponseDto, *http.Response, error) {
+	return r.ApiService.SearchWorkflowsExecute(r)
+}
+
+/*
+SearchWorkflows List all workflows
 
 Retrieve a list of workflows available to the authenticated user.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetWorkflowsRequest
+ @return ApiSearchWorkflowsRequest
 */
-func (a *WorkflowsAPIService) GetWorkflows(ctx context.Context) ApiGetWorkflowsRequest {
-	return ApiGetWorkflowsRequest{
+func (a *WorkflowsAPIService) SearchWorkflows(ctx context.Context) ApiSearchWorkflowsRequest {
+	return ApiSearchWorkflowsRequest{
 		ApiService: a,
 		ctx: ctx,
 	}
@@ -471,7 +765,7 @@ func (a *WorkflowsAPIService) GetWorkflows(ctx context.Context) ApiGetWorkflowsR
 
 // Execute executes the request
 //  @return []WorkflowResponseDto
-func (a *WorkflowsAPIService) GetWorkflowsExecute(r ApiGetWorkflowsRequest) ([]WorkflowResponseDto, *http.Response, error) {
+func (a *WorkflowsAPIService) SearchWorkflowsExecute(r ApiSearchWorkflowsRequest) ([]WorkflowResponseDto, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -479,7 +773,7 @@ func (a *WorkflowsAPIService) GetWorkflowsExecute(r ApiGetWorkflowsRequest) ([]W
 		localVarReturnValue  []WorkflowResponseDto
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "WorkflowsAPIService.GetWorkflows")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "WorkflowsAPIService.SearchWorkflows")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -490,6 +784,21 @@ func (a *WorkflowsAPIService) GetWorkflowsExecute(r ApiGetWorkflowsRequest) ([]W
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
+	if r.description != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "description", r.description, "form", "")
+	}
+	if r.enabled != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "enabled", r.enabled, "form", "")
+	}
+	if r.id != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "id", r.id, "form", "")
+	}
+	if r.name != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "name", r.name, "form", "")
+	}
+	if r.trigger != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "trigger", r.trigger, "form", "")
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 

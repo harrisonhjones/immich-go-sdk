@@ -4,21 +4,20 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Actions** | [**[]WorkflowActionResponseDto**](WorkflowActionResponseDto.md) | Workflow actions | 
 **CreatedAt** | **string** | Creation date | 
-**Description** | **string** | Workflow description | 
+**Description** | **NullableString** | Workflow description | 
 **Enabled** | **bool** | Workflow enabled | 
-**Filters** | [**[]WorkflowFilterResponseDto**](WorkflowFilterResponseDto.md) | Workflow filters | 
 **Id** | **string** | Workflow ID | 
 **Name** | **NullableString** | Workflow name | 
-**OwnerId** | **string** | Owner user ID | 
-**TriggerType** | [**PluginTriggerType**](PluginTriggerType.md) |  | 
+**Steps** | [**[]WorkflowStepDto**](WorkflowStepDto.md) | Workflow steps | 
+**Trigger** | [**WorkflowTrigger**](WorkflowTrigger.md) |  | 
+**UpdatedAt** | **string** | Update date | 
 
 ## Methods
 
 ### NewWorkflowResponseDto
 
-`func NewWorkflowResponseDto(actions []WorkflowActionResponseDto, createdAt string, description string, enabled bool, filters []WorkflowFilterResponseDto, id string, name NullableString, ownerId string, triggerType PluginTriggerType, ) *WorkflowResponseDto`
+`func NewWorkflowResponseDto(createdAt string, description NullableString, enabled bool, id string, name NullableString, steps []WorkflowStepDto, trigger WorkflowTrigger, updatedAt string, ) *WorkflowResponseDto`
 
 NewWorkflowResponseDto instantiates a new WorkflowResponseDto object
 This constructor will assign default values to properties that have it defined,
@@ -32,26 +31,6 @@ will change when the set of required properties is changed
 NewWorkflowResponseDtoWithDefaults instantiates a new WorkflowResponseDto object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
-
-### GetActions
-
-`func (o *WorkflowResponseDto) GetActions() []WorkflowActionResponseDto`
-
-GetActions returns the Actions field if non-nil, zero value otherwise.
-
-### GetActionsOk
-
-`func (o *WorkflowResponseDto) GetActionsOk() (*[]WorkflowActionResponseDto, bool)`
-
-GetActionsOk returns a tuple with the Actions field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetActions
-
-`func (o *WorkflowResponseDto) SetActions(v []WorkflowActionResponseDto)`
-
-SetActions sets Actions field to given value.
-
 
 ### GetCreatedAt
 
@@ -93,6 +72,16 @@ and a boolean to check if the value has been set.
 SetDescription sets Description field to given value.
 
 
+### SetDescriptionNil
+
+`func (o *WorkflowResponseDto) SetDescriptionNil(b bool)`
+
+ SetDescriptionNil sets the value for Description to be an explicit nil
+
+### UnsetDescription
+`func (o *WorkflowResponseDto) UnsetDescription()`
+
+UnsetDescription ensures that no value is present for Description, not even an explicit nil
 ### GetEnabled
 
 `func (o *WorkflowResponseDto) GetEnabled() bool`
@@ -111,26 +100,6 @@ and a boolean to check if the value has been set.
 `func (o *WorkflowResponseDto) SetEnabled(v bool)`
 
 SetEnabled sets Enabled field to given value.
-
-
-### GetFilters
-
-`func (o *WorkflowResponseDto) GetFilters() []WorkflowFilterResponseDto`
-
-GetFilters returns the Filters field if non-nil, zero value otherwise.
-
-### GetFiltersOk
-
-`func (o *WorkflowResponseDto) GetFiltersOk() (*[]WorkflowFilterResponseDto, bool)`
-
-GetFiltersOk returns a tuple with the Filters field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetFilters
-
-`func (o *WorkflowResponseDto) SetFilters(v []WorkflowFilterResponseDto)`
-
-SetFilters sets Filters field to given value.
 
 
 ### GetId
@@ -183,44 +152,64 @@ SetName sets Name field to given value.
 `func (o *WorkflowResponseDto) UnsetName()`
 
 UnsetName ensures that no value is present for Name, not even an explicit nil
-### GetOwnerId
+### GetSteps
 
-`func (o *WorkflowResponseDto) GetOwnerId() string`
+`func (o *WorkflowResponseDto) GetSteps() []WorkflowStepDto`
 
-GetOwnerId returns the OwnerId field if non-nil, zero value otherwise.
+GetSteps returns the Steps field if non-nil, zero value otherwise.
 
-### GetOwnerIdOk
+### GetStepsOk
 
-`func (o *WorkflowResponseDto) GetOwnerIdOk() (*string, bool)`
+`func (o *WorkflowResponseDto) GetStepsOk() (*[]WorkflowStepDto, bool)`
 
-GetOwnerIdOk returns a tuple with the OwnerId field if it's non-nil, zero value otherwise
+GetStepsOk returns a tuple with the Steps field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetOwnerId
+### SetSteps
 
-`func (o *WorkflowResponseDto) SetOwnerId(v string)`
+`func (o *WorkflowResponseDto) SetSteps(v []WorkflowStepDto)`
 
-SetOwnerId sets OwnerId field to given value.
+SetSteps sets Steps field to given value.
 
 
-### GetTriggerType
+### GetTrigger
 
-`func (o *WorkflowResponseDto) GetTriggerType() PluginTriggerType`
+`func (o *WorkflowResponseDto) GetTrigger() WorkflowTrigger`
 
-GetTriggerType returns the TriggerType field if non-nil, zero value otherwise.
+GetTrigger returns the Trigger field if non-nil, zero value otherwise.
 
-### GetTriggerTypeOk
+### GetTriggerOk
 
-`func (o *WorkflowResponseDto) GetTriggerTypeOk() (*PluginTriggerType, bool)`
+`func (o *WorkflowResponseDto) GetTriggerOk() (*WorkflowTrigger, bool)`
 
-GetTriggerTypeOk returns a tuple with the TriggerType field if it's non-nil, zero value otherwise
+GetTriggerOk returns a tuple with the Trigger field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetTriggerType
+### SetTrigger
 
-`func (o *WorkflowResponseDto) SetTriggerType(v PluginTriggerType)`
+`func (o *WorkflowResponseDto) SetTrigger(v WorkflowTrigger)`
 
-SetTriggerType sets TriggerType field to given value.
+SetTrigger sets Trigger field to given value.
+
+
+### GetUpdatedAt
+
+`func (o *WorkflowResponseDto) GetUpdatedAt() string`
+
+GetUpdatedAt returns the UpdatedAt field if non-nil, zero value otherwise.
+
+### GetUpdatedAtOk
+
+`func (o *WorkflowResponseDto) GetUpdatedAtOk() (*string, bool)`
+
+GetUpdatedAtOk returns a tuple with the UpdatedAt field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetUpdatedAt
+
+`func (o *WorkflowResponseDto) SetUpdatedAt(v string)`
+
+SetUpdatedAt sets UpdatedAt field to given value.
 
 
 

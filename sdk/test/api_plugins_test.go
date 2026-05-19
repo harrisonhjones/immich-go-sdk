@@ -36,11 +36,11 @@ func Test_immich_PluginsAPIService(t *testing.T) {
 
 	})
 
-	t.Run("Test PluginsAPIService GetPluginTriggers", func(t *testing.T) {
+	t.Run("Test PluginsAPIService SearchPluginMethods", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
-		resp, httpRes, err := apiClient.PluginsAPI.GetPluginTriggers(context.Background()).Execute()
+		resp, httpRes, err := apiClient.PluginsAPI.SearchPluginMethods(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)
@@ -48,11 +48,11 @@ func Test_immich_PluginsAPIService(t *testing.T) {
 
 	})
 
-	t.Run("Test PluginsAPIService GetPlugins", func(t *testing.T) {
+	t.Run("Test PluginsAPIService SearchPlugins", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test
 
-		resp, httpRes, err := apiClient.PluginsAPI.GetPlugins(context.Background()).Execute()
+		resp, httpRes, err := apiClient.PluginsAPI.SearchPlugins(context.Background()).Execute()
 
 		require.Nil(t, err)
 		require.NotNil(t, resp)

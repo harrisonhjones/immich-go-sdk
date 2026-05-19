@@ -19,17 +19,14 @@ var _ MappedNullable = &WorkflowUpdateDto{}
 
 // WorkflowUpdateDto struct for WorkflowUpdateDto
 type WorkflowUpdateDto struct {
-	// Workflow actions
-	Actions []WorkflowActionItemDto `json:"actions,omitempty"`
 	// Workflow description
-	Description *string `json:"description,omitempty"`
+	Description NullableString `json:"description,omitempty"`
 	// Workflow enabled
 	Enabled *bool `json:"enabled,omitempty"`
-	// Workflow filters
-	Filters []WorkflowFilterItemDto `json:"filters,omitempty"`
 	// Workflow name
-	Name *string `json:"name,omitempty"`
-	TriggerType *PluginTriggerType `json:"triggerType,omitempty"`
+	Name NullableString `json:"name,omitempty"`
+	Steps []WorkflowStepDto `json:"steps,omitempty"`
+	Trigger *WorkflowTrigger `json:"trigger,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -52,68 +49,46 @@ func NewWorkflowUpdateDtoWithDefaults() *WorkflowUpdateDto {
 	return &this
 }
 
-// GetActions returns the Actions field value if set, zero value otherwise.
-func (o *WorkflowUpdateDto) GetActions() []WorkflowActionItemDto {
-	if o == nil || IsNil(o.Actions) {
-		var ret []WorkflowActionItemDto
-		return ret
-	}
-	return o.Actions
-}
-
-// GetActionsOk returns a tuple with the Actions field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *WorkflowUpdateDto) GetActionsOk() ([]WorkflowActionItemDto, bool) {
-	if o == nil || IsNil(o.Actions) {
-		return nil, false
-	}
-	return o.Actions, true
-}
-
-// HasActions returns a boolean if a field has been set.
-func (o *WorkflowUpdateDto) HasActions() bool {
-	if o != nil && !IsNil(o.Actions) {
-		return true
-	}
-
-	return false
-}
-
-// SetActions gets a reference to the given []WorkflowActionItemDto and assigns it to the Actions field.
-func (o *WorkflowUpdateDto) SetActions(v []WorkflowActionItemDto) {
-	o.Actions = v
-}
-
-// GetDescription returns the Description field value if set, zero value otherwise.
+// GetDescription returns the Description field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *WorkflowUpdateDto) GetDescription() string {
-	if o == nil || IsNil(o.Description) {
+	if o == nil || IsNil(o.Description.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.Description
+	return *o.Description.Get()
 }
 
 // GetDescriptionOk returns a tuple with the Description field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *WorkflowUpdateDto) GetDescriptionOk() (*string, bool) {
-	if o == nil || IsNil(o.Description) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Description, true
+	return o.Description.Get(), o.Description.IsSet()
 }
 
 // HasDescription returns a boolean if a field has been set.
 func (o *WorkflowUpdateDto) HasDescription() bool {
-	if o != nil && !IsNil(o.Description) {
+	if o != nil && o.Description.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetDescription gets a reference to the given string and assigns it to the Description field.
+// SetDescription gets a reference to the given NullableString and assigns it to the Description field.
 func (o *WorkflowUpdateDto) SetDescription(v string) {
-	o.Description = &v
+	o.Description.Set(&v)
+}
+// SetDescriptionNil sets the value for Description to be an explicit nil
+func (o *WorkflowUpdateDto) SetDescriptionNil() {
+	o.Description.Set(nil)
+}
+
+// UnsetDescription ensures that no value is present for Description, not even an explicit nil
+func (o *WorkflowUpdateDto) UnsetDescription() {
+	o.Description.Unset()
 }
 
 // GetEnabled returns the Enabled field value if set, zero value otherwise.
@@ -148,100 +123,110 @@ func (o *WorkflowUpdateDto) SetEnabled(v bool) {
 	o.Enabled = &v
 }
 
-// GetFilters returns the Filters field value if set, zero value otherwise.
-func (o *WorkflowUpdateDto) GetFilters() []WorkflowFilterItemDto {
-	if o == nil || IsNil(o.Filters) {
-		var ret []WorkflowFilterItemDto
-		return ret
-	}
-	return o.Filters
-}
-
-// GetFiltersOk returns a tuple with the Filters field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *WorkflowUpdateDto) GetFiltersOk() ([]WorkflowFilterItemDto, bool) {
-	if o == nil || IsNil(o.Filters) {
-		return nil, false
-	}
-	return o.Filters, true
-}
-
-// HasFilters returns a boolean if a field has been set.
-func (o *WorkflowUpdateDto) HasFilters() bool {
-	if o != nil && !IsNil(o.Filters) {
-		return true
-	}
-
-	return false
-}
-
-// SetFilters gets a reference to the given []WorkflowFilterItemDto and assigns it to the Filters field.
-func (o *WorkflowUpdateDto) SetFilters(v []WorkflowFilterItemDto) {
-	o.Filters = v
-}
-
-// GetName returns the Name field value if set, zero value otherwise.
+// GetName returns the Name field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *WorkflowUpdateDto) GetName() string {
-	if o == nil || IsNil(o.Name) {
+	if o == nil || IsNil(o.Name.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.Name
+	return *o.Name.Get()
 }
 
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *WorkflowUpdateDto) GetNameOk() (*string, bool) {
-	if o == nil || IsNil(o.Name) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Name, true
+	return o.Name.Get(), o.Name.IsSet()
 }
 
 // HasName returns a boolean if a field has been set.
 func (o *WorkflowUpdateDto) HasName() bool {
-	if o != nil && !IsNil(o.Name) {
+	if o != nil && o.Name.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetName gets a reference to the given string and assigns it to the Name field.
+// SetName gets a reference to the given NullableString and assigns it to the Name field.
 func (o *WorkflowUpdateDto) SetName(v string) {
-	o.Name = &v
+	o.Name.Set(&v)
+}
+// SetNameNil sets the value for Name to be an explicit nil
+func (o *WorkflowUpdateDto) SetNameNil() {
+	o.Name.Set(nil)
 }
 
-// GetTriggerType returns the TriggerType field value if set, zero value otherwise.
-func (o *WorkflowUpdateDto) GetTriggerType() PluginTriggerType {
-	if o == nil || IsNil(o.TriggerType) {
-		var ret PluginTriggerType
+// UnsetName ensures that no value is present for Name, not even an explicit nil
+func (o *WorkflowUpdateDto) UnsetName() {
+	o.Name.Unset()
+}
+
+// GetSteps returns the Steps field value if set, zero value otherwise.
+func (o *WorkflowUpdateDto) GetSteps() []WorkflowStepDto {
+	if o == nil || IsNil(o.Steps) {
+		var ret []WorkflowStepDto
 		return ret
 	}
-	return *o.TriggerType
+	return o.Steps
 }
 
-// GetTriggerTypeOk returns a tuple with the TriggerType field value if set, nil otherwise
+// GetStepsOk returns a tuple with the Steps field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *WorkflowUpdateDto) GetTriggerTypeOk() (*PluginTriggerType, bool) {
-	if o == nil || IsNil(o.TriggerType) {
+func (o *WorkflowUpdateDto) GetStepsOk() ([]WorkflowStepDto, bool) {
+	if o == nil || IsNil(o.Steps) {
 		return nil, false
 	}
-	return o.TriggerType, true
+	return o.Steps, true
 }
 
-// HasTriggerType returns a boolean if a field has been set.
-func (o *WorkflowUpdateDto) HasTriggerType() bool {
-	if o != nil && !IsNil(o.TriggerType) {
+// HasSteps returns a boolean if a field has been set.
+func (o *WorkflowUpdateDto) HasSteps() bool {
+	if o != nil && !IsNil(o.Steps) {
 		return true
 	}
 
 	return false
 }
 
-// SetTriggerType gets a reference to the given PluginTriggerType and assigns it to the TriggerType field.
-func (o *WorkflowUpdateDto) SetTriggerType(v PluginTriggerType) {
-	o.TriggerType = &v
+// SetSteps gets a reference to the given []WorkflowStepDto and assigns it to the Steps field.
+func (o *WorkflowUpdateDto) SetSteps(v []WorkflowStepDto) {
+	o.Steps = v
+}
+
+// GetTrigger returns the Trigger field value if set, zero value otherwise.
+func (o *WorkflowUpdateDto) GetTrigger() WorkflowTrigger {
+	if o == nil || IsNil(o.Trigger) {
+		var ret WorkflowTrigger
+		return ret
+	}
+	return *o.Trigger
+}
+
+// GetTriggerOk returns a tuple with the Trigger field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *WorkflowUpdateDto) GetTriggerOk() (*WorkflowTrigger, bool) {
+	if o == nil || IsNil(o.Trigger) {
+		return nil, false
+	}
+	return o.Trigger, true
+}
+
+// HasTrigger returns a boolean if a field has been set.
+func (o *WorkflowUpdateDto) HasTrigger() bool {
+	if o != nil && !IsNil(o.Trigger) {
+		return true
+	}
+
+	return false
+}
+
+// SetTrigger gets a reference to the given WorkflowTrigger and assigns it to the Trigger field.
+func (o *WorkflowUpdateDto) SetTrigger(v WorkflowTrigger) {
+	o.Trigger = &v
 }
 
 func (o WorkflowUpdateDto) MarshalJSON() ([]byte, error) {
@@ -254,23 +239,20 @@ func (o WorkflowUpdateDto) MarshalJSON() ([]byte, error) {
 
 func (o WorkflowUpdateDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.Actions) {
-		toSerialize["actions"] = o.Actions
-	}
-	if !IsNil(o.Description) {
-		toSerialize["description"] = o.Description
+	if o.Description.IsSet() {
+		toSerialize["description"] = o.Description.Get()
 	}
 	if !IsNil(o.Enabled) {
 		toSerialize["enabled"] = o.Enabled
 	}
-	if !IsNil(o.Filters) {
-		toSerialize["filters"] = o.Filters
+	if o.Name.IsSet() {
+		toSerialize["name"] = o.Name.Get()
 	}
-	if !IsNil(o.Name) {
-		toSerialize["name"] = o.Name
+	if !IsNil(o.Steps) {
+		toSerialize["steps"] = o.Steps
 	}
-	if !IsNil(o.TriggerType) {
-		toSerialize["triggerType"] = o.TriggerType
+	if !IsNil(o.Trigger) {
+		toSerialize["trigger"] = o.Trigger
 	}
 
 	for key, value := range o.AdditionalProperties {
@@ -294,12 +276,11 @@ func (o *WorkflowUpdateDto) UnmarshalJSON(data []byte) (err error) {
 	additionalProperties := make(map[string]interface{})
 
 	if err = json.Unmarshal(data, &additionalProperties); err == nil {
-		delete(additionalProperties, "actions")
 		delete(additionalProperties, "description")
 		delete(additionalProperties, "enabled")
-		delete(additionalProperties, "filters")
 		delete(additionalProperties, "name")
-		delete(additionalProperties, "triggerType")
+		delete(additionalProperties, "steps")
+		delete(additionalProperties, "trigger")
 		o.AdditionalProperties = additionalProperties
 	}
 

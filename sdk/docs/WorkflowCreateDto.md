@@ -4,18 +4,17 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Actions** | [**[]WorkflowActionItemDto**](WorkflowActionItemDto.md) | Workflow actions | 
-**Description** | Pointer to **string** | Workflow description | [optional] 
+**Description** | Pointer to **NullableString** | Workflow description | [optional] 
 **Enabled** | Pointer to **bool** | Workflow enabled | [optional] 
-**Filters** | [**[]WorkflowFilterItemDto**](WorkflowFilterItemDto.md) | Workflow filters | 
-**Name** | **string** | Workflow name | 
-**TriggerType** | [**PluginTriggerType**](PluginTriggerType.md) |  | 
+**Name** | Pointer to **NullableString** | Workflow name | [optional] 
+**Steps** | Pointer to [**[]WorkflowStepDto**](WorkflowStepDto.md) |  | [optional] 
+**Trigger** | [**WorkflowTrigger**](WorkflowTrigger.md) |  | 
 
 ## Methods
 
 ### NewWorkflowCreateDto
 
-`func NewWorkflowCreateDto(actions []WorkflowActionItemDto, filters []WorkflowFilterItemDto, name string, triggerType PluginTriggerType, ) *WorkflowCreateDto`
+`func NewWorkflowCreateDto(trigger WorkflowTrigger, ) *WorkflowCreateDto`
 
 NewWorkflowCreateDto instantiates a new WorkflowCreateDto object
 This constructor will assign default values to properties that have it defined,
@@ -29,26 +28,6 @@ will change when the set of required properties is changed
 NewWorkflowCreateDtoWithDefaults instantiates a new WorkflowCreateDto object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
-
-### GetActions
-
-`func (o *WorkflowCreateDto) GetActions() []WorkflowActionItemDto`
-
-GetActions returns the Actions field if non-nil, zero value otherwise.
-
-### GetActionsOk
-
-`func (o *WorkflowCreateDto) GetActionsOk() (*[]WorkflowActionItemDto, bool)`
-
-GetActionsOk returns a tuple with the Actions field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetActions
-
-`func (o *WorkflowCreateDto) SetActions(v []WorkflowActionItemDto)`
-
-SetActions sets Actions field to given value.
-
 
 ### GetDescription
 
@@ -75,6 +54,16 @@ SetDescription sets Description field to given value.
 
 HasDescription returns a boolean if a field has been set.
 
+### SetDescriptionNil
+
+`func (o *WorkflowCreateDto) SetDescriptionNil(b bool)`
+
+ SetDescriptionNil sets the value for Description to be an explicit nil
+
+### UnsetDescription
+`func (o *WorkflowCreateDto) UnsetDescription()`
+
+UnsetDescription ensures that no value is present for Description, not even an explicit nil
 ### GetEnabled
 
 `func (o *WorkflowCreateDto) GetEnabled() bool`
@@ -100,26 +89,6 @@ SetEnabled sets Enabled field to given value.
 
 HasEnabled returns a boolean if a field has been set.
 
-### GetFilters
-
-`func (o *WorkflowCreateDto) GetFilters() []WorkflowFilterItemDto`
-
-GetFilters returns the Filters field if non-nil, zero value otherwise.
-
-### GetFiltersOk
-
-`func (o *WorkflowCreateDto) GetFiltersOk() (*[]WorkflowFilterItemDto, bool)`
-
-GetFiltersOk returns a tuple with the Filters field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetFilters
-
-`func (o *WorkflowCreateDto) SetFilters(v []WorkflowFilterItemDto)`
-
-SetFilters sets Filters field to given value.
-
-
 ### GetName
 
 `func (o *WorkflowCreateDto) GetName() string`
@@ -139,25 +108,65 @@ and a boolean to check if the value has been set.
 
 SetName sets Name field to given value.
 
+### HasName
 
-### GetTriggerType
+`func (o *WorkflowCreateDto) HasName() bool`
 
-`func (o *WorkflowCreateDto) GetTriggerType() PluginTriggerType`
+HasName returns a boolean if a field has been set.
 
-GetTriggerType returns the TriggerType field if non-nil, zero value otherwise.
+### SetNameNil
 
-### GetTriggerTypeOk
+`func (o *WorkflowCreateDto) SetNameNil(b bool)`
 
-`func (o *WorkflowCreateDto) GetTriggerTypeOk() (*PluginTriggerType, bool)`
+ SetNameNil sets the value for Name to be an explicit nil
 
-GetTriggerTypeOk returns a tuple with the TriggerType field if it's non-nil, zero value otherwise
+### UnsetName
+`func (o *WorkflowCreateDto) UnsetName()`
+
+UnsetName ensures that no value is present for Name, not even an explicit nil
+### GetSteps
+
+`func (o *WorkflowCreateDto) GetSteps() []WorkflowStepDto`
+
+GetSteps returns the Steps field if non-nil, zero value otherwise.
+
+### GetStepsOk
+
+`func (o *WorkflowCreateDto) GetStepsOk() (*[]WorkflowStepDto, bool)`
+
+GetStepsOk returns a tuple with the Steps field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetTriggerType
+### SetSteps
 
-`func (o *WorkflowCreateDto) SetTriggerType(v PluginTriggerType)`
+`func (o *WorkflowCreateDto) SetSteps(v []WorkflowStepDto)`
 
-SetTriggerType sets TriggerType field to given value.
+SetSteps sets Steps field to given value.
+
+### HasSteps
+
+`func (o *WorkflowCreateDto) HasSteps() bool`
+
+HasSteps returns a boolean if a field has been set.
+
+### GetTrigger
+
+`func (o *WorkflowCreateDto) GetTrigger() WorkflowTrigger`
+
+GetTrigger returns the Trigger field if non-nil, zero value otherwise.
+
+### GetTriggerOk
+
+`func (o *WorkflowCreateDto) GetTriggerOk() (*WorkflowTrigger, bool)`
+
+GetTriggerOk returns a tuple with the Trigger field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetTrigger
+
+`func (o *WorkflowCreateDto) SetTrigger(v WorkflowTrigger)`
+
+SetTrigger sets Trigger field to given value.
 
 
 

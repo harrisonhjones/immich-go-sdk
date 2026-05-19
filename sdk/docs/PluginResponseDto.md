@@ -4,12 +4,11 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Actions** | [**[]PluginActionResponseDto**](PluginActionResponseDto.md) | Plugin actions | 
 **Author** | **string** | Plugin author | 
 **CreatedAt** | **string** | Creation date | 
 **Description** | **string** | Plugin description | 
-**Filters** | [**[]PluginFilterResponseDto**](PluginFilterResponseDto.md) | Plugin filters | 
 **Id** | **string** | Plugin ID | 
+**Methods** | [**[]PluginMethodResponseDto**](PluginMethodResponseDto.md) | Plugin methods | 
 **Name** | **string** | Plugin name | 
 **Title** | **string** | Plugin title | 
 **UpdatedAt** | **string** | Last update date | 
@@ -19,7 +18,7 @@ Name | Type | Description | Notes
 
 ### NewPluginResponseDto
 
-`func NewPluginResponseDto(actions []PluginActionResponseDto, author string, createdAt string, description string, filters []PluginFilterResponseDto, id string, name string, title string, updatedAt string, version string, ) *PluginResponseDto`
+`func NewPluginResponseDto(author string, createdAt string, description string, id string, methods []PluginMethodResponseDto, name string, title string, updatedAt string, version string, ) *PluginResponseDto`
 
 NewPluginResponseDto instantiates a new PluginResponseDto object
 This constructor will assign default values to properties that have it defined,
@@ -33,26 +32,6 @@ will change when the set of required properties is changed
 NewPluginResponseDtoWithDefaults instantiates a new PluginResponseDto object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
-
-### GetActions
-
-`func (o *PluginResponseDto) GetActions() []PluginActionResponseDto`
-
-GetActions returns the Actions field if non-nil, zero value otherwise.
-
-### GetActionsOk
-
-`func (o *PluginResponseDto) GetActionsOk() (*[]PluginActionResponseDto, bool)`
-
-GetActionsOk returns a tuple with the Actions field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetActions
-
-`func (o *PluginResponseDto) SetActions(v []PluginActionResponseDto)`
-
-SetActions sets Actions field to given value.
-
 
 ### GetAuthor
 
@@ -114,26 +93,6 @@ and a boolean to check if the value has been set.
 SetDescription sets Description field to given value.
 
 
-### GetFilters
-
-`func (o *PluginResponseDto) GetFilters() []PluginFilterResponseDto`
-
-GetFilters returns the Filters field if non-nil, zero value otherwise.
-
-### GetFiltersOk
-
-`func (o *PluginResponseDto) GetFiltersOk() (*[]PluginFilterResponseDto, bool)`
-
-GetFiltersOk returns a tuple with the Filters field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetFilters
-
-`func (o *PluginResponseDto) SetFilters(v []PluginFilterResponseDto)`
-
-SetFilters sets Filters field to given value.
-
-
 ### GetId
 
 `func (o *PluginResponseDto) GetId() string`
@@ -152,6 +111,26 @@ and a boolean to check if the value has been set.
 `func (o *PluginResponseDto) SetId(v string)`
 
 SetId sets Id field to given value.
+
+
+### GetMethods
+
+`func (o *PluginResponseDto) GetMethods() []PluginMethodResponseDto`
+
+GetMethods returns the Methods field if non-nil, zero value otherwise.
+
+### GetMethodsOk
+
+`func (o *PluginResponseDto) GetMethodsOk() (*[]PluginMethodResponseDto, bool)`
+
+GetMethodsOk returns a tuple with the Methods field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetMethods
+
+`func (o *PluginResponseDto) SetMethods(v []PluginMethodResponseDto)`
+
+SetMethods sets Methods field to given value.
 
 
 ### GetName

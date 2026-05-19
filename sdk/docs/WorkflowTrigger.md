@@ -1,4 +1,4 @@
-# PluginTriggerType
+# WorkflowTrigger
 
 ## Enum
 
