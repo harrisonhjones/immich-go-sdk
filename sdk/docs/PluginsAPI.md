@@ -6,6 +6,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**GetPlugin**](PluginsAPI.md#GetPlugin) | **Get** /plugins/{id} | Retrieve a plugin
 [**SearchPluginMethods**](PluginsAPI.md#SearchPluginMethods) | **Get** /plugins/methods | Retrieve plugin methods
+[**SearchPluginTemplates**](PluginsAPI.md#SearchPluginTemplates) | **Get** /plugins/templates | Retrieve workflow templates
 [**SearchPlugins**](PluginsAPI.md#SearchPlugins) | **Get** /plugins | List all plugins
 
 
@@ -147,6 +148,67 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**[]PluginMethodResponseDto**](PluginMethodResponseDto.md)
+
+### Authorization
+
+[cookie](../README.md#cookie), [api_key](../README.md#api_key), [bearer](../README.md#bearer)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## SearchPluginTemplates
+
+> []PluginTemplateResponseDto SearchPluginTemplates(ctx).Execute()
+
+Retrieve workflow templates
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "harrisonhjones.com/immich-go-sdk/sdk"
+)
+
+func main() {
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	resp, r, err := apiClient.PluginsAPI.SearchPluginTemplates(context.Background()).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `PluginsAPI.SearchPluginTemplates``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+	// response from `SearchPluginTemplates`: []PluginTemplateResponseDto
+	fmt.Fprintf(os.Stdout, "Response from `PluginsAPI.SearchPluginTemplates`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiSearchPluginTemplatesRequest struct via the builder pattern
+
+
+### Return type
+
+[**[]PluginTemplateResponseDto**](PluginTemplateResponseDto.md)
 
 ### Authorization
 

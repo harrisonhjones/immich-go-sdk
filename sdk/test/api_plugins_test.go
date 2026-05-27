@@ -48,6 +48,18 @@ func Test_immich_PluginsAPIService(t *testing.T) {
 
 	})
 
+	t.Run("Test PluginsAPIService SearchPluginTemplates", func(t *testing.T) {
+
+		t.Skip("skip test")  // remove to run test
+
+		resp, httpRes, err := apiClient.PluginsAPI.SearchPluginTemplates(context.Background()).Execute()
+
+		require.Nil(t, err)
+		require.NotNil(t, resp)
+		assert.Equal(t, 200, httpRes.StatusCode)
+
+	})
+
 	t.Run("Test PluginsAPIService SearchPlugins", func(t *testing.T) {
 
 		t.Skip("skip test")  // remove to run test

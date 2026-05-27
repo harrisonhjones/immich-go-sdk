@@ -52,6 +52,20 @@ type PluginsAPI interface {
 	SearchPluginMethodsExecute(r ApiSearchPluginMethodsRequest) ([]PluginMethodResponseDto, *http.Response, error)
 
 	/*
+	SearchPluginTemplates Retrieve workflow templates
+
+	Retrieve workflow templates provided by installed plugins
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiSearchPluginTemplatesRequest
+	*/
+	SearchPluginTemplates(ctx context.Context) ApiSearchPluginTemplatesRequest
+
+	// SearchPluginTemplatesExecute executes the request
+	//  @return []PluginTemplateResponseDto
+	SearchPluginTemplatesExecute(r ApiSearchPluginTemplatesRequest) ([]PluginTemplateResponseDto, *http.Response, error)
+
+	/*
 	SearchPlugins List all plugins
 
 	Retrieve a list of plugins available to the authenticated user.
@@ -318,6 +332,119 @@ func (a *PluginsAPIService) SearchPluginMethodsExecute(r ApiSearchPluginMethodsR
 	if r.type_ != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "type", r.type_, "form", "")
 	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["api_key"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["x-api-key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiSearchPluginTemplatesRequest struct {
+	ctx context.Context
+	ApiService PluginsAPI
+}
+
+func (r ApiSearchPluginTemplatesRequest) Execute() ([]PluginTemplateResponseDto, *http.Response, error) {
+	return r.ApiService.SearchPluginTemplatesExecute(r)
+}
+
+/*
+SearchPluginTemplates Retrieve workflow templates
+
+Retrieve workflow templates provided by installed plugins
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiSearchPluginTemplatesRequest
+*/
+func (a *PluginsAPIService) SearchPluginTemplates(ctx context.Context) ApiSearchPluginTemplatesRequest {
+	return ApiSearchPluginTemplatesRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+// Execute executes the request
+//  @return []PluginTemplateResponseDto
+func (a *PluginsAPIService) SearchPluginTemplatesExecute(r ApiSearchPluginTemplatesRequest) ([]PluginTemplateResponseDto, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  []PluginTemplateResponseDto
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PluginsAPIService.SearchPluginTemplates")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/plugins/templates"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 

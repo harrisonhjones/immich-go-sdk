@@ -231,6 +231,8 @@ docs/PinCodeSetupDto.md
 docs/PlacesResponseDto.md
 docs/PluginMethodResponseDto.md
 docs/PluginResponseDto.md
+docs/PluginTemplateResponseDto.md
+docs/PluginTemplateStepResponseDto.md
 docs/PluginsAPI.md
 docs/PurchaseResponse.md
 docs/PurchaseUpdate.md
@@ -601,6 +603,8 @@ model_pin_code_setup_dto.go
 model_places_response_dto.go
 model_plugin_method_response_dto.go
 model_plugin_response_dto.go
+model_plugin_template_response_dto.go
+model_plugin_template_step_response_dto.go
 model_purchase_response.go
 model_purchase_update.go
 model_queue_command.go
