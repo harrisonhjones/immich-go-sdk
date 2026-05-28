@@ -21,9 +21,9 @@ var _ MappedNullable = &TimeBucketAssetResponseDto{}
 // TimeBucketAssetResponseDto struct for TimeBucketAssetResponseDto
 type TimeBucketAssetResponseDto struct {
 	// Array of city names extracted from EXIF GPS data
-	City []*string `json:"city"`
+	City []*string `json:"city,omitempty"`
 	// Array of country names extracted from EXIF GPS data
-	Country []*string `json:"country"`
+	Country []*string `json:"country,omitempty"`
 	// Array of UTC timestamps when each asset was originally uploaded to Immich
 	CreatedAt []string `json:"createdAt"`
 	// Array of video/gif durations in milliseconds (null for static images)
@@ -67,10 +67,8 @@ type _TimeBucketAssetResponseDto TimeBucketAssetResponseDto
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewTimeBucketAssetResponseDto(city []*string, country []*string, createdAt []string, duration []*int32, fileCreatedAt []string, id []string, isFavorite []bool, isImage []bool, isTrashed []bool, livePhotoVideoId []*string, localOffsetHours []float32, ownerId []string, projectionType []*string, ratio []float32, thumbhash []*string, visibility []AssetVisibility) *TimeBucketAssetResponseDto {
+func NewTimeBucketAssetResponseDto(createdAt []string, duration []*int32, fileCreatedAt []string, id []string, isFavorite []bool, isImage []bool, isTrashed []bool, livePhotoVideoId []*string, localOffsetHours []float32, ownerId []string, projectionType []*string, ratio []float32, thumbhash []*string, visibility []AssetVisibility) *TimeBucketAssetResponseDto {
 	this := TimeBucketAssetResponseDto{}
-	this.City = city
-	this.Country = country
 	this.CreatedAt = createdAt
 	this.Duration = duration
 	this.FileCreatedAt = fileCreatedAt
@@ -96,50 +94,66 @@ func NewTimeBucketAssetResponseDtoWithDefaults() *TimeBucketAssetResponseDto {
 	return &this
 }
 
-// GetCity returns the City field value
+// GetCity returns the City field value if set, zero value otherwise.
 func (o *TimeBucketAssetResponseDto) GetCity() []*string {
-	if o == nil {
+	if o == nil || IsNil(o.City) {
 		var ret []*string
 		return ret
 	}
-
 	return o.City
 }
 
-// GetCityOk returns a tuple with the City field value
+// GetCityOk returns a tuple with the City field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *TimeBucketAssetResponseDto) GetCityOk() ([]*string, bool) {
-	if o == nil {
+	if o == nil || IsNil(o.City) {
 		return nil, false
 	}
 	return o.City, true
 }
 
-// SetCity sets field value
+// HasCity returns a boolean if a field has been set.
+func (o *TimeBucketAssetResponseDto) HasCity() bool {
+	if o != nil && !IsNil(o.City) {
+		return true
+	}
+
+	return false
+}
+
+// SetCity gets a reference to the given []*string and assigns it to the City field.
 func (o *TimeBucketAssetResponseDto) SetCity(v []*string) {
 	o.City = v
 }
 
-// GetCountry returns the Country field value
+// GetCountry returns the Country field value if set, zero value otherwise.
 func (o *TimeBucketAssetResponseDto) GetCountry() []*string {
-	if o == nil {
+	if o == nil || IsNil(o.Country) {
 		var ret []*string
 		return ret
 	}
-
 	return o.Country
 }
 
-// GetCountryOk returns a tuple with the Country field value
+// GetCountryOk returns a tuple with the Country field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *TimeBucketAssetResponseDto) GetCountryOk() ([]*string, bool) {
-	if o == nil {
+	if o == nil || IsNil(o.Country) {
 		return nil, false
 	}
 	return o.Country, true
 }
 
-// SetCountry sets field value
+// HasCountry returns a boolean if a field has been set.
+func (o *TimeBucketAssetResponseDto) HasCountry() bool {
+	if o != nil && !IsNil(o.Country) {
+		return true
+	}
+
+	return false
+}
+
+// SetCountry gets a reference to the given []*string and assigns it to the Country field.
 func (o *TimeBucketAssetResponseDto) SetCountry(v []*string) {
 	o.Country = v
 }
@@ -586,8 +600,12 @@ func (o TimeBucketAssetResponseDto) MarshalJSON() ([]byte, error) {
 
 func (o TimeBucketAssetResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	toSerialize["city"] = o.City
-	toSerialize["country"] = o.Country
+	if !IsNil(o.City) {
+		toSerialize["city"] = o.City
+	}
+	if !IsNil(o.Country) {
+		toSerialize["country"] = o.Country
+	}
 	toSerialize["createdAt"] = o.CreatedAt
 	toSerialize["duration"] = o.Duration
 	toSerialize["fileCreatedAt"] = o.FileCreatedAt
@@ -624,8 +642,6 @@ func (o *TimeBucketAssetResponseDto) UnmarshalJSON(data []byte) (err error) {
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
 	requiredProperties := []string{
-		"city",
-		"country",
 		"createdAt",
 		"duration",
 		"fileCreatedAt",

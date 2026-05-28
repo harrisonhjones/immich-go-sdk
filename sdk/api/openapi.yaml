@@ -21349,8 +21349,6 @@ components:
             $ref: "#/components/schemas/AssetVisibility"
           type: array
       required:
-      - city
-      - country
       - createdAt
       - duration
       - fileCreatedAt

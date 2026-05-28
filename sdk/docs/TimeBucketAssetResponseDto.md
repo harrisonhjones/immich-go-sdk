@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**City** | **[]string** | Array of city names extracted from EXIF GPS data | 
-**Country** | **[]string** | Array of country names extracted from EXIF GPS data | 
+**City** | Pointer to **[]string** | Array of city names extracted from EXIF GPS data | [optional] 
+**Country** | Pointer to **[]string** | Array of country names extracted from EXIF GPS data | [optional] 
 **CreatedAt** | **[]string** | Array of UTC timestamps when each asset was originally uploaded to Immich | 
 **Duration** | **[]int32** | Array of video/gif durations in milliseconds (null for static images) | 
 **FileCreatedAt** | **[]string** | Array of file creation timestamps in UTC | 
@@ -28,7 +28,7 @@ Name | Type | Description | Notes
 
 ### NewTimeBucketAssetResponseDto
 
-`func NewTimeBucketAssetResponseDto(city []*string, country []*string, createdAt []string, duration []*int32, fileCreatedAt []string, id []string, isFavorite []bool, isImage []bool, isTrashed []bool, livePhotoVideoId []*string, localOffsetHours []float32, ownerId []string, projectionType []*string, ratio []float32, thumbhash []*string, visibility []AssetVisibility, ) *TimeBucketAssetResponseDto`
+`func NewTimeBucketAssetResponseDto(createdAt []string, duration []*int32, fileCreatedAt []string, id []string, isFavorite []bool, isImage []bool, isTrashed []bool, livePhotoVideoId []*string, localOffsetHours []float32, ownerId []string, projectionType []*string, ratio []float32, thumbhash []*string, visibility []AssetVisibility, ) *TimeBucketAssetResponseDto`
 
 NewTimeBucketAssetResponseDto instantiates a new TimeBucketAssetResponseDto object
 This constructor will assign default values to properties that have it defined,
@@ -62,6 +62,11 @@ and a boolean to check if the value has been set.
 
 SetCity sets City field to given value.
 
+### HasCity
+
+`func (o *TimeBucketAssetResponseDto) HasCity() bool`
+
+HasCity returns a boolean if a field has been set.
 
 ### GetCountry
 
@@ -82,6 +87,11 @@ and a boolean to check if the value has been set.
 
 SetCountry sets Country field to given value.
 
+### HasCountry
+
+`func (o *TimeBucketAssetResponseDto) HasCountry() bool`
+
+HasCountry returns a boolean if a field has been set.
 
 ### GetCreatedAt
 
