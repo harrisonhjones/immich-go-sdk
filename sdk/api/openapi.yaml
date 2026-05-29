@@ -1134,6 +1134,16 @@ paths:
           pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$"
           type: string
         style: form
+      - description: Album ID
+        explode: true
+        in: query
+        name: id
+        required: false
+        schema:
+          format: uuid
+          pattern: "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12})$"
+          type: string
+        style: form
       - description: "Filter by ownership: true = only owned, false = only shared-with-me,\
           \ undefined = no filter"
         explode: true
@@ -1151,6 +1161,14 @@ paths:
         required: false
         schema:
           type: boolean
+        style: form
+      - description: Album name (exact match)
+        explode: true
+        in: query
+        name: name
+        required: false
+        schema:
+          type: string
         style: form
       responses:
         "200":
@@ -12598,7 +12616,7 @@ components:
       - VersionCheck
       - OcrQueueAll
       - Ocr
-      - WorkflowAssetCreate
+      - WorkflowAssetTrigger
       type: string
     JobSettingsDto:
       example:
@@ -14811,6 +14829,9 @@ components:
           method: method
         title: title
         trigger: AssetCreate
+        uiHints:
+        - uiHints
+        - uiHints
       properties:
         description:
           description: Template description
@@ -14828,12 +14849,18 @@ components:
           type: string
         trigger:
           $ref: "#/components/schemas/WorkflowTrigger"
+        uiHints:
+          description: "Ui hints, for example \"smart-album\""
+          items:
+            type: string
+          type: array
       required:
       - description
       - key
       - steps
       - title
       - trigger
+      - uiHints
       type: object
     PluginTemplateStepResponseDto:
       example:

@@ -29,6 +29,8 @@ type PluginTemplateResponseDto struct {
 	// Template title
 	Title string `json:"title"`
 	Trigger WorkflowTrigger `json:"trigger"`
+	// Ui hints, for example \"smart-album\"
+	UiHints []string `json:"uiHints"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -38,13 +40,14 @@ type _PluginTemplateResponseDto PluginTemplateResponseDto
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewPluginTemplateResponseDto(description string, key string, steps []PluginTemplateStepResponseDto, title string, trigger WorkflowTrigger) *PluginTemplateResponseDto {
+func NewPluginTemplateResponseDto(description string, key string, steps []PluginTemplateStepResponseDto, title string, trigger WorkflowTrigger, uiHints []string) *PluginTemplateResponseDto {
 	this := PluginTemplateResponseDto{}
 	this.Description = description
 	this.Key = key
 	this.Steps = steps
 	this.Title = title
 	this.Trigger = trigger
+	this.UiHints = uiHints
 	return &this
 }
 
@@ -176,6 +179,30 @@ func (o *PluginTemplateResponseDto) SetTrigger(v WorkflowTrigger) {
 	o.Trigger = v
 }
 
+// GetUiHints returns the UiHints field value
+func (o *PluginTemplateResponseDto) GetUiHints() []string {
+	if o == nil {
+		var ret []string
+		return ret
+	}
+
+	return o.UiHints
+}
+
+// GetUiHintsOk returns a tuple with the UiHints field value
+// and a boolean to check if the value has been set.
+func (o *PluginTemplateResponseDto) GetUiHintsOk() ([]string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.UiHints, true
+}
+
+// SetUiHints sets field value
+func (o *PluginTemplateResponseDto) SetUiHints(v []string) {
+	o.UiHints = v
+}
+
 func (o PluginTemplateResponseDto) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -191,6 +218,7 @@ func (o PluginTemplateResponseDto) ToMap() (map[string]interface{}, error) {
 	toSerialize["steps"] = o.Steps
 	toSerialize["title"] = o.Title
 	toSerialize["trigger"] = o.Trigger
+	toSerialize["uiHints"] = o.UiHints
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
@@ -209,6 +237,7 @@ func (o *PluginTemplateResponseDto) UnmarshalJSON(data []byte) (err error) {
 		"steps",
 		"title",
 		"trigger",
+		"uiHints",
 	}
 
 	allProperties := make(map[string]interface{})
@@ -243,6 +272,7 @@ func (o *PluginTemplateResponseDto) UnmarshalJSON(data []byte) (err error) {
 		delete(additionalProperties, "steps")
 		delete(additionalProperties, "title")
 		delete(additionalProperties, "trigger")
+		delete(additionalProperties, "uiHints")
 		o.AdditionalProperties = additionalProperties
 	}
 

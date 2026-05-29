@@ -9,12 +9,13 @@ Name | Type | Description | Notes
 **Steps** | [**[]PluginTemplateStepResponseDto**](PluginTemplateStepResponseDto.md) | Workflow steps | 
 **Title** | **string** | Template title | 
 **Trigger** | [**WorkflowTrigger**](WorkflowTrigger.md) |  | 
+**UiHints** | **[]string** | Ui hints, for example \&quot;smart-album\&quot; | 
 
 ## Methods
 
 ### NewPluginTemplateResponseDto
 
-`func NewPluginTemplateResponseDto(description string, key string, steps []PluginTemplateStepResponseDto, title string, trigger WorkflowTrigger, ) *PluginTemplateResponseDto`
+`func NewPluginTemplateResponseDto(description string, key string, steps []PluginTemplateStepResponseDto, title string, trigger WorkflowTrigger, uiHints []string, ) *PluginTemplateResponseDto`
 
 NewPluginTemplateResponseDto instantiates a new PluginTemplateResponseDto object
 This constructor will assign default values to properties that have it defined,
@@ -127,6 +128,26 @@ and a boolean to check if the value has been set.
 `func (o *PluginTemplateResponseDto) SetTrigger(v WorkflowTrigger)`
 
 SetTrigger sets Trigger field to given value.
+
+
+### GetUiHints
+
+`func (o *PluginTemplateResponseDto) GetUiHints() []string`
+
+GetUiHints returns the UiHints field if non-nil, zero value otherwise.
+
+### GetUiHintsOk
+
+`func (o *PluginTemplateResponseDto) GetUiHintsOk() (*[]string, bool)`
+
+GetUiHintsOk returns a tuple with the UiHints field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetUiHints
+
+`func (o *PluginTemplateResponseDto) SetUiHints(v []string)`
+
+SetUiHints sets UiHints field to given value.
 
 
 

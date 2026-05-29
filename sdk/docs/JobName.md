@@ -111,7 +111,7 @@
 
 * `OCR` (value: `"Ocr"`)
 
-* `WORKFLOW_ASSET_CREATE` (value: `"WorkflowAssetCreate"`)
+* `WORKFLOW_ASSET_TRIGGER` (value: `"WorkflowAssetTrigger"`)
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
