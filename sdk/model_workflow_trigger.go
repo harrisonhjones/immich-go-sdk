@@ -21,12 +21,14 @@ type WorkflowTrigger string
 // List of WorkflowTrigger
 const (
 	WORKFLOWTRIGGER_ASSET_CREATE WorkflowTrigger = "AssetCreate"
+	WORKFLOWTRIGGER_ASSET_METADATA_EXTRACTION WorkflowTrigger = "AssetMetadataExtraction"
 	WORKFLOWTRIGGER_PERSON_RECOGNIZED WorkflowTrigger = "PersonRecognized"
 )
 
 // All allowed values of WorkflowTrigger enum
 var AllowedWorkflowTriggerEnumValues = []WorkflowTrigger{
 	"AssetCreate",
+	"AssetMetadataExtraction",
 	"PersonRecognized",
 }
 

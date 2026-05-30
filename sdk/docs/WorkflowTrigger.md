@@ -5,6 +5,8 @@
 
 * `ASSET_CREATE` (value: `"AssetCreate"`)
 
+* `ASSET_METADATA_EXTRACTION` (value: `"AssetMetadataExtraction"`)
+
 * `PERSON_RECOGNIZED` (value: `"PersonRecognized"`)
 
 
